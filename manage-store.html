@@ -398,6 +398,7 @@ let currentStoreId = null;
       storeCard.style.display =
         "block";
 
+     currentStoreId = store.id;
 
       storeName.textContent =
         store.name || "Store";
@@ -466,7 +467,7 @@ document.getElementById("storeCategoryInput").value =
           description: newDescription,
           category: newCategory
         })
-        .eq("id", store.id);
+        .eq("id", currentStoreId);
 
     if (error) {
       console.error(error);
