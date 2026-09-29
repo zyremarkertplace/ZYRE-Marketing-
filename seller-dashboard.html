@@ -246,6 +246,9 @@
 
     const statusBox =
       document.getElementById("status");
+    
+    const sellerControls =
+      document.getElementById("sellerControls");
 
     async function checkSellerAccount() {
 
@@ -299,6 +302,8 @@
         "Seller account verified. Welcome, " +
         (profile.full_name || "Seller") +
         ".";
+
+      sellerControls.style.display = "grid";
 
     }
 
