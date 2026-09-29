@@ -464,7 +464,7 @@ document.getElementById("storeCategoryInput").value =
           description: newDescription,
           category: newCategory
         })
-        .eq("seller_id", session.user.id);
+        .eq("id", store.id);
 
     if (error) {
       console.error(error);
