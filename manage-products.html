@@ -349,10 +349,18 @@
             </p>
 
             <p class="product-info">
-              <strong>Status:</strong>
-              ${escapeHtml(product.status)}
-            </p>
-          `;
+  <strong>Status:</strong>
+  ${escapeHtml(product.status)}
+</p>
+
+<button
+  type="button"
+  class="button"
+  onclick="editProduct(${product.id})"
+>
+  Edit Product
+</button>
+`;
 
 
           productsList.appendChild(
