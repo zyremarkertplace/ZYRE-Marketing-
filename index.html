@@ -1,460 +1,607 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8"><meta
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8">  <meta
 name="viewport"
 content="width=device-width, initial-scale=1.0"
 
-«»
+> 
 
-  <title>ZYRE MARKETING | Your business. Your store.</title><meta
+  <title>ZYRE MARKETING | Marketplace</title>  <meta
 name="description"
-content="ZYRE MARKETING is a marketplace where independent businesses can rent online stores and sell products."
-
-«»
-
-<meta
-name="robots"
-content="index, follow"
-
-«»
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #111111;
-    }
-
-    header {
-      border-bottom: 1px solid #e5e5e5;
-      padding: 18px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .brand {
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-
-    .account-button {
-      display: inline-block;
-      background: #111111;
-      color: #ffffff;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px 60px;
-    }
-
-    .hero {
-      padding: 75px 0 70px;
-      border-bottom: 1px solid #e5e5e5;
-    }
-
-    .hero h1 {
-      max-width: 700px;
-      margin: 0 0 20px;
-      font-size: 52px;
-      line-height: 1.05;
-      letter-spacing: -2px;
-    }
-
-    .hero p {
-      max-width: 680px;
-      margin: 0 0 30px;
-      color: #555555;
-      font-size: 18px;
-      line-height: 1.6;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .primary-button,
-    .secondary-button {
-      display: inline-block;
-      text-decoration: none;
-      padding: 13px 20px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .primary-button {
-      background: #111111;
-      color: #ffffff;
-    }
-
-    .secondary-button {
-      border: 1px solid #111111;
-      color: #111111;
-      background: #ffffff;
-    }
-
-    .stores-section {
-      padding: 55px 0;
-    }
-
-    .section-heading {
-      margin-bottom: 25px;
-    }
-
-    .section-heading h2 {
-      margin: 0 0 8px;
-      font-size: 30px;
-    }
-
-    .section-heading p {
-      margin: 0;
-      color: #666666;
-      line-height: 1.5;
-    }
-
-    .stores-grid {
-      display: grid;
-      grid-template-columns: repeat(
-        auto-fit,
-        minmax(240px, 1fr)
-      );
-      gap: 20px;
-    }
-
-    .store-card {
-      border: 1px solid #e5e5e5;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #ffffff;
-    }
-
-    .store-image {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-      display: block;
-      background: #f3f3f3;
-    }
-
-    .store-image-placeholder {
-      width: 100%;
-      height: 190px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f3f3f3;
-      color: #777777;
-    }
-
-    .store-content {
-      padding: 18px;
-    }
-
-    .store-name {
-      margin: 0 0 8px;
-      font-size: 20px;
-      font-weight: 800;
-    }
-
-    .store-category {
-      display: inline-block;
-      margin-bottom: 12px;
-      padding: 5px 9px;
-      border-radius: 20px;
-      background: #111111;
-      color: #ffffff;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .store-description {
-      margin: 0 0 18px;
-      color: #666666;
-      font-size: 14px;
-      line-height: 1.5;
-      min-height: 42px;
-    }
-
-    .view-store-button {
-      display: inline-block;
-      width: 100%;
-      padding: 11px 15px;
-      background: #111111;
-      color: #ffffff;
-      text-decoration: none;
-      text-align: center;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .message {
-      padding: 20px;
-      background: #f7f7f7;
-      border-radius: 8px;
-      color: #555555;
-    }
-
-    footer {
-      border-top: 1px solid #e5e5e5;
-      padding: 25px 20px;
-      text-align: center;
-      color: #777777;
-      font-size: 13px;
-    }
-
-    @media (max-width: 600px) {
-      header {
-        padding: 15px;
-      }
-
-      main {
-        padding: 0 15px 50px;
-      }
-
-      .hero {
-        padding: 55px 0 50px;
-      }
-
-      .hero h1 {
-        font-size: 38px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .stores-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style></head><body><header>  <div class="brand">
-    ZYRE MARKETING
-  </div><a
-id="accountLink"
-class="account-button"
-href="auth.html"
-
-«»
-
-Login
-
-  </a></header><main>  <section class="hero"><h1>
-  Your business.<br>
-  Your store.
-</h1>
-
-<p>
-  Discover products from independent businesses
-  and shop from stores all in one marketplace.
-</p>
-
-<div class="hero-actions">
-
-  <a
-    class="primary-button"
-    href="#stores"
-  >
-    Shop Stores
-  </a>
-
-  <a
-    class="secondary-button"
-    href="auth.html"
-  >
-    Create Account
-  </a>
-
-</div>
-
-  </section>  <section
-    id="stores"
-    class="stores-section"
-  ><div class="section-heading">
-
-  <h2>
-    Explore Stores
-  </h2>
-
-  <p>
-    Discover businesses selling through
-    ZYRE MARKETING.
-  </p>
-
-</div>
-
-<div
-  id="storesGrid"
-  class="stores-grid"
->
-  <div class="message">
-    Loading stores...
-  </div>
-</div>
-
-  </section></main><footer>
-  © 2026 ZYRE MARKETING. All rights reserved.
-</footer><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="app.js"></script><script>
-  const SUPABASE_URL =
-    "https://ouidmklcvdqmjofxfyhu.supabase.co";
-
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
-  const storesGrid =
-    document.getElementById("storesGrid");
-
-  const accountLink =
-    document.getElementById("accountLink");
-
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  async function updateAccountLink() {
-
-    const {
-      data: { session }
-    } = await supabaseClient.auth.getSession();
-
-    if (session) {
-      accountLink.href = "account.html";
-      accountLink.textContent = "My Account";
-    } else {
-      accountLink.href = "auth.html";
-      accountLink.textContent = "Login";
-    }
-  }
-
-  async function loadStores() {
-
-    const {
-      data: stores,
-      error
-    } = await supabaseClient
-      .from("stores")
-      .select(
-        "id, name, description, image_url, category"
-      )
-      .eq("status", "active")
-      .order("created_at", {
-        ascending: false
-      });
-
-    if (error) {
-
-      console.error(error);
-
-      storesGrid.innerHTML = `
-        <div class="message">
-          We couldn't load the stores right now.
-        </div>
-      `;
-
-      return;
-    }
-
-    if (!stores || stores.length === 0) {
-
-      storesGrid.innerHTML = `
-        <div class="message">
-          No stores are available yet.
-        </div>
-      `;
-
-      return;
-    }
-
-    storesGrid.innerHTML =
-      stores.map(store => {
-
-        const imageHtml =
-          store.image_url
-            ? `
-              <img
-                class="store-image"
-                src="${escapeHtml(store.image_url)}"
-                alt="${escapeHtml(store.name)}"
-              >
-            `
-            : `
-              <div class="store-image-placeholder">
-                Store image
-              </div>
-            `;
-
-        return `
-          <article class="store-card">
-
-            ${imageHtml}
-
-            <div class="store-content">
-
-              <h3 class="store-name">
-                ${escapeHtml(store.name)}
-              </h3>
-
-              <div class="store-category">
-                ${escapeHtml(
-                  store.category || "General"
-                )}
-              </div>
-
-              <p class="store-description">
-                ${escapeHtml(
-                  store.description ||
-                  "Welcome to this ZYRE MARKETING store."
-                )}
-              </p>
-
-              <a
-                class="view-store-button"
-                href="store.html?id=${encodeURIComponent(store.id)}"
-              >
-                View Store
-              </a>
-
-            </div>
-
-          </article>
-        `;
-
-      }).join("");
-  }
-
-  async function init() {
-    await updateAccountLink();
-    await loadStores();
-  }
-
-  init();
-</script></body>
+content="ZYRE MARKETING — Your business. Your store. One marketplace."
+
+> 
+
+  <style>  
+    * {  
+      box-sizing: border-box;  
+    }  
+  
+    body {  
+      margin: 0;  
+      font-family: Arial, sans-serif;  
+      background: #ffffff;  
+      color: #111111;  
+    }  
+  
+    header {  
+      position: sticky;  
+      top: 0;  
+      z-index: 100;  
+      background: #ffffff;  
+      border-bottom: 1px solid #eeeeee;  
+    }  
+  
+    .nav {  
+      max-width: 1200px;  
+      margin: 0 auto;  
+      padding: 16px 20px;  
+      display: flex;  
+      align-items: center;  
+      justify-content: space-between;  
+      gap: 20px;  
+    }  
+  
+    .logo {  
+      color: #111111;  
+      text-decoration: none;  
+      font-size: 21px;  
+      font-weight: 800;  
+      letter-spacing: 1px;  
+      white-space: nowrap;  
+    }  
+  
+    .nav-actions {  
+      display: flex;  
+      align-items: center;  
+      gap: 10px;  
+    }  
+  
+    .nav-button {  
+      display: inline-block;  
+      padding: 10px 15px;  
+      border-radius: 7px;  
+      border: 1px solid #111111;  
+      color: #111111;  
+      background: #ffffff;  
+      text-decoration: none;  
+      font-size: 14px;  
+      font-weight: 700;  
+    }  
+  
+    .nav-button.primary {  
+      background: #111111;  
+      color: #ffffff;  
+    }  
+  
+    .hero {  
+      max-width: 1200px;  
+      margin: 0 auto;  
+      padding: 70px 20px 55px;  
+      text-align: center;  
+    }  
+  
+    .hero h1 {  
+      margin: 0;  
+      font-size: clamp(36px, 8vw, 72px);  
+      line-height: 1;  
+      letter-spacing: -2px;  
+    }  
+  
+    .hero p {  
+      max-width: 650px;  
+      margin: 22px auto 0;  
+      color: #555555;  
+      font-size: 17px;  
+      line-height: 1.6;  
+    }  
+  
+    .hero-actions {  
+      margin-top: 28px;  
+      display: flex;  
+      justify-content: center;  
+      gap: 12px;  
+      flex-wrap: wrap;  
+    }  
+  
+    .hero-button {  
+      display: inline-block;  
+      padding: 14px 22px;  
+      border-radius: 8px;  
+      text-decoration: none;  
+      font-size: 15px;  
+      font-weight: 700;  
+      border: 1px solid #111111;  
+    }  
+  
+    .hero-button.primary {  
+      background: #111111;  
+      color: #ffffff;  
+    }  
+  
+    .hero-button.secondary {  
+      background: #ffffff;  
+      color: #111111;  
+    }  
+  
+    .stores-section {  
+      max-width: 1200px;  
+      margin: 0 auto;  
+      padding: 20px 20px 70px;  
+    }  
+  
+    .section-heading {  
+      margin-bottom: 25px;  
+    }  
+  
+    .section-heading h2 {  
+      margin: 0;  
+      font-size: 28px;  
+    }  
+  
+    .section-heading p {  
+      margin: 8px 0 0;  
+      color: #666666;  
+    }  
+  
+    .status {  
+      padding: 18px;  
+      border: 1px solid #eeeeee;  
+      border-radius: 10px;  
+      color: #555555;  
+      background: #fafafa;  
+      text-align: center;  
+    }  
+  
+    .stores-grid {  
+      display: grid;  
+      grid-template-columns: repeat(  
+        auto-fit,  
+        minmax(230px, 1fr)  
+      );  
+      gap: 20px;  
+    }  
+  
+    .store-card {  
+      overflow: hidden;  
+      border: 1px solid #dddddd;  
+      border-radius: 12px;  
+      background: #ffffff;  
+    }  
+  
+    .store-image {  
+      width: 100%;  
+      height: 190px;  
+      object-fit: cover;  
+      background: #f1f1f1;  
+      display: block;  
+    }  
+  
+    .store-image-placeholder {  
+      width: 100%;  
+      height: 190px;  
+      background: #f1f1f1;  
+      display: flex;  
+      align-items: center;  
+      justify-content: center;  
+      color: #777777;  
+      font-size: 14px;  
+    }  
+  
+    .store-content {  
+      padding: 18px;  
+    }  
+  
+    .store-content h3 {  
+      margin: 0;  
+      font-size: 20px;  
+    }  
+  
+    .store-category {  
+      margin-top: 7px;  
+      color: #666666;  
+      font-size: 13px;  
+    }  
+  
+    .store-description {  
+      margin-top: 12px;  
+      color: #555555;  
+      font-size: 14px;  
+      line-height: 1.5;  
+    }  
+  
+    .store-button {  
+      display: block;  
+      margin-top: 16px;  
+      padding: 11px;  
+      border-radius: 7px;  
+      background: #111111;  
+      color: #ffffff;  
+      text-align: center;  
+      text-decoration: none;  
+      font-size: 14px;  
+      font-weight: 700;  
+    }  
+  
+    footer {  
+      border-top: 1px solid #eeeeee;  
+      padding: 30px 20px;  
+      text-align: center;  
+      color: #777777;  
+      font-size: 13px;  
+    }  
+  
+    @media (max-width: 600px) {  
+      .nav {  
+        padding: 13px 15px;  
+      }  
+  
+      .logo {  
+        font-size: 17px;  
+      }  
+  
+      .nav-button {  
+        padding: 8px 10px;  
+        font-size: 12px;  
+      }  
+  
+      .hero {  
+        padding: 55px 18px 40px;  
+      }  
+  
+      .hero p {  
+        font-size: 15px;  
+      }  
+  
+      .stores-section {  
+        padding-left: 18px;  
+        padding-right: 18px;  
+      }  
+    }  
+  </style>  </head>  <body>    <header>  
+    <nav class="nav">  <a  
+    href="index.html"  
+    class="logo"  
+  >  
+    ZYRE MARKETING  
+  </a>  
+
+  <div class="nav-actions">  
+
+    <a  
+      href="auth.html"  
+      class="nav-button"  
+      id="accountLink"  
+    >  
+      Login  
+    </a>  
+
+    <a  
+      href="auth.html"  
+      class="nav-button primary"  
+      id="accountButton"  
+    >  
+      Create Account  
+    </a>  
+
+  </div>  
+
+</nav>
+
+  </header>    <main>  <section class="hero">  
+
+  <h1>  
+    Your business.<br>  
+    Your store.  
+  </h1>  
+
+  <p>  
+    Discover products from independent businesses  
+    and shop from stores all in one marketplace.  
+  </p>  
+
+  <div class="hero-actions">  
+
+    <a  
+      href="#stores"  
+      class="hero-button primary"  
+    >  
+      Shop Stores  
+    </a>  
+
+    <a  
+      href="auth.html"  
+      class="hero-button secondary"  
+    >  
+      Create Account  
+    </a>  
+
+  </div>  
+
+</section>  
+
+
+<section  
+  class="stores-section"  
+  id="stores"  
+>  
+
+  <div class="section-heading">  
+
+    <h2>  
+      Explore Stores  
+    </h2>  
+
+    <p>  
+      Discover businesses selling through ZYRE MARKETING.  
+    </p>  
+
+  </div>  
+
+
+  <div  
+    id="loading"  
+    class="status"  
+  >  
+    Loading stores...  
+  </div>  
+
+
+  <div  
+    id="empty"  
+    class="status"  
+    style="display: none;"  
+  >  
+    No stores are available yet.  
+  </div>  
+
+
+  <div  
+    id="error"  
+    class="status"  
+    style="display: none;"  
+  >  
+    We couldn't load the stores right now.  
+  </div>  
+
+
+  <div  
+    id="storesGrid"  
+    class="stores-grid"  
+  ></div>  
+
+</section>
+
+  </main>    <footer>  
+    © 2026 ZYRE MARKETING. All rights reserved.  
+  </footer>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script>  
+    const SUPABASE_URL =  
+      "https://ouidmklcvdqmjofxfyhu.supabase.co";  
+  
+    const SUPABASE_PUBLISHABLE_KEY =  
+      "YOUR_PUBLISHABLE_KEY_HERE";  
+  
+    const supabaseClient =  
+      window.supabase.createClient(  
+        SUPABASE_URL,  
+        SUPABASE_PUBLISHABLE_KEY  
+      );  
+  
+  
+    const loading =  
+      document.getElementById("loading");  
+  
+    const empty =  
+      document.getElementById("empty");  
+  
+    const errorBox =  
+      document.getElementById("error");  
+  
+    const storesGrid =  
+      document.getElementById("storesGrid");  
+  
+    const accountLink =  
+      document.getElementById("accountLink");  
+  
+    const accountButton =  
+      document.getElementById("accountButton");  
+  
+  
+    function escapeHtml(value) {  
+  
+      if (value === null || value === undefined) {  
+        return "";  
+      }  
+  
+      return String(value)  
+        .replace(/&/g, "&amp;")  
+        .replace(/</g, "&lt;")  
+        .replace(/>/g, "&gt;")  
+        .replace(/"/g, "&quot;")  
+        .replace(/'/g, "&#039;");  
+    }  
+  
+  
+    function createStoreCard(store) {  
+  
+      const card =  
+        document.createElement("article");  
+  
+      card.className = "store-card";  
+  
+  
+      const imageUrl =  
+        store.image_url  
+          ? escapeHtml(store.image_url)  
+          : "";  
+  
+  
+      let imageHtml = "";  
+  
+      if (imageUrl) {  
+  
+        imageHtml = `  
+          <img  
+            src="${imageUrl}"  
+            alt="${escapeHtml(store.name)}"  
+            class="store-image"  
+            loading="lazy"  
+          >  
+        `;  
+  
+      } else {  
+  
+        imageHtml = `  
+          <div class="store-image-placeholder">  
+            Store image  
+          </div>  
+        `;  
+      }  
+  
+  
+      card.innerHTML = `  
+        ${imageHtml}  
+  
+        <div class="store-content">  
+  
+          <h3>  
+            ${escapeHtml(store.name)}  
+          </h3>  
+  
+          ${  
+            store.category  
+              ? `  
+                <div class="store-category">  
+                  ${escapeHtml(store.category)}  
+                </div>  
+              `  
+              : ""  
+          }  
+  
+          ${  
+            store.description  
+              ? `  
+                <div class="store-description">  
+                  ${escapeHtml(store.description)}  
+                </div>  
+              `  
+              : ""  
+          }  
+  
+          <a  
+            href="#"  
+            class="store-button"  
+            onclick="return false;"  
+          >  
+            View Store  
+          </a>  
+  
+        </div>  
+      `;  
+  
+  
+      return card;  
+    }  
+  
+  
+    async function loadStores() {  
+  
+      loading.style.display = "block";  
+      empty.style.display = "none";  
+      errorBox.style.display = "none";  
+  
+      storesGrid.innerHTML = "";  
+  
+  
+      const {  
+        data: stores,  
+        error  
+      } = await supabaseClient  
+        .from("stores")  
+        .select(  
+          "id, name, description, image_url, category"  
+        )  
+        .eq("status", "active")  
+        .order(  
+          "created_at",  
+          {  
+            ascending: false  
+          }  
+        );  
+  
+  
+      loading.style.display = "none";  
+  
+  
+      if (error) {  
+  
+        console.error(  
+          "Store loading error:",  
+          error  
+        );  
+  
+        errorBox.style.display = "block";  
+  
+        return;  
+      }  
+  
+  
+      if (!stores || stores.length === 0) {  
+  
+        empty.style.display = "block";  
+  
+        return;  
+      }  
+  
+  
+      stores.forEach(store => {  
+  
+        storesGrid.appendChild(  
+          createStoreCard(store)  
+        );  
+  
+      });  
+    }  
+  
+  
+    async function updateAccountLinks() {  
+  
+      const {  
+        data: {  
+          session  
+        }  
+      } = await supabaseClient.auth.getSession();  
+  
+  
+      if (session) {  
+  
+        accountLink.textContent =  
+          "My Account";  
+  
+        accountLink.href =  
+          "account.html";  
+   
+  
+      } else {  
+  
+        accountLink.textContent =  
+          "Login";  
+  
+        accountLink.href =  
+          "auth.html";  
+  
+      }  
+    }  
+  
+  
+    updateAccountLinks();  
+    loadStores();  
+  
+  
+    supabaseClient.auth.onAuthStateChange(  
+      () => {  
+        updateAccountLinks();  
+      }  
+    );  
+  </script>  </body>  
 </html>
