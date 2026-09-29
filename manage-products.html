@@ -392,6 +392,109 @@
 
     }
 
+      async function editProduct(productId) {
+
+  const {
+    data: product,
+    error
+  } =
+    await supabaseClient
+      .from("products")
+      .select(
+        "id, name, description, price, stock, category, status"
+      )
+      .eq("id", productId)
+      .single();
+
+  if (error || !product) {
+
+    alert(
+      "We couldn't load this product."
+    );
+
+    return;
+  }
+
+  const newName =
+    prompt(
+      "Product name:",
+      product.name
+    );
+
+  if (newName === null) {
+    return;
+  }
+
+  const newDescription =
+    prompt(
+      "Product description:",
+      product.description || ""
+    );
+
+  if (newDescription === null) {
+    return;
+  }
+
+  const newPrice =
+    prompt(
+      "Product price:",
+      product.price
+    );
+
+  if (newPrice === null) {
+    return;
+  }
+
+  const newStock =
+    prompt(
+      "Product stock:",
+      product.stock
+    );
+
+  if (newStock === null) {
+    return;
+  }
+
+  const newCategory =
+    prompt(
+      "Product category:",
+      product.category || ""
+    );
+
+  if (newCategory === null) {
+    return;
+  }
+
+  const { error: updateError } =
+    await supabaseClient
+      .from("products")
+      .update({
+        name: newName.trim(),
+        description: newDescription.trim(),
+        price: Number(newPrice),
+        stock: Number(newStock),
+        category: newCategory.trim()
+      })
+      .eq("id", productId);
+
+  if (updateError) {
+
+    console.error(updateError);
+
+    alert(
+      "We couldn't save the product changes."
+    );
+
+    return;
+  }
+
+  alert(
+    "Product updated successfully."
+  );
+
+  loadProducts();
+
+}
 
     loadProducts();
 
