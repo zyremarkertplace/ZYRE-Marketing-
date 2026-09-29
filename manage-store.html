@@ -425,6 +425,69 @@ document.getElementById("storeCategoryInput").value =
 
     loadSellerStore();
 
+   document
+  .getElementById("saveStoreButton")
+  .addEventListener("click", async () => {
+
+    const editStatus =
+      document.getElementById("editStatus");
+
+    const newName =
+      document.getElementById("storeNameInput")
+        .value
+        .trim();
+
+    const newDescription =
+      document.getElementById("storeDescriptionInput")
+        .value
+        .trim();
+
+    const newCategory =
+      document.getElementById("storeCategoryInput")
+        .value
+        .trim();
+
+    if (!newName) {
+      editStatus.textContent =
+        "Store name is required.";
+      return;
+    }
+
+    editStatus.textContent =
+      "Saving changes...";
+
+    const { error } =
+      await supabaseClient
+        .from("stores")
+        .update({
+          name: newName,
+          description: newDescription,
+          category: newCategory
+        })
+        .eq("seller_id", session.user.id);
+
+    if (error) {
+      console.error(error);
+
+      editStatus.textContent =
+        "We couldn't save your changes.";
+
+      return;
+    }
+
+    storeName.textContent =
+      newName || "Store";
+
+    storeDescription.textContent =
+      newDescription || "No description";
+
+    storeCategory.textContent =
+      newCategory || "Not specified";
+
+    editStatus.textContent =
+      "Store updated successfully.";
+  });
+
   </script>
 
 </body>
