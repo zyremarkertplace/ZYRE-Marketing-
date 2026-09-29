@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ZYRE Marketing | Manage Products</title>
+
+  <meta
+    name="robots"
+    content="noindex,nofollow"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #111;
+    }
+
+    header {
+      background: #111;
+      color: #fff;
+      padding: 18px 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #111;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    .product-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 15px;
+    }
+
+    .product-card h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+
+    .product-info {
+      margin: 6px 0;
+    }
+
+    .status {
+      margin-bottom: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #eee;
+    }
+
+    .button {
+      display: inline-block;
+      background: #111;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    .empty {
+      color: #666;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>ZYRE MARKETING</h1>
+  </header>
+
+  <main>
+
+    <a
+      href="seller-dashboard.html"
+      class="back-link"
+    >
+      ← Back to Seller Dashboard
+    </a>
+
+    <div
+      id="status"
+      class="status"
+    >
+      Loading your products...
+    </div>
+
+    <section
+      id="productsCard"
+      class="card"
+      style="display: none;"
+    >
+
+      <h2>
+        Manage Products
+      </h2>
+
+      <p id="storeName">
+        —
+      </p>
+
+      <div id="productsList"></div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 ZYRE MARKETING. All rights reserved.
+  </footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+  ></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://ouidmklcvdqmjofxfyhu.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+    const statusBox =
+      document.getElementById("status");
+
+    const productsCard =
+      document.getElementById("productsCard");
+
+    const productsList =
+      document.getElementById("productsList");
+
+    const storeName =
+      document.getElementById("storeName");
+
+
+    async function loadProducts() {
+
+      const {
+        data: {
+          session
+        }
+      } =
+        await supabaseClient.auth.getSession();
+
+
+      if (!session) {
+
+        statusBox.textContent =
+          "Please log in to access product management.";
+
+        return;
+      }
+
+
+      const {
+        data: profile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("role, full_name")
+          .eq("id", session.user.id)
+          .single();
+
+
+      if (
+        profileError ||
+        !profile
+      ) {
+
+        statusBox.textContent =
+          "We couldn't load your seller account.";
+
+        return;
+      }
+
+
+      if (profile.role !== "seller") {
+
+        statusBox.textContent =
+          "Seller access is required for this page.";
+
+        return;
+      }
+
+
+      const {
+        data: store,
+        error: storeError
+      } =
+        await supabaseClient
+          .from("stores")
+          .select("id, name, status")
+          .eq("seller_id", session.user.id)
+          .order("created_at", {
+            ascending: false
+          })
+          .limit(1)
+          .maybeSingle();
+
+
+      if (
+        storeError ||
+        !store
+      ) {
+
+        statusBox.textContent =
+          "We couldn't find your store.";
+
+        return;
+      }
+
+
+      storeName.textContent =
+        store.name;
+
+
+      const {
+        data: products,
+        error: productsError
+      } =
+        await supabaseClient
+          .from("products")
+          .select(
+            "id, name, description, price, stock, category, status"
+          )
+          .eq("store_id", store.id)
+          .order("created_at", {
+            ascending: false
+          });
+
+
+      if (productsError) {
+
+        console.error(productsError);
+
+        statusBox.textContent =
+          "We couldn't load your products.";
+
+        return;
+      }
+
+
+      productsList.innerHTML = "";
+
+
+      if (
+        !products ||
+        products.length === 0
+      ) {
+
+        productsList.innerHTML =
+          '<p class="empty">You have no products yet.</p>';
+
+      } else {
+
+        products.forEach(product => {
+
+          const productCard =
+            document.createElement("div");
+
+          productCard.className =
+            "product-card";
+
+
+          productCard.innerHTML = `
+            <h3>
+              ${escapeHtml(product.name)}
+            </h3>
+
+            <p class="product-info">
+              ${escapeHtml(
+                product.description || "No description"
+              )}
+            </p>
+
+            <p class="product-info">
+              <strong>Category:</strong>
+              ${escapeHtml(
+                product.category || "Not specified"
+              )}
+            </p>
+
+            <p class="product-info">
+              <strong>Price:</strong>
+              R${Number(product.price).toFixed(2)}
+            </p>
+
+            <p class="product-info">
+              <strong>Stock:</strong>
+              ${product.stock}
+            </p>
+
+            <p class="product-info">
+              <strong>Status:</strong>
+              ${escapeHtml(product.status)}
+            </p>
+          `;
+
+
+          productsList.appendChild(
+            productCard
+          );
+
+        });
+
+      }
+
+
+      statusBox.textContent =
+        "Your products are loaded.";
+
+      productsCard.style.display =
+        "block";
+
+    }
+
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    loadProducts();
+
+  </script>
+
+</body>
+
+</html>
