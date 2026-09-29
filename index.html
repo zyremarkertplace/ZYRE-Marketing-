@@ -346,15 +346,11 @@ Login
     } = await supabaseClient.auth.getSession();
 
     if (session) {
-
       accountLink.href = "account.html";
       accountLink.textContent = "My Account";
-
     } else {
-
       accountLink.href = "auth.html";
       accountLink.textContent = "Login";
-
     }
   }
 
@@ -455,11 +451,8 @@ Login
   }
 
   async function init() {
-
     await updateAccountLink();
-
     await loadStores();
-
   }
 
   init();
