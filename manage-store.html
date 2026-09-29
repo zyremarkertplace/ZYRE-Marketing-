@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ZYRE MARKETING | Manage Store</title>
+
+  <meta
+    name="robots"
+    content="noindex, nofollow"
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      color: #111111;
+    }
+
+    header {
+      background: #111111;
+      color: #ffffff;
+      padding: 20px;
+    }
+
+    .header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: #cccccc;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    .top-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #111111;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dddddd;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .card h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .card p {
+      color: #666666;
+      line-height: 1.5;
+    }
+
+    .store-details {
+      margin-top: 25px;
+    }
+
+    .detail {
+      padding: 14px 0;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .detail:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 5px;
+      color: #777777;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .status {
+      padding: 15px;
+      border-radius: 9px;
+      background: #ffffff;
+      border: 1px solid #dddddd;
+      color: #555555;
+    }
+
+    footer {
+      border-top: 1px solid #dddddd;
+      padding: 25px 20px;
+      text-align: center;
+      color: #777777;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="header-inner">
+
+      <h1 class="brand">
+        ZYRE MARKETING
+      </h1>
+
+      <p class="subtitle">
+        Store Management
+      </p>
+
+    </div>
+  </header>
+
+  <main>
+
+    <a
+      href="seller-dashboard.html"
+      class="top-link"
+    >
+      ← Back to Seller Dashboard
+    </a>
+
+    <div
+      id="status"
+      class="status"
+    >
+      Loading your store...
+    </div>
+
+    <section
+      id="storeCard"
+      class="card"
+      style="display: none;"
+    >
+
+      <h1 id="storeName">
+        Store
+      </h1>
+
+      <p>
+        Manage your ZYRE MARKETING store.
+      </p>
+
+      <div class="store-details">
+
+        <div class="detail">
+
+          <span class="label">
+            Category
+          </span>
+
+          <span
+            id="storeCategory"
+            class="value"
+          >
+            —
+          </span>
+
+        </div>
+
+        <div class="detail">
+
+          <span class="label">
+            Description
+          </span>
+
+          <span
+            id="storeDescription"
+            class="value"
+          >
+            —
+          </span>
+
+        </div>
+
+        <div class="detail">
+
+          <span class="label">
+            Status
+          </span>
+
+          <span
+            id="storeStatus"
+            class="value"
+          >
+            —
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 ZYRE MARKETING. All rights reserved.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://ouidmklcvdqmjofxfyhu.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+    const statusBox =
+      document.getElementById("status");
+
+    const storeCard =
+      document.getElementById("storeCard");
+
+    const storeName =
+      document.getElementById("storeName");
+
+    const storeCategory =
+      document.getElementById("storeCategory");
+
+    const storeDescription =
+      document.getElementById("storeDescription");
+
+    const storeStatus =
+      document.getElementById("storeStatus");
+
+
+    async function loadSellerStore() {
+
+      const {
+        data: {
+          session
+        }
+      } =
+        await supabaseClient.auth.getSession();
+
+
+      if (!session) {
+
+        statusBox.textContent =
+          "Please log in to manage your store.";
+
+        return;
+      }
+
+
+      const {
+        data: profile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
+
+
+      if (
+        profileError ||
+        !profile ||
+        profile.role !== "seller"
+      ) {
+
+        statusBox.textContent =
+          "Seller access is required.";
+
+        return;
+      }
+
+
+      const {
+        data: store,
+        error: storeError
+      } =
+        await supabaseClient
+          .from("stores")
+          .select(
+            "id, name, description, category, status"
+          )
+          .eq(
+            "seller_id",
+            session.user.id
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          )
+          .limit(1)
+          .maybeSingle();
+
+
+      if (storeError) {
+
+        console.error(
+          "Store loading error:",
+          storeError
+        );
+
+        statusBox.textContent =
+          "We couldn't load your store.";
+
+        return;
+      }
+
+
+      if (!store) {
+
+        statusBox.textContent =
+          "You don't have a store yet.";
+
+        return;
+      }
+
+
+      statusBox.style.display =
+        "none";
+
+      storeCard.style.display =
+        "block";
+
+
+      storeName.textContent =
+        store.name || "Store";
+
+      storeCategory.textContent =
+        store.category || "Not specified";
+
+      storeDescription.textContent =
+        store.description || "No description";
+
+      storeStatus.textContent =
+        store.status || "Unknown";
+
+    }
+
+
+    loadSellerStore();
+
+  </script>
+
+</body>
+</html>
