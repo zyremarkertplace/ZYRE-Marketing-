@@ -251,6 +251,11 @@
     const sellerControls =
       document.getElementById("sellerControls");
 
+
+    const manageStoreButton =
+  document.getElementById("manageStoreButton");
+
+
     async function checkSellerAccount() {
 
       const {
@@ -298,6 +303,24 @@
 
         return;
       }
+
+
+const { data: store } =
+  await supabaseClient
+    .from("stores")
+    .select("id")
+    .eq("seller_id", session.user.id)
+    .order("created_at", {
+      ascending: false
+    })
+    .limit(1)
+    .maybeSingle();
+
+if (store) {
+  manageStoreButton.href =
+    "store.html?id=" +
+    encodeURIComponent(store.id);
+}
 
       statusBox.textContent =
         "Seller account verified. Welcome, " +
