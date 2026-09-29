@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ZYRE MARKETING | My Account</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #111111;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      padding: 30px 0 24px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      color: #666666;
+      font-size: 14px;
+    }
+
+    .card {
+      border: 1px solid #dddddd;
+      border-radius: 14px;
+      padding: 24px;
+      background: #ffffff;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+      margin-bottom: 16px;
+    }
+
+    .card h2 {
+      margin: 0 0 20px;
+      font-size: 20px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #555555;
+    }
+
+    .field-value {
+      width: 100%;
+      min-height: 46px;
+      padding: 13px;
+      border: 1px solid #dddddd;
+      border-radius: 8px;
+      background: #f8f8f8;
+      font-size: 15px;
+      word-break: break-word;
+    }
+
+    .button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: #111111;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .button.secondary {
+      background: #ffffff;
+      color: #111111;
+      border: 1px solid #111111;
+    }
+
+    .message {
+      display: none;
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff0f0;
+      color: #a00000;
+    }
+
+    .message.success {
+      display: block;
+      background: #eef8f0;
+      color: #176b2c;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px 20px;
+      color: #666666;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    a {
+      color: #111111;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <header class="header">
+      <h1>ZYRE MARKETING</h1>
+      <p>My Account</p>
+    </header>
+
+    <div id="loading" class="loading">
+      Checking your account...
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <section id="accountContent" class="hidden">
+
+      <div class="card">
+
+        <h2>Account Information</h2>
+
+        <div class="field">
+          <label>FULL NAME</label>
+          <div
+            id="fullName"
+            class="field-value"
+          >
+            —
+          </div>
+        </div>
+
+        <div class="field">
+          <label>EMAIL</label>
+          <div
+            id="email"
+            class="field-value"
+          >
+            —
+          </div>
+        </div>
+
+        <div class="field">
+          <label>PHONE</label>
+          <div
+            id="phone"
+            class="field-value"
+          >
+            Not provided
+          </div>
+        </div>
+
+        <div class="field">
+          <label>ADDRESS</label>
+          <div
+            id="address"
+            class="field-value"
+          >
+            Not provided
+          </div>
+        </div>
+
+        <div class="field">
+          <label>ACCOUNT TYPE</label>
+          <div
+            id="role"
+            class="field-value"
+          >
+            —
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <button
+          type="button"
+          class="button secondary"
+          id="homeButton"
+        >
+          Back to Marketplace
+        </button>
+
+        <button
+          type="button"
+          class="button"
+          id="logoutButton"
+        >
+          Logout
+        </button>
+
+      </div>
+
+    </section>
+
+    <a
+      href="index.html"
+      class="back"
+    >
+      ← Back to ZYRE MARKETING
+    </a>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL =
+      "https://ouidmklcvdqmjofxfyhu.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+    const loading =
+      document.getElementById("loading");
+
+    const message =
+      document.getElementById("message");
+
+    const accountContent =
+      document.getElementById("accountContent");
+
+    const fullName =
+      document.getElementById("fullName");
+
+    const email =
+      document.getElementById("email");
+
+    const phone =
+      document.getElementById("phone");
+
+    const address =
+      document.getElementById("address");
+
+    const role =
+      document.getElementById("role");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const homeButton =
+      document.getElementById("homeButton");
+
+    function showError(text) {
+      message.textContent = text;
+      message.className = "message error";
+    }
+
+    function displayValue(value, fallback) {
+      if (
+        value === null ||
+        value === undefined ||
+        String(value).trim() === ""
+      ) {
+        return fallback;
+      }
+
+      return value;
+    }
+
+    async function loadAccount() {
+
+      const {
+        data: {
+          session
+        },
+        error: sessionError
+      } = await supabaseClient.auth.getSession();
+
+      if (sessionError) {
+        loading.classList.add("hidden");
+        showError(sessionError.message);
+        return;
+      }
+
+      if (!session) {
+        window.location.href = "auth.html";
+        return;
+      }
+
+      const user = session.user;
+
+      const {
+        data: profile,
+        error: profileError
+      } = await supabaseClient
+        .from("profiles")
+        .select(
+          "full_name, phone, address, role"
+        )
+        .eq("id", user.id)
+        .single();
+
+      if (profileError) {
+        loading.classList.add("hidden");
+        showError(profileError.message);
+        return;
+      }
+
+      fullName.textContent =
+        displayValue(
+          profile.full_name,
+          "Not provided"
+        );
+
+      email.textContent =
+        displayValue(
+          user.email,
+          "Not available"
+        );
+
+      phone.textContent =
+        displayValue(
+          profile.phone,
+          "Not provided"
+        );
+
+      address.textContent =
+        displayValue(
+          profile.address,
+          "Not provided"
+        );
+
+      role.textContent =
+        displayValue(
+          profile.role,
+          "customer"
+        );
+
+      loading.classList.add("hidden");
+      accountContent.classList.remove("hidden");
+    }
+
+    logoutButton.addEventListener(
+      "click",
+      async () => {
+
+        logoutButton.disabled = true;
+        logoutButton.textContent = "Logging out...";
+
+        const {
+          error
+        } = await supabaseClient.auth.signOut();
+
+        if (error) {
+          showError(error.message);
+
+          logoutButton.disabled = false;
+          logoutButton.textContent = "Logout";
+
+          return;
+        }
+
+        window.location.href = "auth.html";
+      }
+    );
+
+    homeButton.addEventListener(
+      "click",
+      () => {
+        window.location.href = "index.html";
+      }
+    );
+
+    loadAccount();
+  </script>
+
+</body>
+</html>
