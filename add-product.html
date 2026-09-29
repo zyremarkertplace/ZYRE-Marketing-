@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ZYRE MARKETING | Add Product</title>
+
+  <meta
+    name="description"
+    content="Add products to your ZYRE MARKETING store."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    header {
+      border-bottom: 1px solid #eeeeee;
+      background: #ffffff;
+    }
+
+    .nav {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      color: #111111;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .back-link {
+      color: #111111;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 45px 20px 70px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 38px;
+      line-height: 1.1;
+    }
+
+    .intro {
+      margin-top: 12px;
+      color: #555555;
+      line-height: 1.6;
+    }
+
+    .signed-in {
+      margin-top: 25px;
+      padding: 15px;
+      background: #f7f7f7;
+      border: 1px solid #eeeeee;
+      border-radius: 7px;
+      font-size: 14px;
+      color: #555555;
+    }
+
+    form {
+      margin-top: 30px;
+      display: none;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cccccc;
+      border-radius: 7px;
+      background: #ffffff;
+      color: #111111;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #111111;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #111111;
+      border-radius: 7px;
+      background: #111111;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 7px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .message.success {
+      display: block;
+      background: #f1f1f1;
+      border: 1px solid #cccccc;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff1f1;
+      border: 1px solid #e0b0b0;
+      color: #8a0000;
+    }
+
+    .store-box {
+      margin-top: 25px;
+      padding: 15px;
+      border: 1px solid #eeeeee;
+      border-radius: 7px;
+      background: #fafafa;
+      display: none;
+    }
+
+    .store-box strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    footer {
+      border-top: 1px solid #eeeeee;
+      padding: 30px 20px;
+      text-align: center;
+      color: #777777;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 35px 18px 60px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .nav {
+        padding: 13px 15px;
+      }
+
+      .logo {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <nav class="nav">
+
+      <a
+        href="index.html"
+        class="logo"
+      >
+        ZYRE MARKETING
+      </a>
+
+      <a
+        href="account.html"
+        class="back-link"
+      >
+        My Account
+      </a>
+
+    </nav>
+  </header>
+
+
+  <main>
+
+    <h1>
+      Add Product
+    </h1>
+
+    <p class="intro">
+      Add a product to your active ZYRE MARKETING store.
+    </p>
+
+
+    <div
+      id="signedIn"
+      class="signed-in"
+    >
+      Checking your seller account...
+    </div>
+
+
+    <div
+      id="storeBox"
+      class="store-box"
+    ></div>
+
+
+    <form id="productForm">
+
+      <div class="field">
+
+        <label for="productName">
+          Product Name
+        </label>
+
+        <input
+          type="text"
+          id="productName"
+          required
+          maxlength="150"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="productDescription">
+          Product Description
+        </label>
+
+        <textarea
+          id="productDescription"
+          maxlength="2000"
+          placeholder="Describe your product."
+        ></textarea>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="productPrice">
+          Price (ZAR)
+        </label>
+
+        <input
+          type="number"
+          id="productPrice"
+          required
+          min="0"
+          step="0.01"
+          inputmode="decimal"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="productStock">
+          Stock
+        </label>
+
+        <input
+          type="number"
+          id="productStock"
+          required
+          min="0"
+          step="1"
+          inputmode="numeric"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="productCategory">
+          Product Category
+        </label>
+
+        <select
+          id="productCategory"
+          required
+        >
+
+          <option value="">
+            Select a category
+          </option>
+
+          <option value="Fashion">
+            Fashion
+          </option>
+
+          <option value="Electronics">
+            Electronics
+          </option>
+
+          <option value="Beauty">
+            Beauty
+          </option>
+
+          <option value="Food">
+            Food
+          </option>
+
+          <option value="Home">
+            Home
+          </option>
+
+          <option value="Services">
+            Services
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <button
+        type="submit"
+        id="submitButton"
+      >
+        Add Product
+      </button>
+
+    </form>
+
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+  </main>
+
+
+  <footer>
+    © 2026 ZYRE MARKETING. All rights reserved.
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://ouidmklcvdqmjofxfyhu.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    const signedIn =
+      document.getElementById("signedIn");
+
+    const storeBox =
+      document.getElementById("storeBox");
+
+    const productForm =
+      document.getElementById("productForm");
+
+    const message =
+      document.getElementById("message");
+
+    const submitButton =
+      document.getElementById("submitButton");
+
+
+    let currentUser = null;
+    let currentStore = null;
+
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        "message " + type;
+    }
+
+
+    async function loadSellerStore() {
+
+      const {
+        data: {
+          user
+        },
+        error: userError
+      } =
+        await supabaseClient.auth.getUser();
+
+
+      if (
+        userError ||
+        !user
+      ) {
+
+        signedIn.textContent =
+          "You must be logged in to add a product.";
+
+        return;
+      }
+
+
+      currentUser =
+        user;
+
+
+      const {
+        data: profile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+
+      if (
+        profileError ||
+        !profile ||
+        profile.role !== "seller"
+      ) {
+
+        signedIn.textContent =
+          "Your account is not approved as a seller.";
+
+        return;
+      }
+
+
+      signedIn.textContent =
+        "Seller account: " + user.email;
+
+
+      const {
+        data: stores,
+        error: storeError
+      } =
+        await supabaseClient
+          .from("stores")
+          .select(
+            "id, name, status"
+          )
+          .eq(
+            "seller_id",
+            user.id
+          )
+          .eq(
+            "status",
+            "active"
+          )
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+
+      if (storeError) {
+
+        console.error(
+          "Store loading error:",
+          storeError
+        );
+
+        showMessage(
+          "We couldn't load your store.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        !stores ||
+        stores.length === 0
+      ) {
+
+        signedIn.textContent =
+          "You do not have an active store yet.";
+
+        return;
+      }
+
+
+      currentStore =
+        stores[0];
+
+
+      storeBox.innerHTML = `
+        <strong>Your Active Store</strong>
+        ${escapeHtml(currentStore.name)}
+      `;
+
+      storeBox.style.display =
+        "block";
+
+
+      productForm.style.display =
+        "block";
+    }
+
+
+    function escapeHtml(value) {
+
+      if (
+        value === null ||
+        value === undefined
+      ) {
+
+        return "";
+      }
+
+
+      return String(value)
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+    }
+
+
+    productForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        if (
+          !currentUser ||
+          !currentStore
+        ) {
+
+          showMessage(
+            "Your active store could not be found.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        submitButton.disabled =
+          true;
+
+        submitButton.textContent =
+          "Adding Product...";
+
+
+        const product = {
+
+          store_id:
+            currentStore.id,
+
+          name:
+            document
+              .getElementById("productName")
+              .value
+              .trim(),
+
+          description:
+            document
+              .getElementById("productDescription")
+              .value
+              .trim(),
+
+          price:
+            Number(
+              document
+                .getElementById("productPrice")
+                .value
+            ),
+
+          stock:
+            Number(
+              document
+                .getElementById("productStock")
+                .value
+            ),
+
+          category:
+            document
+              .getElementById("productCategory")
+              .value,
+
+          status:
+            "active"
+        };
+
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("products")
+            .insert(product);
+
+
+        if (error) {
+
+          console.error(
+            "Product creation error:",
+            error
+          );
+
+          showMessage(
+            "We couldn't add the product. Please try again.",
+            "error"
+          );
+
+          submitButton.disabled =
+            false;
+
+          submitButton.textContent =
+            "Add Product";
+
+          return;
+        }
+
+
+        showMessage(
+          "Your product has been added successfully.",
+          "success"
+        );
+
+
+        productForm.reset();
+
+
+        submitButton.disabled =
+          false;
+
+        submitButton.textContent =
+          "Add Product";
+
+      }
+    );
+
+
+    loadSellerStore();
+
+  </script>
+
+</body>
+</html>
