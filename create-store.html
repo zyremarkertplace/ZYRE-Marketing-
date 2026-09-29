@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ZYRE MARKETING | Create Store</title>
+
+  <meta
+    name="description"
+    content="Create your online store on ZYRE MARKETING."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    header {
+      border-bottom: 1px solid #eeeeee;
+      background: #ffffff;
+    }
+
+    .nav {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      color: #111111;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .back-link {
+      color: #111111;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 45px 20px 70px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 38px;
+      line-height: 1.1;
+    }
+
+    .intro {
+      margin-top: 12px;
+      color: #555555;
+      line-height: 1.6;
+    }
+
+    .signed-in {
+      margin-top: 25px;
+      padding: 15px;
+      background: #f7f7f7;
+      border: 1px solid #eeeeee;
+      border-radius: 7px;
+      font-size: 14px;
+      color: #555555;
+    }
+
+    form {
+      margin-top: 30px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cccccc;
+      border-radius: 7px;
+      background: #ffffff;
+      color: #111111;
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #111111;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #111111;
+      border-radius: 7px;
+      background: #111111;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      display: none;
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 7px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .message.success {
+      display: block;
+      background: #f1f1f1;
+      border: 1px solid #cccccc;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff1f1;
+      border: 1px solid #e0b0b0;
+      color: #8a0000;
+    }
+
+    footer {
+      border-top: 1px solid #eeeeee;
+      padding: 30px 20px;
+      text-align: center;
+      color: #777777;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding: 35px 18px 60px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .nav {
+        padding: 13px 15px;
+      }
+
+      .logo {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <nav class="nav">
+
+      <a
+        href="index.html"
+        class="logo"
+      >
+        ZYRE MARKETING
+      </a>
+
+      <a
+        href="account.html"
+        class="back-link"
+      >
+        My Account
+      </a>
+
+    </nav>
+  </header>
+
+
+  <main>
+
+    <h1>
+      Create Your Store
+    </h1>
+
+    <p class="intro">
+      Create your online store on ZYRE MARKETING.
+      Your store will be reviewed before it becomes publicly visible.
+    </p>
+
+
+    <div
+      id="signedIn"
+      class="signed-in"
+    >
+      Checking your seller account...
+    </div>
+
+
+    <form
+      id="storeForm"
+      style="display: none;"
+    >
+
+      <div class="field">
+
+        <label for="storeName">
+          Store Name
+        </label>
+
+        <input
+          type="text"
+          id="storeName"
+          required
+          maxlength="100"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="storeDescription">
+          Store Description
+        </label>
+
+        <textarea
+          id="storeDescription"
+          maxlength="1000"
+          placeholder="Tell customers what your store sells."
+        ></textarea>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="storeCategory">
+          Store Category
+        </label>
+
+        <select
+          id="storeCategory"
+          required
+        >
+
+          <option value="">
+            Select a category
+          </option>
+
+          <option value="Fashion">
+            Fashion
+          </option>
+
+          <option value="Electronics">
+            Electronics
+          </option>
+
+          <option value="Beauty">
+            Beauty
+          </option>
+
+          <option value="Food">
+            Food
+          </option>
+
+          <option value="Home">
+            Home
+          </option>
+
+          <option value="Services">
+            Services
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <button
+        type="submit"
+        id="submitButton"
+      >
+        Create Store
+      </button>
+
+    </form>
+
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+  </main>
+
+
+  <footer>
+    © 2026 ZYRE MARKETING. All rights reserved.
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://ouidmklcvdqmjofxfyhu.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    const signedIn =
+      document.getElementById("signedIn");
+
+    const storeForm =
+      document.getElementById("storeForm");
+
+    const message =
+      document.getElementById("message");
+
+    const submitButton =
+      document.getElementById("submitButton");
+
+
+    let currentUser = null;
+
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        "message " + type;
+    }
+
+
+    async function loadSeller() {
+
+      const {
+        data: {
+          user
+        },
+        error: userError
+      } =
+        await supabaseClient.auth.getUser();
+
+
+      if (userError || !user) {
+
+        signedIn.textContent =
+          "You must be logged in to create a store.";
+
+        return;
+      }
+
+
+      currentUser = user;
+
+
+      const {
+        data: profile,
+        error: profileError
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+
+      if (
+        profileError ||
+        !profile ||
+        profile.role !== "seller"
+      ) {
+
+        signedIn.textContent =
+          "Your account is not approved as a seller.";
+
+        return;
+      }
+
+
+      signedIn.textContent =
+        "Seller account: " + user.email;
+
+
+      storeForm.style.display =
+        "block";
+    }
+
+
+    storeForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        if (!currentUser) {
+
+          showMessage(
+            "Please log in before creating a store.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        submitButton.disabled =
+          true;
+
+        submitButton.textContent =
+          "Creating Store...";
+
+
+        const store = {
+
+          seller_id:
+            currentUser.id,
+
+          name:
+            document
+              .getElementById("storeName")
+              .value
+              .trim(),
+
+          description:
+            document
+              .getElementById("storeDescription")
+              .value
+              .trim(),
+
+          category:
+            document
+              .getElementById("storeCategory")
+              .value,
+
+          status:
+            "pending"
+        };
+
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("stores")
+            .insert(store);
+
+
+        if (error) {
+
+          console.error(
+            "Store creation error:",
+            error
+          );
+
+          showMessage(
+            "We couldn't create your store. Please try again.",
+            "error"
+          );
+
+          submitButton.disabled =
+            false;
+
+          submitButton.textContent =
+            "Create Store";
+
+          return;
+        }
+
+
+        showMessage(
+          "Your store has been created and is waiting for approval.",
+          "success"
+        );
+
+
+        storeForm.reset();
+
+
+        submitButton.disabled =
+          false;
+
+        submitButton.textContent =
+          "Create Store";
+
+      }
+    );
+
+
+    loadSeller();
+
+  </script>
+
+</body>
+</html>
