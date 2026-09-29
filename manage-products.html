@@ -504,6 +504,53 @@
 
 }
 
+   async function changeProductStatus(
+  productId,
+  currentStatus
+) {
+
+  const newStatus =
+    currentStatus === "active"
+      ? "inactive"
+      : "active";
+
+  const confirmed =
+    confirm(
+      `Change product status to "${newStatus}"?`
+    );
+
+  if (!confirmed) {
+    return;
+  }
+
+  const { error } =
+    await supabaseClient
+      .from("products")
+      .update({
+        status: newStatus
+      })
+      .eq("id", productId);
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "We couldn't change the product status."
+    );
+
+    return;
+  }
+
+  alert(
+    `Product status changed to ${newStatus}.`
+  );
+
+  loadProducts();
+
+}
+
+
     loadProducts();
 
   </script>
