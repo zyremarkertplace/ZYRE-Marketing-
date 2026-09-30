@@ -374,216 +374,327 @@ Submit Seller Application
   class="message"    
 ></div>    </main>    <footer>    
     © 2026 ZYRE MARKETING. All rights reserved.    
-  </footer>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script>    const SUPABASE_URL =    
-  "https://ouidmklcvdqmjofxfyhu.supabase.co";    
+  </footer>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script>    const SUPABASE_URL =            
+  "https://ouidmklcvdqmjofxfyhu.supabase.co";      const SUPABASE_PUBLISHABLE_KEY =      
+"sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";  const supabaseClient =    
+window.supabase.createClient(    
+SUPABASE_URL,    
+SUPABASE_PUBLISHABLE_KEY    
+);  const sellerForm =  
+document.getElementById("sellerForm");  const signedIn =
+document.getElementById("signedIn");
 
-const SUPABASE_PUBLISHABLE_KEY =    
-  "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";    
+const message =
+document.getElementById("message");
 
+const submitButton =
+document.getElementById("submitButton");
 
-const supabaseClient =    
-  window.supabase.createClient(    
-    SUPABASE_URL,    
-    SUPABASE_PUBLISHABLE_KEY    
-  );    
+let currentUser = null;
 
+function showMessage(
+text,
+type
+) {
 
-const sellerForm =    
-  document.getElementById("sellerForm");    
+message.textContent = text;
 
-const signedIn =    
-  document.getElementById("signedIn");    
+message.className =
+"message " + type;
+}
 
-const message =    
-  document.getElementById("message");    
+async function loadUser() {
 
-const submitButton =    
-  document.getElementById("submitButton");    
+const {
+data: {
+user
+}
+} =
+await supabaseClient.auth.getUser();
 
+if (!user) {
 
-let currentUser = null;    
+currentUser = null;
 
+signedIn.textContent =
+"You must be logged in to submit a seller application.";
 
-function showMessage(    
-  text,    
-  type    
-) {    
+sellerForm.style.display =
+"none";
 
-  message.textContent = text;    
+return;
 
-  message.className =    
-    "message " + type;    
-}    
+}
 
+currentUser = user;
 
-async function loadUser() {    
+signedIn.textContent =
+"Signed in as: " + user.email;
 
-  const {    
-    data: {    
-      user    
-    }    
-  } =    
-    await supabaseClient.auth.getUser();    
+document.getElementById("email").value =
+user.email || "";
 
+const {
+data: profile
+} =
+await supabaseClient
+.from("profiles")
+.select(
+"full_name, phone, address"
+)
+.eq(
+"id",
+user.id
+)
+.single();
 
-  if (!user) {    
+if (profile) {
 
-    currentUser = null;    
+document.getElementById("fullName").value =
+profile.full_name || "";
 
-    signedIn.textContent =    
-      "You must be logged in to submit a seller application.";    
+document.getElementById("phone").value =
+profile.phone || "";
 
-    sellerForm.style.display =    
-      "none";    
+document.getElementById("residentialAddress").value =
+profile.address || "";
 
-    return;    
-  }    
+}
+}
 
+sellerForm.addEventListener(
+"submit",
+async event => {
 
-  currentUser = user;    
+event.preventDefault();
 
-
-  signedIn.textContent =    
-    "Signed in as: " + user.email;    
-
-
-  document.getElementById("email").value =    
-    user.email || "";    
-
-
-  const {    
-    data: profile    
-  } =    
-    await supabaseClient    
-      .from("profiles")    
-      .select(    
-        "full_name, phone, address"    
-      )    
-      .eq(    
-        "id",    
-        user.id    
-      )    
-      .single();    
-
-
-  if (profile) {    
-
-    document.getElementById("fullName").value =    
-      profile.full_name || "";    
-
-    document.getElementById("phone").value =    
-      profile.phone || "";    
-
-    document.getElementById("residentialAddress").value =    
-      profile.address || "";    
-  }    
-}    
-
-
-sellerForm.addEventListener(    
-  "submit",    
-  async event => {    
-
-    event.preventDefault();    
-
-
-    if (!currentUser) {    
-
-      showMessage(    
-        "Please log in before submitting your application.",    
-        "error"    
-      );    
-
-      return;    
-    }    
-
-
-    submitButton.disabled =    
-      true;    
-
-    submitButton.textContent =    
-      "Submitting...";    
-
-
-    const application = {    
-
-      user_id:    
-        currentUser.id,    
-
-      full_name:    
-        document.getElementById("fullName").value.trim(),    
-
-      email:    
-        document.getElementById("email").value.trim(),    
-
-      phone:    
-        document.getElementById("phone").value.trim(),    
-
-      residential_address:    
-        document    
-          .getElementById("residentialAddress")    
-          .value    
-          .trim(),    
-
-      store_address:    
-        document    
-          .getElementById("storeAddress")    
-          .value    
-          .trim(),    
-
-      id_number:    
-        document    
-          .getElementById("idNumber")    
-          .value    
-          .trim(),    
-
-      store_name:    
-        document    
-          .getElementById("storeName")    
-          .value    
-          .trim(),    
-
-      store_category:    
-        document    
-          .getElementById("storeCategory")    
-          .value    
-          .trim()    
-    };    
-
-
-    const {    
-      error    
-    } =    
-      await supabaseClient    
-        .from("seller_applications")    
-        .insert(    
-          application    
-        );    
-
-
-    if (error) {    
-
-      console.error(    
-        "Seller application error:",    
-        error    
-      );    
-
-      showMessage(    
-        "We couldn't submit your application. Please try again.",    
-        "error"    
-      );    
-
-      submitButton.disabled =    
-        false;    
-
-      submitButton.textContent =    
-        "Submit Seller Application";    
-
-      return;    
-    }
+if (!currentUser) {
 
 showMessage(
-"Your seller application has been submitted. Please complete the ID document and selfie verification.",
+"Please log in before submitting your application.",
+"error"
+);
+
+return;
+}
+
+submitButton.disabled =
+true;
+
+submitButton.textContent =
+"Submitting...";
+
+const application = {
+
+user_id:
+currentUser.id,
+
+full_name:
+document.getElementById("fullName").value.trim(),
+
+email:
+document.getElementById("email").value.trim(),
+
+phone:
+document.getElementById("phone").value.trim(),
+
+residential_address:
+document
+.getElementById("residentialAddress")
+.value
+.trim(),
+
+store_address:
+document
+.getElementById("storeAddress")
+.value
+.trim(),
+
+id_number:
+document
+.getElementById("idNumber")
+.value
+.trim(),
+
+store_name:
+document
+.getElementById("storeName")
+.value
+.trim(),
+
+store_category:
+document
+.getElementById("storeCategory")
+.value
+.trim()
+};
+
+const idDocument =
+document.getElementById("idDocument").files[0];
+
+const selfieDocument =
+document.getElementById("selfieDocument").files[0];
+
+if (!idDocument || !selfieDocument) {
+
+showMessage(
+"Please upload your ID document and selfie.",
+"error"
+);
+
+submitButton.disabled =
+false;
+
+submitButton.textContent =
+"Submit Seller Application";
+
+return;
+}
+
+const { data: insertedApplication, error } =
+await supabaseClient
+.from("seller_applications")
+.insert(application)
+.select("id")
+.single();
+
+if (error) {
+
+console.error(
+"Seller application error:",
+error
+);
+
+showMessage(
+"We couldn't submit your application. Please try again.",
+"error"
+);
+
+submitButton.disabled =
+false;
+
+submitButton.textContent =
+"Submit Seller Application";
+
+return;
+}
+
+const timestamp =
+Date.now();
+
+const idPath =
+currentUser.id +
+"/id-" +
+timestamp +
+"-" +
+idDocument.name;
+
+const selfiePath =
+currentUser.id +
+"/selfie-" +
+timestamp +
+"-" +
+selfieDocument.name;
+
+const { error: idUploadError } =
+await supabaseClient.storage
+.from("seller-documents")
+.upload(
+idPath,
+idDocument,
+{
+upsert: false
+}
+);
+
+if (idUploadError) {
+
+console.error(
+"ID document upload error:",
+idUploadError
+);
+
+showMessage(
+"Your ID document could not be uploaded. Please try again.",
+"error"
+);
+
+submitButton.disabled =
+false;
+
+submitButton.textContent =
+"Submit Seller Application";
+
+return;
+}
+
+const { error: selfieUploadError } =
+await supabaseClient.storage
+.from("seller-documents")
+.upload(
+selfiePath,
+selfieDocument,
+{
+upsert: false
+}
+);
+
+if (selfieUploadError) {
+
+console.error(
+"Selfie upload error:",
+selfieUploadError
+);
+
+showMessage(
+"Your selfie could not be uploaded. Please try again.",
+"error"
+);
+
+submitButton.disabled =
+false;
+
+submitButton.textContent =
+"Submit Seller Application";
+
+return;
+}
+
+const { error: documentUpdateError } =
+await supabaseClient
+.from("seller_applications")
+.update({
+id_document_path: idPath,
+selfie_document_path: selfiePath
+})
+.eq(
+"id",
+insertedApplication.id
+);
+
+if (documentUpdateError) {
+
+console.error(
+"Document path update error:",
+documentUpdateError
+);
+
+showMessage(
+"Your documents were uploaded, but the application could not be completed. Please contact ZYRE Marketing.",
+"error"
+);
+
+submitButton.disabled =
+false;
+
+submitButton.textContent =
+"Submit Seller Application";
+
+return;
+}
+
+showMessage(
+"Your seller application and identity documents have been submitted successfully. Your application is now pending ZYRE Marketing owner review.",
 "success"
 );
 
@@ -603,7 +714,7 @@ submitButton.textContent =
 
 loadUser();
 
-  </script> 
+</script> 
 
- </body>    
+ </body>
 </html>
