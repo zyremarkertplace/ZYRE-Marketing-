@@ -657,9 +657,12 @@
           );
 
           showMessage(
-            "Your application was saved, but we couldn't start identity verification. Please try again.",
-            "error"
-          );
+  "Didit ERROR: " +
+  JSON.stringify(diditError) +
+  " | DATA: " +
+  JSON.stringify(diditData),
+  "error"
+);
 
           submitButton.disabled =
             false;
