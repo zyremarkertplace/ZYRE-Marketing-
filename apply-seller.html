@@ -625,6 +625,72 @@
         }
 
 
+         const {
+          data: diditData,
+          error: diditError
+        } =
+          await supabaseClient.functions.invoke(
+            "create-didit-session",
+            {
+              body: {
+                user_id:
+                  currentUser.id
+              }
+            }
+          );
+
+
+        if (diditError) {
+
+          console.error(
+            "Didit session error:",
+            diditError
+          );
+
+          showMessage(
+            "Your application was saved, but we couldn't start identity verification. Please try again.",
+            "error"
+          );
+
+          submitButton.disabled =
+            false;
+
+          submitButton.textContent =
+            "Start Identity Verification";
+
+          return;
+        }
+
+
+        if (
+          !diditData ||
+          !diditData.url
+        ) {
+
+          console.error(
+            "Invalid Didit response:",
+            diditData
+          );
+
+          showMessage(
+            "Your application was saved, but the identity verification session could not be created.",
+            "error"
+          );
+
+          submitButton.disabled =
+            false;
+
+          submitButton.textContent =
+            "Start Identity Verification";
+
+          return;
+        }
+
+
+        window.location.href =
+          diditData.url;
+
+
         showMessage(
           "Your seller application has been submitted successfully. We will review it before approving your seller account.",
           "success"
