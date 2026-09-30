@@ -1,734 +1,567 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
+<!DOCTYPE html>  <html lang="en">    <head>    
+  <meta charset="UTF-8">  <meta  
+name="viewport"  
+content="width=device-width, initial-scale=1.0"  > 
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <title>ZYRE MARKETING | Become a Seller</title>  <meta  
+name="description"  
+content="Apply to become a seller on ZYRE MARKETING."  > 
 
-  <title>ZYRE MARKETING | Become a Seller</title>
+  <style>    
+    * {    
+      box-sizing: border-box;    
+    }    
+    
+    body {    
+      margin: 0;    
+      font-family: Arial, sans-serif;    
+      background: #ffffff;    
+      color: #111111;    
+    }    
+    
+    header {    
+      border-bottom: 1px solid #eeeeee;    
+      background: #ffffff;    
+    }    
+    
+    .nav {    
+      max-width: 900px;    
+      margin: 0 auto;    
+      padding: 16px 20px;    
+      display: flex;    
+      align-items: center;    
+      justify-content: space-between;    
+      gap: 20px;    
+    }    
+    
+    .logo {    
+      color: #111111;    
+      text-decoration: none;    
+      font-size: 20px;    
+      font-weight: 800;    
+      letter-spacing: 1px;    
+    }    
+    
+    .back-link {    
+      color: #111111;    
+      text-decoration: none;    
+      font-size: 14px;    
+      font-weight: 700;    
+    }    
+    
+    main {    
+      max-width: 700px;    
+      margin: 0 auto;    
+      padding: 45px 20px 70px;    
+    }    
+    
+    h1 {    
+      margin: 0;    
+      font-size: 38px;    
+      line-height: 1.1;    
+    }    
+    
+    .intro {    
+      margin-top: 12px;    
+      color: #555555;    
+      line-height: 1.6;    
+    }    
+    
+    form {    
+      margin-top: 35px;    
+    }    
+    
+    .field {    
+      margin-bottom: 20px;    
+    }    
+    
+    label {    
+      display: block;    
+      margin-bottom: 7px;    
+      font-size: 14px;    
+      font-weight: 700;    
+    }    
+    
+    input,    
+    textarea,    
+    select {    
+      width: 100%;    
+      padding: 13px;    
+      border: 1px solid #cccccc;    
+      border-radius: 7px;    
+      background: #ffffff;    
+      color: #111111;    
+      font-family: inherit;    
+      font-size: 15px;    
+    }    
+    
+    textarea {    
+      min-height: 100px;    
+      resize: vertical;    
+    }    
+    
+    input:focus,    
+    textarea:focus,    
+    select:focus {    
+      outline: none;    
+      border-color: #111111;    
+    }    
+    
+    button {    
+      width: 100%;    
+      padding: 14px;    
+      border: 1px solid #111111;    
+      border-radius: 7px;    
+      background: #111111;    
+      color: #ffffff;    
+      font-size: 15px;    
+      font-weight: 700;    
+      cursor: pointer;    
+    }    
+    
+    button:disabled {    
+      opacity: 0.6;    
+      cursor: not-allowed;    
+    }    
+    
+    .message {    
+      display: none;    
+      margin-top: 20px;    
+      padding: 14px;    
+      border-radius: 7px;    
+      line-height: 1.5;    
+      font-size: 14px;    
+    }    
+    
+    .message.success {    
+      display: block;    
+      background: #f1f1f1;    
+      border: 1px solid #cccccc;    
+    }    
+    
+    .message.error {    
+      display: block;    
+      background: #fff1f1;    
+      border: 1px solid #e0b0b0;    
+      color: #8a0000;    
+    }    
+    
+    .signed-in {    
+      margin-top: 25px;    
+      padding: 15px;    
+      background: #f7f7f7;    
+      border: 1px solid #eeeeee;    
+      border-radius: 7px;    
+      font-size: 14px;    
+      color: #555555;    
+    }    
+    
+    footer {    
+      border-top: 1px solid #eeeeee;    
+      padding: 30px 20px;    
+      text-align: center;    
+      color: #777777;    
+      font-size: 13px;    
+    }    
+    
+    @media (max-width: 600px) {    
+      main {    
+        padding: 35px 18px 60px;    
+      }    
+    
+      h1 {    
+        font-size: 32px;    
+      }    
+    
+      .nav {    
+        padding: 13px 15px;    
+      }    
+    
+      .logo {    
+        font-size: 17px;    
+      }    
+    }    
+  </style>  </head>  <body>    <header>    <nav class="nav">  <a    
+href="index.html"    
+class="logo"
 
-  <meta
-    name="description"
-    content="Apply to become a seller on ZYRE MARKETING."
-  >
+> 
 
-  <style>
-    * {
-      box-sizing: border-box;
+ZYRE MARKETING
+
+  </a>    <a
+href="account.html"
+class="back-link"
+
+> 
+
+My Account
+
+  </a>    </nav>    </header>    <main>  <h1>    
+  Become a Seller    
+</h1>    <p class="intro">    
+  Apply to open your own online store on ZYRE MARKETING.    
+  Your application will be reviewed before your seller account is approved.    
+</p>    <div    
+  id="signedIn"    
+  class="signed-in"    
+>    
+  Checking your account...    
+</div>    <form id="sellerForm">      <div class="field">    <label for="fullName">    
+  Full Name    
+</label>    
+
+<input    
+  type="text"    
+  id="fullName"    
+  required    
+>
+
+  </div>      <div class="field">    <label for="email">    
+  Email    
+</label>    
+
+<input    
+  type="email"    
+  id="email"    
+  required    
+  readonly    
+>
+
+  </div>      <div class="field">    <label for="phone">    
+  Phone Number    
+</label>    
+
+<input    
+  type="tel"    
+  id="phone"    
+  required    
+>
+
+  </div>      <div class="field">    <label for="residentialAddress">    
+  Residential Address    
+</label>    
+
+<textarea    
+  id="residentialAddress"    
+  required    
+></textarea>
+
+  </div>      <div class="field">    <label for="storeAddress">    
+  Store Address    
+</label>    
+
+<textarea    
+  id="storeAddress"    
+  required    
+></textarea>
+
+  </div>      <div class="field">    <label for="idNumber">    
+  ID Number    
+</label>    
+
+<input    
+  type="text"    
+  id="idNumber"    
+  required    
+>
+
+  </div>      <div class="field">    <label for="storeName">    
+  Store Name    
+</label>    
+
+<input    
+  type="text"    
+  id="storeName"    
+  required    
+>
+
+  </div>      <div class="field">    <label for="storeCategory">    
+  Store Category    
+</label>    
+
+<select    
+  id="storeCategory"    
+  required    
+>    
+
+  <option value="">    
+    Select a category    
+  </option>    
+
+  <option value="Fashion">    
+    Fashion    
+  </option>    
+
+  <option value="Electronics">    
+    Electronics    
+  </option>    
+
+  <option value="Beauty">    
+    Beauty    
+  </option>    
+
+  <option value="Food">    
+    Food    
+  </option>    
+
+  <option value="Home">    
+    Home    
+  </option>    
+
+  <option value="Services">    
+    Services    
+  </option>    
+
+  <option value="Other">    
+    Other    
+  </option>    
+
+</select>
+
+  </div>    <button
+type="submit"
+id="submitButton"
+
+> 
+
+Submit Seller Application
+
+  </button>    </form>    <div    
+  id="message"    
+  class="message"    
+></div>    </main>    <footer>    
+    © 2026 ZYRE MARKETING. All rights reserved.    
+  </footer>    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    <script>    const SUPABASE_URL =    
+  "https://ouidmklcvdqmjofxfyhu.supabase.co";    
+
+const SUPABASE_PUBLISHABLE_KEY =    
+  "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";    
+
+
+const supabaseClient =    
+  window.supabase.createClient(    
+    SUPABASE_URL,    
+    SUPABASE_PUBLISHABLE_KEY    
+  );    
+
+
+const sellerForm =    
+  document.getElementById("sellerForm");    
+
+const signedIn =    
+  document.getElementById("signedIn");    
+
+const message =    
+  document.getElementById("message");    
+
+const submitButton =    
+  document.getElementById("submitButton");    
+
+
+let currentUser = null;    
+
+
+function showMessage(    
+  text,    
+  type    
+) {    
+
+  message.textContent = text;    
+
+  message.className =    
+    "message " + type;    
+}    
+
+
+async function loadUser() {    
+
+  const {    
+    data: {    
+      user    
+    }    
+  } =    
+    await supabaseClient.auth.getUser();    
+
+
+  if (!user) {    
+
+    currentUser = null;    
+
+    signedIn.textContent =    
+      "You must be logged in to submit a seller application.";    
+
+    sellerForm.style.display =    
+      "none";    
+
+    return;    
+  }    
+
+
+  currentUser = user;    
+
+
+  signedIn.textContent =    
+    "Signed in as: " + user.email;    
+
+
+  document.getElementById("email").value =    
+    user.email || "";    
+
+
+  const {    
+    data: profile    
+  } =    
+    await supabaseClient    
+      .from("profiles")    
+      .select(    
+        "full_name, phone, address"    
+      )    
+      .eq(    
+        "id",    
+        user.id    
+      )    
+      .single();    
+
+
+  if (profile) {    
+
+    document.getElementById("fullName").value =    
+      profile.full_name || "";    
+
+    document.getElementById("phone").value =    
+      profile.phone || "";    
+
+    document.getElementById("residentialAddress").value =    
+      profile.address || "";    
+  }    
+}    
+
+
+sellerForm.addEventListener(    
+  "submit",    
+  async event => {    
+
+    event.preventDefault();    
+
+
+    if (!currentUser) {    
+
+      showMessage(    
+        "Please log in before submitting your application.",    
+        "error"    
+      );    
+
+      return;    
+    }    
+
+
+    submitButton.disabled =    
+      true;    
+
+    submitButton.textContent =    
+      "Submitting...";    
+
+
+    const application = {    
+
+      user_id:    
+        currentUser.id,    
+
+      full_name:    
+        document.getElementById("fullName").value.trim(),    
+
+      email:    
+        document.getElementById("email").value.trim(),    
+
+      phone:    
+        document.getElementById("phone").value.trim(),    
+
+      residential_address:    
+        document    
+          .getElementById("residentialAddress")    
+          .value    
+          .trim(),    
+
+      store_address:    
+        document    
+          .getElementById("storeAddress")    
+          .value    
+          .trim(),    
+
+      id_number:    
+        document    
+          .getElementById("idNumber")    
+          .value    
+          .trim(),    
+
+      store_name:    
+        document    
+          .getElementById("storeName")    
+          .value    
+          .trim(),    
+
+      store_category:    
+        document    
+          .getElementById("storeCategory")    
+          .value    
+          .trim()    
+    };    
+
+
+    const {    
+      error    
+    } =    
+      await supabaseClient    
+        .from("seller_applications")    
+        .insert(    
+          application    
+        );    
+
+
+    if (error) {    
+
+      console.error(    
+        "Seller application error:",    
+        error    
+      );    
+
+      showMessage(    
+        "We couldn't submit your application. Please try again.",    
+        "error"    
+      );    
+
+      submitButton.disabled =    
+        false;    
+
+      submitButton.textContent =    
+        "Submit Seller Application";    
+
+      return;    
     }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #111111;
-    }
-
-    header {
-      border-bottom: 1px solid #eeeeee;
-      background: #ffffff;
-    }
-
-    .nav {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      color: #111111;
-      text-decoration: none;
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-
-    .back-link {
-      color: #111111;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    main {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 45px 20px 70px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 38px;
-      line-height: 1.1;
-    }
-
-    .intro {
-      margin-top: 12px;
-      color: #555555;
-      line-height: 1.6;
-    }
-
-    form {
-      margin-top: 35px;
-    }
-
-    .field {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #cccccc;
-      border-radius: 7px;
-      background: #ffffff;
-      color: #111111;
-      font-family: inherit;
-      font-size: 15px;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      outline: none;
-      border-color: #111111;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #111111;
-      border-radius: 7px;
-      background: #111111;
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .message {
-      display: none;
-      margin-top: 20px;
-      padding: 14px;
-      border-radius: 7px;
-      line-height: 1.5;
-      font-size: 14px;
-    }
-
-    .message.success {
-      display: block;
-      background: #f1f1f1;
-      border: 1px solid #cccccc;
-    }
-
-    .message.error {
-      display: block;
-      background: #fff1f1;
-      border: 1px solid #e0b0b0;
-      color: #8a0000;
-    }
-
-    .signed-in {
-      margin-top: 25px;
-      padding: 15px;
-      background: #f7f7f7;
-      border: 1px solid #eeeeee;
-      border-radius: 7px;
-      font-size: 14px;
-      color: #555555;
-    }
-
-    footer {
-      border-top: 1px solid #eeeeee;
-      padding: 30px 20px;
-      text-align: center;
-      color: #777777;
-      font-size: 13px;
-    }
-
-    @media (max-width: 600px) {
-      main {
-        padding: 35px 18px 60px;
-      }
-
-      h1 {
-        font-size: 32px;
-      }
-
-      .nav {
-        padding: 13px 15px;
-      }
-
-      .logo {
-        font-size: 17px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <header>
-    <nav class="nav">
-
-      <a
-        href="index.html"
-        class="logo"
-      >
-        ZYRE MARKETING
-      </a>
-
-      <a
-        href="account.html"
-        class="back-link"
-      >
-        My Account
-      </a>
-
-    </nav>
-  </header>
-
-
-  <main>
-
-    <h1>
-      Become a Seller
-    </h1>
-
-    <p class="intro">
-      Apply to open your own online store on ZYRE MARKETING.
-      Your application will be reviewed before your seller account is approved.
-    </p>
-
-
-    <div
-      id="signedIn"
-      class="signed-in"
-    >
-      Checking your account...
-    </div>
-
-
-    <form id="sellerForm">
-
-      <div class="field">
-
-        <label for="fullName">
-          Full Name
-        </label>
-
-        <input
-          type="text"
-          id="fullName"
-          required
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="email">
-          Email
-        </label>
-
-        <input
-          type="email"
-          id="email"
-          required
-          readonly
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="phone">
-          Phone Number
-        </label>
-
-        <input
-          type="tel"
-          id="phone"
-          required
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="residentialAddress">
-          Residential Address
-        </label>
-
-        <textarea
-          id="residentialAddress"
-          required
-        ></textarea>
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="storeAddress">
-          Store Address
-        </label>
-
-        <textarea
-          id="storeAddress"
-          required
-        ></textarea>
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="idNumber">
-          ID Number
-        </label>
-
-        <input
-          type="text"
-          id="idNumber"
-          required
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="storeName">
-          Store Name
-        </label>
-
-        <input
-          type="text"
-          id="storeName"
-          required
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="storeCategory">
-          Store Category
-        </label>
-
-        <select
-          id="storeCategory"
-          required
-        >
-
-          <option value="">
-            Select a category
-          </option>
-
-          <option value="Fashion">
-            Fashion
-          </option>
-
-          <option value="Electronics">
-            Electronics
-          </option>
-
-          <option value="Beauty">
-            Beauty
-          </option>
-
-          <option value="Food">
-            Food
-          </option>
-
-          <option value="Home">
-            Home
-          </option>
-
-          <option value="Services">
-            Services
-          </option>
-
-          <option value="Other">
-            Other
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <button
-        type="submit"
-        id="submitButton"
-      >
-        Submit Seller Application
-      </button>
-
-    </form>
-
-
-    <div
-      id="message"
-      class="message"
-    ></div>
-
-  </main>
-
-
-  <footer>
-    © 2026 ZYRE MARKETING. All rights reserved.
-  </footer>
-
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-
-    const SUPABASE_URL =
-      "https://ouidmklcvdqmjofxfyhu.supabase.co";
-
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
-
-
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
-
-
-    const sellerForm =
-      document.getElementById("sellerForm");
-
-    const signedIn =
-      document.getElementById("signedIn");
-
-    const message =
-      document.getElementById("message");
-
-    const submitButton =
-      document.getElementById("submitButton");
-
-
-    let currentUser = null;
-
-
-    function showMessage(
-      text,
-      type
-    ) {
-
-      message.textContent = text;
-
-      message.className =
-        "message " + type;
-    }
-
-
-    async function loadUser() {
-
-      const {
-        data: {
-          user
-        }
-      } =
-        await supabaseClient.auth.getUser();
-
-
-      if (!user) {
-
-        currentUser = null;
-
-        signedIn.textContent =
-          "You must be logged in to submit a seller application.";
-
-        sellerForm.style.display =
-          "none";
-
-        return;
-      }
-
-
-      currentUser = user;
-
-
-      signedIn.textContent =
-        "Signed in as: " + user.email;
-
-
-      document.getElementById("email").value =
-        user.email || "";
-
-
-      const {
-        data: profile
-      } =
-        await supabaseClient
-          .from("profiles")
-          .select(
-            "full_name, phone, address"
-          )
-          .eq(
-            "id",
-            user.id
-          )
-          .single();
-
-
-      if (profile) {
-
-        document.getElementById("fullName").value =
-          profile.full_name || "";
-
-        document.getElementById("phone").value =
-          profile.phone || "";
-
-        document.getElementById("residentialAddress").value =
-          profile.address || "";
-      }
-    }
-
-
-    sellerForm.addEventListener(
-      "submit",
-      async event => {
-
-        event.preventDefault();
-
-
-        if (!currentUser) {
-
-          showMessage(
-            "Please log in before submitting your application.",
-            "error"
-          );
-
-          return;
-        }
-
-
-        submitButton.disabled =
-          true;
-
-        submitButton.textContent =
-          "Submitting...";
-
-
-        const application = {
-
-          user_id:
-            currentUser.id,
-
-          full_name:
-            document.getElementById("fullName").value.trim(),
-
-          email:
-            document.getElementById("email").value.trim(),
-
-          phone:
-            document.getElementById("phone").value.trim(),
-
-          residential_address:
-            document
-              .getElementById("residentialAddress")
-              .value
-              .trim(),
-
-          store_address:
-            document
-              .getElementById("storeAddress")
-              .value
-              .trim(),
-
-          id_number:
-            document
-              .getElementById("idNumber")
-              .value
-              .trim(),
-
-          store_name:
-            document
-              .getElementById("storeName")
-              .value
-              .trim(),
-
-          store_category:
-            document
-              .getElementById("storeCategory")
-              .value
-              .trim()
-        };
-
-
-        const {
-          error
-        } =
-          await supabaseClient
-            .from("seller_applications")
-            .insert(
-              application
-            );
-
-
-        if (error) {
-
-          console.error(
-            "Seller application error:",
-            error
-          );
-
-          showMessage(
-            "We couldn't submit your application. Please try again.",
-            "error"
-          );
-
-          submitButton.disabled =
-            false;
-
-          submitButton.textContent =
-            "Submit Seller Application";
-
-          return;
-        }
-
-
-         const {
-          data: diditData,
-          error: diditError
-        } =
-          await supabaseClient.functions.invoke(
-            "create-didit-session",
-            {
-              body: {
-                user_id:
-                  currentUser.id
-              }
-            }
-          );
-
-
-         showMessage(
-  "Didit response: " +
-  JSON.stringify(diditData) +
-  " | Error: " +
-  JSON.stringify(diditError),
-  "error"
+showMessage(
+"Your seller application has been submitted. Please complete the ID document and selfie verification.",
+"success"
 );
 
+sellerForm.reset();
 
-        if (diditError) {
+document.getElementById("email").value =
+currentUser.email || "";
 
-          console.error(
-            "Didit session error:",
-            diditError
-          );
+submitButton.disabled =
+false;
 
-          showMessage(
-  "Didit ERROR: " +
-  JSON.stringify(diditError) +
-  " | DATA: " +
-  JSON.stringify(diditData),
-  "error"
+submitButton.textContent =
+"Continue Verification";
+
+}
 );
 
-          submitButton.disabled =
-            false;
+loadUser();
 
-          submitButton.textContent =
-            "Start Identity Verification";
+  </script> 
 
-          return;
-        }
-
-
-        if (
-          !diditData ||
-          !diditData.url
-        ) {
-
-          console.error(
-            "Invalid Didit response:",
-            diditData
-          );
-
-          showMessage(
-            "Your application was saved, but the identity verification session could not be created.",
-            "error"
-          );
-
-          submitButton.disabled =
-            false;
-
-          submitButton.textContent =
-            "Start Identity Verification";
-
-          return;
-        }
-
-
-        window.location.href =
-          diditData.url;
-
-
-        showMessage(
-          "Your seller application has been submitted successfully. We will review it before approving your seller account.",
-          "success"
-        );
-
-
-        sellerForm.reset();
-
-
-        document.getElementById("email").value =
-          currentUser.email || "";
-
-
-        submitButton.disabled =
-          false;
-
-        submitButton.textContent =
-          "Submit Seller Application";
-
-      }
-    );
-
-
-    loadUser();
-
-  </script>
-
-</body>
+ </body>    
 </html>
