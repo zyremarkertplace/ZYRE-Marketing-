@@ -640,14 +640,12 @@
           );
 
 
-         console.log(
-  "Didit frontend response:",
-  diditData
-);
-
-console.log(
-  "Didit frontend error:",
-  diditError
+         showMessage(
+  "Didit response: " +
+  JSON.stringify(diditData) +
+  " | Error: " +
+  JSON.stringify(diditError),
+  "error"
 );
 
 
