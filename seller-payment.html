@@ -292,16 +292,64 @@
 
 
         paymentButton.addEventListener(
-          "click",
-          function () {
+  "click",
+  async function () {
 
-            message.textContent =
-              "Secure payment processing will be connected here after the payment provider/rail is confirmed.";
+    paymentButton.disabled = true;
+    message.textContent = "Checking your rental payment status...";
 
-          },
-          {
-            once: true
-          }
+    const {
+      data: rentalPayment,
+      error: rentalError
+    } = await supabaseClient
+      .from("seller_rental_payments")
+      .select(`
+        id,
+        status,
+        amount,
+        currency,
+        paid_at
+      `)
+      .eq("seller_user_id", user.id)
+      .eq("seller_application_id", application.id)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(1)
+      .maybeSingle();
+
+    if (rentalError) {
+
+      console.error(rentalError);
+
+      message.textContent =
+        "Unable to check your rental payment status. Please try again.";
+
+      paymentButton.disabled = false;
+
+      return;
+    }
+
+    if (rentalPayment && rentalPayment.status === "paid") {
+
+      message.textContent =
+        "Your R100 seller rental has already been paid.";
+
+      paymentButton.textContent =
+        "Rental Already Paid";
+
+      return;
+    }
+
+    message.textContent =
+      "Your payment record is ready to be processed through the secure payment system once the payment rail is connected.";
+
+    paymentButton.disabled = true;
+
+  },
+  {
+    once: true
+  }
         );
 
       } catch (error) {
