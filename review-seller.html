@@ -95,20 +95,30 @@ const supabaseClient =
 async function checkOwnerAccess() {
 
   const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient.auth.getUser();
+  data: {
+    session
+  },
+  error: sessionError
+} =
+  await supabaseClient.auth.getSession();
 
+if (sessionError) {
 
-  if (!user) {
+  document.getElementById("message").innerHTML =
+    "Unable to check your sign-in session.";
 
-    document.getElementById("message").innerHTML =
-      "You must be signed in to access this page.";
+  return;
+}
 
-    return;
-  }
+if (!session) {
+
+  document.getElementById("message").innerHTML =
+    "You must be signed in to access this page.";
+
+  return;
+}
+
+const user = session.user;
 
 
   const {
