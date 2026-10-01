@@ -331,9 +331,43 @@
     }
 
     message.textContent =
-      "Your payment record is ready to be processed through the secure payment system once the payment rail is connected.";
+  "Verifying secure seller payment access...";
 
-    paymentButton.disabled = true;
+const {
+  data: functionData,
+  error: functionError
+} = await supabaseClient.functions.invoke(
+  "create-seller-payout-account",
+  {
+    method: "POST"
+  }
+);
+
+if (functionError) {
+  console.error(functionError);
+
+  message.textContent =
+    "Secure payment verification failed: " +
+    (functionError.message || "Unknown error");
+
+  paymentButton.disabled = false;
+  return;
+}
+
+if (!functionData || !functionData.success) {
+  message.textContent =
+    "Secure payment verification failed.";
+
+  paymentButton.disabled = false;
+  return;
+}
+
+message.textContent =
+  functionData.message +
+  " Seller application ID: " +
+  functionData.seller_application_id;
+
+paymentButton.disabled = true;
 
   },
   {
