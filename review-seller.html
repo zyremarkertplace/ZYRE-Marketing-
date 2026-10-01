@@ -158,6 +158,44 @@ const user = session.user;
   document.getElementById("message").innerHTML =
     "Owner access confirmed.";
 
+ const {
+  data: application,
+  error: applicationError
+} =
+  await supabaseClient
+    .from("seller_applications")
+    .select("*")
+    .eq("status", "pending")
+    .order("created_at", {
+      ascending: true
+    })
+    .limit(1)
+    .maybeSingle();
+
+if (applicationError) {
+
+  console.error(
+    "Seller application error:",
+    applicationError
+  );
+
+  document.getElementById("message").innerHTML =
+    applicationError.message;
+
+  return;
+}
+
+if (!application) {
+
+  document.getElementById("message").innerHTML =
+    "No pending seller applications found.";
+
+  return;
+}
+
+document.getElementById("message").innerHTML =
+  "Pending seller application found.";
+
 }
 
 
