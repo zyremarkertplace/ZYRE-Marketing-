@@ -393,6 +393,50 @@ ${
 }
 
 
+ async function approveApplication(applicationId) {
+
+  const confirmed =
+    confirm(
+      "Approve this seller application?"
+    );
+
+  if (!confirmed) {
+    return;
+  }
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("seller_applications")
+      .update({
+        status: "approved"
+      })
+      .eq("id", applicationId);
+
+  if (error) {
+
+    console.error(
+      "Approval error:",
+      error
+    );
+
+    alert(
+      "Unable to approve seller: " +
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    "Seller application approved successfully."
+  );
+
+  window.location.reload();
+}
+
+
 checkOwnerAccess();
 
 </script>
