@@ -309,16 +309,15 @@
   .maybeSingle();
 
     if (rentalError) {
+  console.error(rentalError);
 
-      console.error(rentalError);
+  message.textContent =
+    "Payment check error: " +
+    (rentalError.message || "Unknown error");
 
-      message.textContent =
-        "Unable to check your rental payment status. Please try again.";
-
-      paymentButton.disabled = false;
-
-      return;
-    }
+  paymentButton.disabled = false;
+  return;
+}
 
     if (rentalPayment && rentalPayment.status === "paid") {
 
