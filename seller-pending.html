@@ -245,6 +245,83 @@
 
       </div>
 
+     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL =
+  "https://ouidmklcvdqmjofxfyhu.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+async function checkApplicationStatus() {
+
+  const {
+    data: {
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+  if (!user) {
+    return;
+  }
+
+  const {
+    data: application,
+    error
+  } =
+    await supabaseClient
+      .from("seller_applications")
+      .select("status")
+      .eq("user_id", user.id)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(1)
+      .maybeSingle();
+
+  if (error) {
+    console.error(
+      "Application status error:",
+      error
+    );
+
+    return;
+  }
+
+  if (!application) {
+    return;
+  }
+
+  if (application.status === "pending") {
+    return;
+  }
+
+  if (application.status === "approved") {
+    window.location.href =
+      "seller-payment.html";
+
+    return;
+  }
+
+  if (application.status === "declined") {
+    window.location.href =
+      "seller-declined.html";
+
+    return;
+  }
+}
+
+checkApplicationStatus();
+</script>
+
       <a
         href="account.html"
         class="button"
