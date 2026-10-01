@@ -183,7 +183,7 @@ if (applicationError) {
   return;
 }
 
-if (!application) {
+if (!applications || applications.length === 0) {
 
   document.getElementById("message").innerHTML =
     "No pending seller applications found.";
@@ -192,52 +192,68 @@ if (!application) {
 }
 
 document.getElementById("message").innerHTML = `
-  <h2>Seller Application</h2>
+  <h2>Pending Seller Applications</h2>
 
-  <p>
-    <strong>Full Name:</strong>
-    ${application.full_name || "Not provided"}
-  </p>
+  ${applications.map((application, index) => `
+    <div style="
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      background: #fafafa;
+    ">
 
-  <p>
-    <strong>Email:</strong>
-    ${application.email || "Not provided"}
-  </p>
+      <h3>
+        Application ${index + 1}
+      </h3>
 
-  <p>
-    <strong>Phone:</strong>
-    ${application.phone || "Not provided"}
-  </p>
+      <p>
+        <strong>Full Name:</strong>
+        ${application.full_name || "Not provided"}
+      </p>
 
-  <p>
-    <strong>Residential Address:</strong>
-    ${application.residential_address || "Not provided"}
-  </p>
+      <p>
+        <strong>Email:</strong>
+        ${application.email || "Not provided"}
+      </p>
 
-  <p>
-    <strong>Store Address:</strong>
-    ${application.store_address || "Not provided"}
-  </p>
+      <p>
+        <strong>Phone:</strong>
+        ${application.phone || "Not provided"}
+      </p>
 
-  <p>
-    <strong>ID Number:</strong>
-    ${application.id_number || "Not provided"}
-  </p>
+      <p>
+        <strong>Residential Address:</strong>
+        ${application.residential_address || "Not provided"}
+      </p>
 
-  <p>
-    <strong>Store Name:</strong>
-    ${application.store_name || "Not provided"}
-  </p>
+      <p>
+        <strong>Store Address:</strong>
+        ${application.store_address || "Not provided"}
+      </p>
 
-  <p>
-    <strong>Store Category:</strong>
-    ${application.store_category || "Not provided"}
-  </p>
+      <p>
+        <strong>ID Number:</strong>
+        ${application.id_number || "Not provided"}
+      </p>
 
-  <p>
-    <strong>Status:</strong>
-    ${application.status}
-  </p>
+      <p>
+        <strong>Store Name:</strong>
+        ${application.store_name || "Not provided"}
+      </p>
+
+      <p>
+        <strong>Store Category:</strong>
+        ${application.store_category || "Not provided"}
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+        ${application.status}
+      </p>
+
+    </div>
+  `).join("")}
 `;
 
 }
