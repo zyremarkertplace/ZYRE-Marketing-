@@ -311,12 +311,12 @@ async function checkApplicationStatus() {
     return;
   }
 
-  if (application.status === "declined") {
-    window.location.href =
-      "seller-declined.html";
+  if (application.status === "rejected") {
+  window.location.href =
+    "seller-declined.html";
 
-    return;
-  }
+  return;
+}
 }
 
 checkApplicationStatus();
