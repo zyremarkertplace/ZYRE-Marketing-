@@ -139,8 +139,8 @@ const user = session.user;
       error
     );
 
-    document.getElementById("message").innerHTML =
-      "Unable to verify owner access.";
+   document.getElementById("message").innerHTML =
+  error.message;
 
     return;
   }
