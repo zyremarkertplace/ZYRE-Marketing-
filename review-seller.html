@@ -92,6 +92,37 @@ const supabaseClient =
   );
 
 
+async function createDocumentUrl(path) {
+
+  if (!path) {
+    return null;
+  }
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from("seller-documents")
+      .createSignedUrl(
+        path,
+        300
+      );
+
+  if (error) {
+
+    console.error(
+      "Document URL error:",
+      error
+    );
+
+    return null;
+  }
+
+  return data.signedUrl;
+}
+
 async function checkOwnerAccess() {
 
   const {
@@ -194,7 +225,17 @@ if (!applications || applications.length === 0) {
 document.getElementById("message").innerHTML = `
   <h2>Pending Seller Applications</h2>
 
-  ${applications.map((application, index) => `
+  ${(await Promise.all(
+  applications.map(async (application) => ({
+    application,
+    idUrl: await createDocumentUrl(
+      application.id_document_path
+    ),
+    selfieUrl: await createDocumentUrl(
+      application.selfie_document_path
+    )
+  }))
+)).map(({ application, idUrl, selfieUrl }, index) => `
     <div style="
       border: 1px solid #ddd;
       border-radius: 12px;
