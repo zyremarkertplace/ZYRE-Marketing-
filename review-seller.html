@@ -293,6 +293,60 @@ document.getElementById("message").innerHTML = `
         ${application.status}
       </p>
 
+     ${
+  idUrl
+    ? `
+      <div style="margin-top:20px;">
+        <strong>Government ID</strong>
+        <br><br>
+        <img
+          src="${idUrl}"
+          alt="Government ID"
+          style="
+            width:100%;
+            max-width:420px;
+            border-radius:12px;
+            border:1px solid #ddd;
+            display:block;
+          "
+        >
+      </div>
+    `
+    : `
+      <p>
+        <strong>Government ID:</strong>
+        Document unavailable
+      </p>
+    `
+}
+
+${
+  selfieUrl
+    ? `
+      <div style="margin-top:20px;">
+        <strong>Selfie Holding ID</strong>
+        <br><br>
+        <img
+          src="${selfieUrl}"
+          alt="Selfie holding ID"
+          style="
+            width:100%;
+            max-width:420px;
+            border-radius:12px;
+            border:1px solid #ddd;
+            display:block;
+          "
+        >
+      </div>
+    `
+    : `
+      <p>
+        <strong>Selfie:</strong>
+        Document unavailable
+      </p>
+    `
+}
+
     </div>
   `).join("")}
 `;
