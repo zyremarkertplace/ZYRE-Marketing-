@@ -437,6 +437,50 @@ ${
 }
 
 
+async function rejectApplication(applicationId) {
+
+  const confirmed =
+    confirm(
+      "Reject this seller application?"
+    );
+
+  if (!confirmed) {
+    return;
+  }
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("seller_applications")
+      .update({
+        status: "rejected"
+      })
+      .eq("id", applicationId);
+
+  if (error) {
+
+    console.error(
+      "Rejection error:",
+      error
+    );
+
+    alert(
+      "Unable to reject seller: " +
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    "Seller application rejected successfully."
+  );
+
+  window.location.reload();
+}
+
+
 checkOwnerAccess();
 
 </script>
