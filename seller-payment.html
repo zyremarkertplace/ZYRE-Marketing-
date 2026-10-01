@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ZYRE Marketing | Seller Payment</title>
+
+  <meta
+    name="description"
+    content="ZYRE Marketing seller rental payment."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f5f5f5;
+      color: #111;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 430px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .brand {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .price-box {
+      background: #111;
+      color: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .price {
+      font-size: 38px;
+      font-weight: 800;
+    }
+
+    .period {
+      margin-top: 5px;
+      font-size: 14px;
+      opacity: 0.75;
+    }
+
+    .status {
+      padding: 14px;
+      border-radius: 12px;
+      background: #f3f3f3;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .status strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 15px;
+      background: #111;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      color: #111;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .message {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 18px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="card">
+
+    <div class="brand">
+      ZYRE MARKETING
+    </div>
+
+    <div class="subtitle">
+      Seller rental
+    </div>
+
+    <section class="price-box">
+      <div class="price">R100</div>
+      <div class="period">per month</div>
+    </section>
+
+    <div
+      id="statusBox"
+      class="status"
+    >
+      <strong>Checking seller status...</strong>
+      Please wait.
+    </div>
+
+    <button
+      id="paymentButton"
+      class="hidden"
+      disabled
+    >
+      Continue to Payment
+    </button>
+
+    <a
+      href="seller-pending.html"
+      class="back"
+    >
+      Back to Seller Status
+    </a>
+
+    <div
+      id="message"
+      class="message"
+    ></div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://ouidmklcvdqmjofxfyhu.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    const statusBox =
+      document.getElementById("statusBox");
+
+    const paymentButton =
+      document.getElementById("paymentButton");
+
+    const message =
+      document.getElementById("message");
+
+
+    async function checkSeller() {
+
+      try {
+
+        const {
+          data: sessionData,
+          error: sessionError
+        } = await supabaseClient.auth.getSession();
+
+        if (sessionError) {
+          throw sessionError;
+        }
+
+        const session =
+          sessionData.session;
+
+        if (!session) {
+
+          window.location.href =
+            "auth.html";
+
+          return;
+        }
+
+
+        const user =
+          session.user;
+
+
+        const {
+          data: application,
+          error: applicationError
+        } = await supabaseClient
+          .from("seller_applications")
+          .select(`
+            id,
+            user_id,
+            full_name,
+            store_name,
+            status
+          `)
+          .eq("user_id", user.id)
+          .order("created_at", {
+            ascending: false
+          })
+          .limit(1)
+          .maybeSingle();
+
+
+        if (applicationError) {
+          throw applicationError;
+        }
+
+
+        if (!application) {
+
+          statusBox.innerHTML = `
+            <strong>No seller application found.</strong>
+            Please complete the seller application first.
+          `;
+
+          return;
+        }
+
+
+        if (application.status !== "approved") {
+
+          statusBox.innerHTML = `
+            <strong>Seller application not approved.</strong>
+            Your payment becomes available after Owner approval.
+          `;
+
+          return;
+        }
+
+
+        statusBox.innerHTML = `
+          <strong>Seller application approved.</strong>
+          Your R100 monthly seller rental is ready for payment.
+        `;
+
+
+        paymentButton.classList.remove("hidden");
+        paymentButton.disabled = false;
+
+
+        paymentButton.addEventListener(
+          "click",
+          function () {
+
+            message.textContent =
+              "Secure payment processing will be connected here after the payment provider/rail is confirmed.";
+
+          },
+          {
+            once: true
+          }
+        );
+
+      } catch (error) {
+
+        console.error(error);
+
+        statusBox.innerHTML = `
+          <strong>Unable to verify seller status.</strong>
+          Please try again.
+        `;
+
+      }
+
+    }
+
+
+    checkSeller();
+
+  </script>
+
+</body>
+</html>
