@@ -299,24 +299,14 @@
     message.textContent = "Checking your rental payment status...";
 
     const {
-      data: rentalPayment,
-      error: rentalError
-    } = await supabaseClient
-      .from("seller_rental_payments")
-      .select(`
-        id,
-        status,
-        amount,
-        currency,
-        paid_at
-      `)
-      .eq("seller_user_id", user.id)
-      .eq("seller_application_id", application.id)
-      .order("created_at", {
-        ascending: false
-      })
-      .limit(1)
-      .maybeSingle();
+  data: rentalPayment,
+  error: rentalError
+} = await supabaseClient
+  .from("seller_rental_payments")
+  .select("id,status,amount,currency,paid_at")
+  .eq("seller_user_id", user.id)
+  .eq("seller_application_id", application.id)
+  .maybeSingle();
 
     if (rentalError) {
 
