@@ -343,17 +343,72 @@ My Account
 
 <div class="field">
 
-  <label for="selfieDocument">
+  <label>
     Selfie Holding Your ID
   </label>
+
+  <button
+    type="button"
+    id="openCameraButton"
+  >
+    Open Camera
+  </button>
+
+  <div
+    id="cameraContainer"
+    style="display:none; margin-top:15px;"
+  >
+
+    <video
+      id="cameraPreview"
+      autoplay
+      playsinline
+      style="width:100%; max-width:500px; border-radius:12px;"
+    ></video>
+
+    <br><br>
+
+    <button
+      type="button"
+      id="takePhotoButton"
+    >
+      Take Selfie
+    </button>
+
+    <button
+      type="button"
+      id="closeCameraButton"
+    >
+      Close Camera
+    </button>
+
+  </div>
+
+  <canvas
+    id="selfieCanvas"
+    style="display:none;"
+  ></canvas>
 
   <input
     type="file"
     id="selfieDocument"
     accept="image/*"
-    capture="autocomplete"
     required
+    style="display:none;"
   >
+
+  <div
+    id="selfiePreviewContainer"
+    style="display:none; margin-top:15px;"
+  >
+
+    <img
+      id="selfiePreview"
+      alt="Selfie preview"
+      style="width:100%; max-width:500px; border-radius:12px;"
+    >
+
+  </div>
 
   <small>
     Take a clear selfie while holding your ID.
@@ -389,6 +444,35 @@ document.getElementById("message");
 
 const submitButton =
 document.getElementById("submitButton");
+
+const openCameraButton =
+document.getElementById("openCameraButton");
+
+const takePhotoButton =
+document.getElementById("takePhotoButton");
+
+const closeCameraButton =
+document.getElementById("closeCameraButton");
+
+const cameraContainer =
+document.getElementById("cameraContainer");
+
+const cameraPreview =
+document.getElementById("cameraPreview");
+
+const selfieCanvas =
+document.getElementById("selfieCanvas");
+
+const selfieDocument =
+document.getElementById("selfieDocument");
+
+const selfiePreviewContainer =
+document.getElementById("selfiePreviewContainer");
+
+const selfiePreview =
+document.getElementById("selfiePreview");
+
+let cameraStream = null;
 
 let currentUser = null;
 
@@ -712,9 +796,156 @@ submitButton.textContent =
 }
 );
 
+openCameraButton.addEventListener(
+  "click",
+  async () => {
+
+    try {
+
+      cameraStream =
+        await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: "user"
+          },
+          audio: false
+        });
+
+      cameraPreview.srcObject =
+        cameraStream;
+
+      cameraContainer.style.display =
+        "block";
+
+    } catch (error) {
+
+      console.error(
+        "Camera error:",
+        error
+      );
+
+      showMessage(
+        "ZYRE could not access your camera. Please allow camera permission and try again.",
+        "error"
+      );
+    }
+  }
+);
+
+
+takePhotoButton.addEventListener(
+  "click",
+  () => {
+
+    if (!cameraStream) {
+      return;
+    }
+
+    selfieCanvas.width =
+      cameraPreview.videoWidth;
+
+    selfieCanvas.height =
+      cameraPreview.videoHeight;
+
+    const context =
+      selfieCanvas.getContext("2d");
+
+    context.drawImage(
+      cameraPreview,
+      0,
+      0,
+      selfieCanvas.width,
+      selfieCanvas.height
+    );
+
+    selfieCanvas.toBlob(
+      blob => {
+
+        if (!blob) {
+          showMessage(
+            "We couldn't capture the selfie. Please try again.",
+            "error"
+          );
+
+          return;
+        }
+
+        const file =
+          new File(
+            [blob],
+            "selfie-" +
+            Date.now() +
+            ".jpg",
+            {
+              type: "image/jpeg"
+            }
+          );
+
+        const dataTransfer =
+          new DataTransfer();
+
+        dataTransfer.items.add(
+          file
+        );
+
+        selfieDocument.files =
+          dataTransfer.files;
+
+        selfiePreview.src =
+          URL.createObjectURL(file);
+
+        selfiePreviewContainer.style.display =
+          "block";
+
+        stopCamera();
+
+        showMessage(
+          "Selfie captured successfully. You can now submit your application.",
+          "success"
+        );
+
+      },
+      "image/jpeg",
+      0.9
+    );
+  }
+);
+
+
+closeCameraButton.addEventListener(
+  "click",
+  () => {
+
+    stopCamera();
+
+  }
+);
+
+
+function stopCamera() {
+
+  if (cameraStream) {
+
+    cameraStream
+      .getTracks()
+      .forEach(
+        track => track.stop()
+      );
+
+    cameraStream =
+      null;
+  }
+
+  cameraPreview.srcObject =
+    null;
+
+  cameraContainer.style.display =
+    "none";
+}
+
+
 loadUser();
 
-</script> 
+</script>
 
  </body>
 </html>
