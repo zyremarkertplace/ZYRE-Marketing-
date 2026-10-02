@@ -337,7 +337,7 @@ const {
   data: functionData,
   error: functionError
 } = await supabaseClient.functions.invoke(
-  "create-seller-payout-account",
+  "get-seller-banks",
   {
     method: "POST"
   }
