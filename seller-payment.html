@@ -363,9 +363,9 @@ if (!functionData || !functionData.success) {
 }
 
 message.textContent =
-  functionData.message +
-  " Seller application ID: " +
-  functionData.seller_application_id;
+  "Bank list loaded successfully. " +
+  functionData.banks.length +
+  " South African banks available.";
 
 paymentButton.disabled = true;
 
