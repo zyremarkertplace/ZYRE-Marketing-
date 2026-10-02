@@ -342,110 +342,97 @@
         paymentButton.disabled = false;
 
 
-        paymentButton.addEventListener(
-  "click",
-  async function () {
+        paymentButton.addEventListener("click", async () => {
+  paymentButton.disabled = true;
+  paymentButton.textContent = "Preparing Payment...";
 
-    paymentButton.disabled = true;
-    message.textContent = "Checking your rental payment status...";
-
+  try {
     const {
-  data: rentalPayment,
-  error: rentalError
-} = await supabaseClient
-  .from("seller_rental_payments")
-  .select("id,status,amount,currency,paid_at")
-  .eq("seller_user_id", user.id)
-  .eq("seller_application_id", application.id)
-  .maybeSingle();
+      data: { session },
+      error: sessionError
+    } = await supabaseClient.auth.getSession();
 
-    if (rentalError) {
-  console.error(rentalError);
-
-  message.textContent =
-    "Payment check error: " +
-    (rentalError.message || "Unknown error");
-
-  paymentButton.disabled = false;
-  return;
-}
-
-    if (rentalPayment && rentalPayment.status === "paid") {
-
-      message.textContent =
-        "Your R100 seller rental has already been paid.";
-
-      paymentButton.textContent =
-        "Rental Already Paid";
-
-      return;
+    if (sessionError || !session) {
+      throw new Error("Please log in again.");
     }
 
-    message.textContent =
-  "Verifying secure seller payment access...";
+    if (!sellerApplication) {
+      throw new Error("Seller application not found.");
+    }
 
-const {
-  data: functionData,
-  error: functionError
-} = await supabaseClient.functions.invoke(
-  "get-seller-banks",
-  {
-    method: "POST"
+    const bankSelect =
+      document.getElementById("bankSelect");
+
+    const selectedBank =
+      bankSelect?.selectedOptions?.[0];
+
+    const bankCode =
+      bankSelect?.value || null;
+
+    const bankName =
+      selectedBank?.textContent || null;
+
+    const { data, error } =
+      await supabaseClient.functions.invoke(
+        "create-seller-payment",
+        {
+          body: {
+            seller_application_id:
+              sellerApplication.id,
+
+            bank_code:
+              bankCode,
+
+            bank_name:
+              bankName
+          }
+        }
+      );
+
+    if (error) {
+      console.error(
+        "create-seller-payment error:",
+        error
+      );
+
+      throw new Error(
+        error.message ||
+        "Could not start the payment."
+      );
+    }
+
+    if (!data?.success) {
+      throw new Error(
+        data?.error ||
+        "Could not start the payment."
+      );
+    }
+
+    if (!data.authorization_url) {
+      throw new Error(
+        "Paystack did not return a payment link."
+      );
+    }
+
+    paymentButton.textContent =
+      "Redirecting to Paystack...";
+
+    window.location.href =
+      data.authorization_url;
+
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      error.message ||
+      "Something went wrong while starting the payment."
+    );
+
+    paymentButton.disabled = false;
+    paymentButton.textContent =
+      "Continue to Payment";
   }
-);
-
-if (functionError) {
-  console.error(functionError);
-
-  message.textContent =
-    "Secure payment verification failed: " +
-    (functionError.message || "Unknown error");
-
-  paymentButton.disabled = false;
-  return;
-}
-
-if (!functionData || !functionData.success) {
-  message.textContent =
-    "Secure payment verification failed.";
-
-  paymentButton.disabled = false;
-  return;
-}
-
-message.textContent = "";
-
-paymentButton.classList.add("hidden");
-
-const bankSection = document.getElementById("bankSection");
-
-bankSection.classList.remove("hidden");
-
-const bankSelect = document.getElementById("bankSelect");
-
-bankSelect.innerHTML = `
-  <option value="">
-    Select your bank
-  </option>
-`;
-
-functionData.banks.forEach((bank) => {
-  const option = document.createElement("option");
-
-  option.value = bank.code;
-
-  option.textContent = bank.name;
-
-  bankSelect.appendChild(option);
 });
-
-paymentButton.disabled = true;
-
-  },
-  {
-    once: true
-  }
-        );
 
       } catch (error) {
 
