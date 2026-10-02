@@ -677,6 +677,250 @@
 
   }
 
+   async function placeOrder() {
+
+  const cart = getCart();
+
+  if (cart.length === 0) {
+    showMessage(
+      "Your cart is empty.",
+      true
+    );
+    return;
+  }
+
+  const {
+    data: {
+      session
+    }
+  } =
+    await supabaseClient.auth.getSession();
+
+  if (!session) {
+    showMessage(
+      "Please log in before placing your order.",
+      true
+    );
+    return;
+  }
+
+  const customerName =
+    fullName.value.trim();
+
+  const customerPhone =
+    phone.value.trim();
+
+  const customerAddress =
+    address.value.trim();
+
+  if (
+    !customerName ||
+    !customerPhone ||
+    !customerAddress
+  ) {
+
+    showMessage(
+      "Please complete your delivery information.",
+      true
+    );
+
+    return;
+  }
+
+  let subtotal = 0;
+
+  cart.forEach(
+    item => {
+
+      const quantity =
+        Number(item.quantity) || 1;
+
+      const price =
+        Number(item.price) || 0;
+
+      subtotal +=
+        price * quantity;
+
+    }
+  );
+
+  const deliveryFee = 0;
+
+  const totalAmount =
+    subtotal + deliveryFee;
+
+  const orderNumber =
+    "ZYRE-" +
+    Date.now();
+
+  placeOrderButton.disabled =
+    true;
+
+  placeOrderButton.textContent =
+    "Creating Order...";
+
+  const {
+    data: order,
+    error: orderError
+  } =
+    await supabaseClient
+      .from("orders")
+      .insert({
+        customer_user_id:
+          session.user.id,
+
+        order_number:
+          orderNumber,
+
+        status:
+          "pending",
+
+        subtotal:
+          subtotal,
+
+        delivery_fee:
+          deliveryFee,
+
+        total_amount:
+          totalAmount,
+
+        currency:
+          "ZAR",
+
+        shipping_full_name:
+          customerName,
+
+        shipping_phone:
+          customerPhone,
+
+        shipping_address:
+          customerAddress,
+
+        payment_status:
+          "unpaid"
+      })
+      .select()
+      .single();
+
+  if (orderError) {
+
+    console.error(
+      "Order creation error:",
+      orderError
+    );
+
+    showMessage(
+      "Order could not be created: " +
+      orderError.message,
+      true
+    );
+
+    placeOrderButton.disabled =
+      false;
+
+    placeOrderButton.textContent =
+      "Place Order";
+
+    return;
+
+  }
+
+  const orderItems =
+    cart.map(
+      item => {
+
+        const quantity =
+          Number(item.quantity) || 1;
+
+        const unitPrice =
+          Number(item.price) || 0;
+
+        const lineTotal =
+          unitPrice * quantity;
+
+        return {
+          order_id:
+            order.id,
+
+          product_id:
+            item.product_id,
+
+          seller_user_id:
+            "de9e7116-86a3-4fbf-9580-3f7da3765d4c",
+
+          product_name:
+            item.name,
+
+          quantity:
+            quantity,
+
+          unit_price:
+            unitPrice,
+
+          line_total:
+            lineTotal,
+
+          commission_amount:
+            0,
+
+          seller_amount:
+            lineTotal
+        };
+
+      }
+    );
+
+  const {
+    error: itemsError
+  } =
+    await supabaseClient
+      .from("order_items")
+      .insert(
+        orderItems
+      );
+
+  if (itemsError) {
+
+    console.error(
+      "Order items error:",
+      itemsError
+    );
+
+    showMessage(
+      "The order was created, but the order items could not be saved: " +
+      itemsError.message,
+      true
+    );
+
+    placeOrderButton.disabled =
+      false;
+
+    placeOrderButton.textContent =
+      "Place Order";
+
+    return;
+
+  }
+
+  localStorage.removeItem(
+    "zyre_cart"
+  );
+
+  showMessage(
+    "Order created successfully. Order number: " +
+    orderNumber,
+    false
+  );
+
+  placeOrderButton.textContent =
+    "Order Created";
+
+}
+
+  placeOrderButton.addEventListener(
+  "click",
+  placeOrder
+);
 
   init();
 
