@@ -636,32 +636,25 @@ const cartMessage =
   }
 
   function addToCart() {
+  const product = window.currentProduct;
 
-  const product =
-    window.currentProduct;
-  
-const productId =
-    getProductId();
+  if (!product) {
+    cartMessage.textContent = "Product is not loaded yet.";
+    cartMessage.hidden = false;
+    return;
+  }
 
-  const cart =
-    JSON.parse(
-      localStorage.getItem("zyre_cart") ||
-      "[]"
-    );
+  const cart = JSON.parse(
+    localStorage.getItem("zyre_cart") || "[]"
+  );
 
-  const existingItem =
-    cart.find(
-      item =>
-        String(item.product_id) ===
-        String(productId)
-    );
+  const existingItem = cart.find(
+    item => String(item.product_id) === String(product.id)
+  );
 
   if (existingItem) {
-
     existingItem.quantity += 1;
-
   } else {
-
     cart.push({
       product_id: product.id,
       store_id: product.store_id,
@@ -670,7 +663,6 @@ const productId =
       image_url: product.image_url,
       quantity: 1
     });
-
   }
 
   localStorage.setItem(
@@ -678,9 +670,7 @@ const productId =
     JSON.stringify(cart)
   );
 
-  cartMessage.textContent =
-    "Product added to cart.";
-
+  cartMessage.textContent = "Product added to cart.";
   cartMessage.hidden = false;
 }
 
