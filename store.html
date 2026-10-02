@@ -218,6 +218,12 @@
         grid-template-columns: 1fr;
       }
     }
+
+.product-card {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
   </style>
 </head>
 
@@ -481,7 +487,10 @@
               `;
 
           return `
-            <article class="product-card">
+            <a
+  class="product-card"
+  href="product.html?id=${encodeURIComponent(product.id)}"
+>
 
               ${imageHtml}
 
@@ -514,7 +523,7 @@
 
               </div>
 
-            </article>
+            </a>
           `;
 
         }).join("");
