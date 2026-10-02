@@ -356,38 +356,20 @@
       throw new Error("Please log in again.");
     }
 
-    if (!sellerApplication) {
-      throw new Error("Seller application not found.");
+    if (!application) {
+  throw new Error("Seller application not found.");
+}
+
+const { data, error } =
+  await supabaseClient.functions.invoke(
+    "create-seller-payment",
+    {
+      body: {
+        seller_application_id:
+          application.id
+      }
     }
-
-    const bankSelect =
-      document.getElementById("bankSelect");
-
-    const selectedBank =
-      bankSelect?.selectedOptions?.[0];
-
-    const bankCode =
-      bankSelect?.value || null;
-
-    const bankName =
-      selectedBank?.textContent || null;
-
-    const { data, error } =
-      await supabaseClient.functions.invoke(
-        "create-seller-payment",
-        {
-          body: {
-            seller_application_id:
-              sellerApplication.id,
-
-            bank_code:
-              bankCode,
-
-            bank_name:
-              bankName
-          }
-        }
-      );
+  );
 
     if (error) {
       console.error(
