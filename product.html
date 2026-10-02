@@ -553,6 +553,8 @@ const cartMessage =
         ? `${stock} in stock`
         : "Out of stock";
 
+      window.currentProduct = product;
+
      if (stock <= 0) {
   addToCartButton.disabled = true;
 }
