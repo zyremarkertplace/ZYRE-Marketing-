@@ -637,7 +637,10 @@ const cartMessage =
 
   function addToCart() {
 
-  const productId =
+  const product =
+    window.currentProduct;
+  
+const productId =
     getProductId();
 
   const cart =
