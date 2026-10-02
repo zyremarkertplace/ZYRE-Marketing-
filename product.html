@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ZYRE MARKETING | Product</title>
+
+  <meta
+    name="description"
+    content="View product details on ZYRE MARKETING."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    header {
+      border-bottom: 1px solid #e5e5e5;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .account-button {
+      display: inline-block;
+      background: #111111;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #111111;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .message {
+      padding: 20px;
+      background: #f7f7f7;
+      border-radius: 8px;
+      color: #555555;
+    }
+
+    .error {
+      background: #fff1f1;
+      color: #9b0000;
+    }
+
+    .product {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 45px;
+      align-items: start;
+    }
+
+    .product-image {
+      width: 100%;
+      min-height: 420px;
+      max-height: 550px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #f3f3f3;
+      display: block;
+    }
+
+    .product-image.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777777;
+      font-size: 14px;
+    }
+
+    .product-info {
+      padding-top: 10px;
+    }
+
+    .category {
+      display: inline-block;
+      background: #111111;
+      color: #ffffff;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      margin: 0 0 15px;
+      font-size: 38px;
+      line-height: 1.15;
+    }
+
+    .description {
+      color: #555555;
+      font-size: 16px;
+      line-height: 1.7;
+      margin: 0 0 25px;
+    }
+
+    .price {
+      font-size: 30px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .stock {
+      font-size: 14px;
+      color: #555555;
+      margin-bottom: 25px;
+    }
+
+    .store-info {
+      border-top: 1px solid #e5e5e5;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+
+    .store-label {
+      font-size: 12px;
+      color: #777777;
+      margin-bottom: 5px;
+    }
+
+    .store-name {
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 15px;
+      }
+
+      main {
+        padding: 25px 15px 50px;
+      }
+
+      .product {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+
+      .product-image {
+        min-height: 280px;
+        max-height: 400px;
+      }
+
+      .product-info {
+        padding-top: 0;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .price {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="brand">
+    ZYRE MARKETING
+  </div>
+
+  <a
+    id="accountLink"
+    class="account-button"
+    href="auth.html"
+  >
+    Login
+  </a>
+
+</header>
+
+<main>
+
+  <a
+    id="backToStore"
+    class="back-link"
+    href="index.html"
+  >
+    ← Back
+  </a>
+
+  <div
+    id="message"
+    class="message"
+  >
+    Loading product...
+  </div>
+
+  <section
+    id="productContent"
+    class="product"
+    hidden
+  >
+
+    <div id="productImageContainer"></div>
+
+    <div class="product-info">
+
+      <div
+        id="productCategory"
+        class="category"
+      ></div>
+
+      <h1 id="productName"></h1>
+
+      <p
+        id="productDescription"
+        class="description"
+      ></p>
+
+      <div
+        id="productPrice"
+        class="price"
+      ></div>
+
+      <div
+        id="productStock"
+        class="stock"
+      ></div>
+
+      <div class="store-info">
+
+        <div class="store-label">
+          Sold by
+        </div>
+
+        <div
+          id="storeName"
+          class="store-name"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  © 2026 ZYRE MARKETING. All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+  const SUPABASE_URL =
+    "https://ouidmklcvdqmjofxfyhu.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+  const message =
+    document.getElementById("message");
+
+  const productContent =
+    document.getElementById("productContent");
+
+  const productImageContainer =
+    document.getElementById(
+      "productImageContainer"
+    );
+
+  const productCategory =
+    document.getElementById(
+      "productCategory"
+    );
+
+  const productName =
+    document.getElementById(
+      "productName"
+    );
+
+  const productDescription =
+    document.getElementById(
+      "productDescription"
+    );
+
+  const productPrice =
+    document.getElementById(
+      "productPrice"
+    );
+
+  const productStock =
+    document.getElementById(
+      "productStock"
+    );
+
+  const storeName =
+    document.getElementById(
+      "storeName"
+    );
+
+  const backToStore =
+    document.getElementById(
+      "backToStore"
+    );
+
+  const accountLink =
+    document.getElementById(
+      "accountLink"
+    );
+
+
+  function escapeHtml(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function getProductId() {
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    return params.get("id");
+
+  }
+
+
+  async function updateAccountLink() {
+
+    const {
+      data: {
+        session
+      }
+    } =
+      await supabaseClient.auth.getSession();
+
+    if (session) {
+
+      accountLink.href =
+        "account.html";
+
+      accountLink.textContent =
+        "My Account";
+
+    } else {
+
+      accountLink.href =
+        "auth.html";
+
+      accountLink.textContent =
+        "Login";
+
+    }
+
+  }
+
+
+  function showError(text) {
+
+    message.textContent = text;
+
+    message.className =
+      "message error";
+
+    message.hidden = false;
+
+    productContent.hidden = true;
+
+  }
+
+
+  async function loadProduct() {
+
+    const productId =
+      getProductId();
+
+    if (!productId) {
+
+      showError(
+        "Product not found."
+      );
+
+      return;
+
+    }
+
+
+    const {
+      data: product,
+      error: productError
+    } =
+      await supabaseClient
+        .from("products")
+        .select(
+          "id, store_id, name, description, price, image_url, category, stock, status"
+        )
+        .eq("id", productId)
+        .eq("status", "active")
+        .single();
+
+
+    if (
+      productError ||
+      !product
+    ) {
+
+      console.error(
+        "Product loading error:",
+        productError
+      );
+
+      showError(
+        "This product could not be found or is not currently available."
+      );
+
+      return;
+
+    }
+
+
+    productName.textContent =
+      product.name ||
+      "Product";
+
+
+    productCategory.textContent =
+      product.category ||
+      "General";
+
+
+    productDescription.textContent =
+      product.description ||
+      "No product description available.";
+
+
+    productPrice.textContent =
+      `R${Number(
+        product.price
+      ).toFixed(2)}`;
+
+
+    const stock =
+      Number(product.stock);
+
+
+    productStock.textContent =
+      stock > 0
+        ? `${stock} in stock`
+        : "Out of stock";
+
+
+    if (product.image_url) {
+
+      productImageContainer.innerHTML = `
+        <img
+          class="product-image"
+          src="${escapeHtml(
+            product.image_url
+          )}"
+          alt="${escapeHtml(
+            product.name
+          )}"
+        >
+      `;
+
+    } else {
+
+      productImageContainer.innerHTML = `
+        <div
+          class="product-image placeholder"
+        >
+          Product image
+        </div>
+      `;
+
+    }
+
+
+    const {
+      data: store,
+      error: storeError
+    } =
+      await supabaseClient
+        .from("stores")
+        .select(
+          "id, name, status"
+        )
+        .eq(
+          "id",
+          product.store_id
+        )
+        .eq(
+          "status",
+          "active"
+        )
+        .single();
+
+
+    if (storeError || !store) {
+
+      console.error(
+        "Store loading error:",
+        storeError
+      );
+
+      storeName.textContent =
+        "ZYRE MARKETING";
+
+    } else {
+
+      storeName.textContent =
+        store.name ||
+        "ZYRE MARKETING";
+
+
+      backToStore.href =
+        `store.html?id=${encodeURIComponent(
+          store.id
+        )}`;
+
+    }
+
+
+    message.hidden = true;
+
+    productContent.hidden = false;
+
+  }
+
+
+  async function init() {
+
+    await updateAccountLink();
+
+    await loadProduct();
+
+  }
+
+
+  init();
+
+</script>
+
+</body>
+</html>
