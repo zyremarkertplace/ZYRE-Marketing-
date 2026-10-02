@@ -635,6 +635,52 @@ const cartMessage =
 
   }
 
+  function addToCart() {
+
+  const productId =
+    getProductId();
+
+  const cart =
+    JSON.parse(
+      localStorage.getItem("zyre_cart") ||
+      "[]"
+    );
+
+  const existingItem =
+    cart.find(
+      item =>
+        String(item.product_id) ===
+        String(productId)
+    );
+
+  if (existingItem) {
+
+    existingItem.quantity += 1;
+
+  } else {
+
+    cart.push({
+      product_id: product.id,
+      store_id: product.store_id,
+      name: product.name,
+      price: Number(product.price),
+      image_url: product.image_url,
+      quantity: 1
+    });
+
+  }
+
+  localStorage.setItem(
+    "zyre_cart",
+    JSON.stringify(cart)
+  );
+
+  cartMessage.textContent =
+    "Product added to cart.";
+
+  cartMessage.hidden = false;
+}
+
 
   async function init() {
 
