@@ -362,10 +362,31 @@ if (!functionData || !functionData.success) {
   return;
 }
 
-message.textContent =
-  "Bank list loaded successfully. " +
-  functionData.banks.length +
-  " South African banks available.";
+message.textContent = "";
+
+paymentButton.classList.add("hidden");
+
+const bankSection = document.getElementById("bankSection");
+
+bankSection.classList.remove("hidden");
+
+const bankSelect = document.getElementById("bankSelect");
+
+bankSelect.innerHTML = `
+  <option value="">
+    Select your bank
+  </option>
+`;
+
+functionData.banks.forEach((bank) => {
+  const option = document.createElement("option");
+
+  option.value = bank.code;
+
+  option.textContent = bank.name;
+
+  bankSelect.appendChild(option);
+});
 
 paymentButton.disabled = true;
 
@@ -387,6 +408,20 @@ paymentButton.disabled = true;
       }
 
     }
+
+      <section id="bankSection" class="hidden">
+
+  <label for="bankSelect">
+    Select your bank
+  </label>
+
+  <select id="bankSelect">
+    <option value="">
+      Select your bank
+    </option>
+  </select>
+
+</section>
 
 
     checkSeller();
