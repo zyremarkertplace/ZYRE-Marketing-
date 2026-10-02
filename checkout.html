@@ -696,9 +696,10 @@
   } =
     await supabaseClient.auth.getSession();
 
-console.log(
-  "Checkout session:",
+    alert(
   session
+    ? "Logged in: " + session.user.id
+    : "NO SESSION"
 );
 
   if (!session) {
