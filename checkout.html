@@ -696,6 +696,11 @@
   } =
     await supabaseClient.auth.getSession();
 
+console.log(
+  "Checkout session:",
+  session
+);
+
   if (!session) {
     showMessage(
       "Please log in before placing your order.",
