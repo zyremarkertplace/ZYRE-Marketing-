@@ -193,6 +193,28 @@
       Continue to Payment
     </button>
 
+    <section
+  id="bankSection"
+  class="bank-section hidden"
+>
+
+  <div class="bank-title">
+    Select your bank
+  </div>
+
+  <div class="bank-description">
+    Select your South African bank to continue
+    with your R100 seller rental payment.
+  </div>
+
+  <select id="bankSelect">
+    <option value="">
+      Select your bank
+    </option>
+  </select>
+
+</section>
+
     <a
       href="seller-pending.html"
       class="back"
@@ -437,20 +459,6 @@ paymentButton.disabled = true;
       }
 
     }
-
-      <section id="bankSection" class="hidden">
-
-  <label for="bankSelect">
-    Select your bank
-  </label>
-
-  <select id="bankSelect">
-    <option value="">
-      Select your bank
-    </option>
-  </select>
-
-</section>
 
 
     checkSeller();
