@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>ZYRE MARKETING | My Orders</title>
+
+  <meta
+    name="description"
+    content="View your ZYRE MARKETING orders."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    header {
+      border-bottom: 1px solid #e5e5e5;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .account-button {
+      display: inline-block;
+      background: #111111;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: #111111;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0 0 25px;
+      font-size: 32px;
+    }
+
+    .message {
+      padding: 20px;
+      background: #f7f7f7;
+      border-radius: 8px;
+      color: #555555;
+      margin-bottom: 20px;
+    }
+
+    .error {
+      background: #fff1f1;
+      color: #9b0000;
+    }
+
+    .order-card {
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .order-number {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .order-date {
+      color: #777777;
+      font-size: 13px;
+    }
+
+    .status {
+      padding: 7px 10px;
+      border-radius: 6px;
+      background: #f3f3f3;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+
+    .order-details {
+      padding-top: 15px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .detail-label {
+      color: #777777;
+    }
+
+    .detail-value {
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .items {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 10px 0;
+      font-size: 14px;
+    }
+
+    .item-name {
+      font-weight: 700;
+    }
+
+    .item-price {
+      white-space: nowrap;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      color: #777777;
+    }
+
+    footer {
+      border-top: 1px solid #e5e5e5;
+      padding: 20px;
+      text-align: center;
+      color: #777777;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+
+      header {
+        padding: 15px;
+      }
+
+      main {
+        padding: 25px 15px 50px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .order-header {
+        flex-direction: column;
+      }
+
+      .detail-row,
+      .item {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="brand">
+    ZYRE MARKETING
+  </div>
+
+  <a
+    id="accountLink"
+    class="account-button"
+    href="auth.html"
+  >
+    Login
+  </a>
+
+</header>
+
+<main>
+
+  <a
+    class="back-link"
+    href="account.html"
+  >
+    ← My Account
+  </a>
+
+  <h1>
+    My Orders
+  </h1>
+
+  <div
+    id="message"
+    class="message"
+    hidden
+  ></div>
+
+  <div id="ordersContainer"></div>
+
+</main>
+
+<footer>
+  © 2026 ZYRE MARKETING. All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+  const SUPABASE_URL =
+    "https://ouidmklcvdqmjofxfyhu.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_mHt9p0YvJobpp3634d0-HA_z7QcoPeO";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+  const accountLink =
+    document.getElementById(
+      "accountLink"
+    );
+
+  const message =
+    document.getElementById(
+      "message"
+    );
+
+  const ordersContainer =
+    document.getElementById(
+      "ordersContainer"
+    );
+
+
+  function showMessage(
+    text,
+    isError = false
+  ) {
+
+    message.textContent =
+      text;
+
+    message.className =
+      isError
+        ? "message error"
+        : "message";
+
+    message.hidden = false;
+
+  }
+
+
+  function escapeHtml(value) {
+
+    return String(value ?? "")
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+  function formatDate(value) {
+
+    if (!value) {
+      return "";
+    }
+
+    const date =
+      new Date(value);
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+      return value;
+    }
+
+    return date.toLocaleString();
+
+  }
+
+
+  async function loadOrders() {
+
+    const {
+      data: {
+        session
+      }
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if (!session) {
+
+      accountLink.href =
+        "auth.html";
+
+      accountLink.textContent =
+        "Login";
+
+      showMessage(
+        "Please log in to view your orders.",
+        true
+      );
+
+      return;
+
+    }
+
+
+    accountLink.href =
+      "account.html";
+
+    accountLink.textContent =
+      "My Account";
+
+
+    const {
+      data: orders,
+      error: ordersError
+    } =
+      await supabaseClient
+        .from("orders")
+        .select(
+          `
+            id,
+            order_number,
+            status,
+            subtotal,
+            delivery_fee,
+            total_amount,
+            currency,
+            payment_status,
+            created_at
+          `
+        )
+        .eq(
+          "customer_user_id",
+          session.user.id
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (ordersError) {
+
+      console.error(
+        "Orders loading error:",
+        ordersError
+      );
+
+      showMessage(
+        "Orders could not be loaded: " +
+        ordersError.message,
+        true
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !orders ||
+      orders.length === 0
+    ) {
+
+      ordersContainer.innerHTML = `
+        <div class="empty">
+          You have no orders yet.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    ordersContainer.innerHTML = "";
+
+
+    for (
+      const order of orders
+    ) {
+
+      const {
+        data: items,
+        error: itemsError
+      } =
+        await supabaseClient
+          .from("order_items")
+          .select(
+            `
+              product_name,
+              quantity,
+              unit_price,
+              line_total
+            `
+          )
+          .eq(
+            "order_id",
+            order.id
+          );
+
+
+      if (itemsError) {
+
+        console.error(
+          "Order items loading error:",
+          itemsError
+        );
+
+      }
+
+
+      const itemsHtml =
+        (
+          items || []
+        )
+          .map(
+            item => `
+              <div class="item">
+
+                <span class="item-name">
+                  ${escapeHtml(
+                    item.product_name
+                  )}
+                  ×
+                  ${Number(
+                    item.quantity
+                  )}
+                </span>
+
+                <span class="item-price">
+                  R${Number(
+                    item.line_total
+                  ).toFixed(2)}
+                </span>
+
+              </div>
+            `
+          )
+          .join("");
+
+
+      const orderElement =
+        document.createElement(
+          "article"
+        );
+
+      orderElement.className =
+        "order-card";
+
+
+      orderElement.innerHTML = `
+
+        <div class="order-header">
+
+          <div>
+
+            <div class="order-number">
+              ${escapeHtml(
+                order.order_number
+              )}
+            </div>
+
+            <div class="order-date">
+              ${escapeHtml(
+                formatDate(
+                  order.created_at
+                )
+              )}
+            </div>
+
+          </div>
+
+          <div class="status">
+            ${escapeHtml(
+              order.status
+            )}
+          </div>
+
+        </div>
+
+
+        <div class="order-details">
+
+          <div class="detail-row">
+
+            <span class="detail-label">
+              Payment
+            </span>
+
+            <span class="detail-value">
+              ${escapeHtml(
+                order.payment_status
+              )}
+            </span>
+
+          </div>
+
+
+          <div class="items">
+
+            ${
+              itemsHtml ||
+              `
+                <div class="item">
+                  <span>
+                    No order items found.
+                  </span>
+                </div>
+              `
+            }
+
+          </div>
+
+
+          <div class="detail-row">
+
+            <span class="detail-label">
+              Subtotal
+            </span>
+
+            <span class="detail-value">
+              R${Number(
+                order.subtotal
+              ).toFixed(2)}
+            </span>
+
+          </div>
+
+
+          <div class="detail-row">
+
+            <span class="detail-label">
+              Delivery
+            </span>
+
+            <span class="detail-value">
+              R${Number(
+                order.delivery_fee
+              ).toFixed(2)}
+            </span>
+
+          </div>
+
+
+          <div class="detail-row">
+
+            <span class="detail-label">
+              Total
+            </span>
+
+            <span class="detail-value">
+              R${Number(
+                order.total_amount
+              ).toFixed(2)}
+            </span>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      ordersContainer.appendChild(
+        orderElement
+      );
+
+    }
+
+  }
+
+
+  loadOrders();
+
+</script>
+
+</body>
+</html>
