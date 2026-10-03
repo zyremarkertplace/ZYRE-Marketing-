@@ -664,7 +664,8 @@ error
 );
 
 showMessage(
-"We couldn't submit your application. Please try again.",
+"We couldn't submit your application: " +
+(error.message || error),
 "error"
 );
 
