@@ -528,6 +528,17 @@
       orderElement.className =
         "order-card";
 
+       orderElement.style.cursor = "pointer";
+
+orderElement.addEventListener(
+  "click",
+  () => {
+    window.location.href =
+      "order.html?id=" +
+      encodeURIComponent(order.id);
+  }
+);
+
 
       orderElement.innerHTML = `
 
