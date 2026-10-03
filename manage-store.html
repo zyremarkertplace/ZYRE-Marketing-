@@ -467,7 +467,8 @@ document.getElementById("storeCategoryInput").value =
           description: newDescription,
           category: newCategory
         })
-        .eq("id", currentStoreId);
+        .eq("id", currentStoreId)
+.eq("seller_id", (await supabaseClient.auth.getUser()).data.user.id);
 
     if (error) {
       console.error(error);
