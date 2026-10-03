@@ -304,6 +304,47 @@
         return;
       }
 
+     const {
+  data: application,
+  error: applicationError
+} =
+  await supabaseClient
+    .from("seller_applications")
+    .select("status")
+    .eq("user_id", session.user.id)
+    .maybeSingle();
+
+if (applicationError) {
+
+  console.error(
+    "Seller application error:",
+    applicationError
+  );
+
+  statusBox.textContent =
+    "We couldn't verify your seller application.";
+
+  return;
+}
+
+if (!application) {
+
+  statusBox.textContent =
+    "You must submit a seller application first.";
+
+  return;
+}
+
+if (application.status !== "approved") {
+
+  statusBox.textContent =
+    "Your seller application is " +
+    application.status +
+    ". Seller dashboard access is not available yet.";
+
+  return;
+}
+
 
 const { data: store } =
   await supabaseClient
