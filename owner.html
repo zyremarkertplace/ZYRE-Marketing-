@@ -931,6 +931,112 @@ ${
   });
 }
 
+async function loadCustomerAccounts() {
+
+  const container =
+    document.getElementById(
+      "customerAccountsList"
+    );
+
+  container.textContent =
+    "Loading customer accounts...";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select(`
+        id,
+        full_name,
+        phone,
+        address,
+        role,
+        created_at
+      `)
+      .eq("role", "customer")
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+      <p>
+        Unable to load customer accounts.
+      </p>
+
+      <p>
+        ${error.message}
+      </p>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    container.textContent =
+      "No customer accounts found.";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(customer => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.border =
+      "1px solid #ddd";
+
+    card.style.borderRadius =
+      "10px";
+
+    card.style.padding =
+      "15px";
+
+    card.style.marginTop =
+      "12px";
+
+    card.innerHTML = `
+      <strong>
+        ${customer.full_name || "No name"}
+      </strong>
+
+      <p>
+        Customer ID:
+        ${customer.id}<br>
+
+        Phone:
+        ${customer.phone || "—"}<br>
+
+        Address:
+        ${customer.address || "—"}<br>
+
+        Role:
+        ${customer.role || "—"}<br>
+
+        Created:
+        ${
+          customer.created_at
+            ? new Date(
+                customer.created_at
+              ).toLocaleString()
+            : "—"
+        }
+      </p>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
 async function updateSellerApplication(
   applicationId,
   newStatus
