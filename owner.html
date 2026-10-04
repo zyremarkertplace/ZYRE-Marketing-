@@ -520,23 +520,23 @@ async function loadSellerAccounts() {
     "<p>Loading seller accounts...</p>";
 
   const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("profiles")
-      .select(`
-        id,
-        full_name,
-        phone,
-        address,
-        role,
-        created_at
-      `)
-      .eq("role", "seller")
-      .order("created_at", {
-        ascending: false
-      });
+  data,
+  error
+} =
+  await supabaseClient
+    .from("profiles")
+    .select(`
+      id,
+      full_name,
+      phone,
+      address,
+      role,
+      created_at
+    `)
+    .eq("role", "seller")
+    .order("created_at", {
+      ascending: false
+    });
 
   if (error) {
 
