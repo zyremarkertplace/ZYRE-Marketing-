@@ -702,16 +702,36 @@ products.forEach(product => {
         ${seller.id}<br>
 
         Stores:
-        ${
-          storesBySeller.get(seller.id)?.length
-            ? storesBySeller
-                .get(seller.id)
-                .map(store =>
-                  `${store.name} (${store.status})`
-                )
-                .join("<br>")
-            : "No store"
-        }<br>
+${
+  storesBySeller.get(seller.id)?.length
+    ? storesBySeller
+        .get(seller.id)
+        .map(store => {
+
+          const storeProducts =
+            productsByStore.get(store.id) || [];
+
+          return `
+            <strong>
+              ${store.name}
+            </strong>
+            (${store.status})<br>
+
+            Products:
+            ${
+              storeProducts.length
+                ? storeProducts
+                    .map(product =>
+                      `${product.name} — R${Number(product.price || 0).toFixed(2)} — Stock: ${product.stock ?? 0} — ${product.status}`
+                    )
+                    .join("<br>")
+                : "No products"
+            }
+          `;
+        })
+        .join("<br><br>")
+    : "No store"
+}<br>
 
         Phone:
         ${seller.phone || "—"}<br>
