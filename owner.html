@@ -151,11 +151,24 @@
 </div>
 
         <div class="card">
-          <h2>Store Management</h2>
-          <p>
-            Manage seller stores and store approvals.
-          </p>
-        </div>
+  <h2>Store Management</h2>
+
+  <p>
+    Manage seller stores and store approvals.
+  </p>
+
+  <button
+    type="button"
+    onclick="loadStores()"
+  >
+    View Stores
+  </button>
+
+  <div
+    id="storesList"
+    style="margin-top: 15px;"
+  ></div>
+</div>
 
         <div class="card">
           <h2>Product Management</h2>
@@ -440,6 +453,86 @@ document
     "click",
     loadSellerApplications
   );
+
+  async function loadStores() {
+
+  const container =
+    document.getElementById("storesList");
+
+  container.textContent =
+    "Loading stores...";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("stores")
+      .select(`
+        id,
+        seller_id,
+        name,
+        description,
+        category,
+        status,
+        created_at
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      '<span class="error">Unable to load stores.</span>';
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    container.textContent =
+      "No stores found.";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(store => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.border =
+      "1px solid #ddd";
+
+    card.style.borderRadius =
+      "10px";
+
+    card.style.padding =
+      "15px";
+
+    card.style.marginTop =
+      "12px";
+
+    card.innerHTML = `
+      <strong>
+        ${store.name || "Unnamed Store"}
+      </strong>
+
+      <p>
+        Category: ${store.category || "—"}<br>
+        Description: ${store.description || "—"}<br>
+        Status: <strong>${store.status}</strong>
+      </p>
+    `;
+
+    container.appendChild(card);
+  });
+}
 
 
 checkOwnerAccess();
