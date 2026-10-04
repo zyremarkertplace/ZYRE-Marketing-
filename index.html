@@ -483,10 +483,7 @@ content="ZYRE MARKETING — Your business. Your store. One marketplace."
       document.getElementById("error");  
   
     const storesGrid =  
-      document.getElementById("storesGrid");  
-  
-    const accountLink =  
-      document.getElementById("accountLink");
+      document.getElementById("storesGrid"); 
 
 const menuButton =
   document.getElementById("menuButton");
@@ -712,9 +709,6 @@ const logoutButton =
 
   if (session) {
 
-    accountLink.textContent = "My Account";
-    accountLink.href = "account.html";
-
     menuUser.textContent =
       session.user.email || "My Account";
 
@@ -723,9 +717,6 @@ const logoutButton =
     cartMenu.style.display = "block";
 
   } else {
-
-    accountLink.textContent = "Login";
-    accountLink.href = "auth.html";
 
     menuUser.textContent = "Welcome";
 
