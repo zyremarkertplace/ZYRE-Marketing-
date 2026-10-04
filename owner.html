@@ -519,16 +519,37 @@ document
       "12px";
 
     card.innerHTML = `
-      <strong>
-        ${store.name || "Unnamed Store"}
-      </strong>
+  <strong>
+    ${store.name || "Unnamed Store"}
+  </strong>
 
-      <p>
-        Category: ${store.category || "—"}<br>
-        Description: ${store.description || "—"}<br>
-        Status: <strong>${store.status}</strong>
-      </p>
-    `;
+  <p>
+    Category: ${store.category || "—"}<br>
+    Description: ${store.description || "—"}<br>
+    Status: <strong>${store.status}</strong>
+  </p>
+
+  ${
+    store.status === "pending"
+      ? `
+        <button
+          type="button"
+          onclick="updateStoreStatus('${store.id}', 'active')"
+        >
+          Approve
+        </button>
+
+        <button
+          type="button"
+          onclick="updateStoreStatus('${store.id}', 'rejected')"
+          style="margin-left: 8px;"
+        >
+          Reject
+        </button>
+      `
+      : ""
+  }
+`;
 
     container.appendChild(card);
   });
