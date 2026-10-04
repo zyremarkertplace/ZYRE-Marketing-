@@ -191,11 +191,21 @@
 </div>
 
         <div class="card">
-          <h2>Order Management</h2>
-          <p>
-            Monitor customer orders and order status.
-          </p>
-        </div>
+  <h2>Order Management</h2>
+
+  <p>
+    Monitor customer orders and order status.
+  </p>
+
+  <button
+    type="button"
+    onclick="loadOwnerOrders()"
+  >
+    View Orders
+  </button>
+
+  <div id="ownerOrders"></div>
+</div>
 
         <div class="card">
           <h2>Payment Management</h2>
