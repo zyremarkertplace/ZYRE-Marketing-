@@ -559,14 +559,19 @@ document
     await supabaseClient
       .from("stores")
       .select(`
-        id,
-        seller_id,
-        name,
-        description,
-        category,
-        status,
-        created_at
-      `)
+  id,
+  seller_id,
+  name,
+  description,
+  category,
+  status,
+  created_at,
+  profiles:seller_id (
+    full_name,
+    phone,
+    role
+  )
+`)
       .order("created_at", {
         ascending: false
       });
