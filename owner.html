@@ -1153,7 +1153,76 @@ async function loadSellerRentalPayments() {
     paymentsContainer.appendChild(card);
   });
 }
+
+async function loadOwnerOverview() {
+
+  const sellersResult =
+    await supabaseClient
+      .from("seller_applications")
+      .select("id", {
+        count: "exact",
+        head: true
+      });
+
+  const storesResult =
+    await supabaseClient
+      .from("stores")
+      .select("id", {
+        count: "exact",
+        head: true
+      });
+
+  const productsResult =
+    await supabaseClient
+      .from("products")
+      .select("id", {
+        count: "exact",
+        head: true
+      });
+
+  const ordersResult =
+    await supabaseClient
+      .from("orders")
+      .select("id", {
+        count: "exact",
+        head: true
+      });
+
+  const paymentsResult =
+    await supabaseClient
+      .from("customer_payments")
+      .select("id", {
+        count: "exact",
+        head: true
+      });
+
+  document.getElementById(
+    "overviewSellers"
+  ).textContent =
+    sellersResult.count ?? "0";
+
+  document.getElementById(
+    "overviewStores"
+  ).textContent =
+    storesResult.count ?? "0";
+
+  document.getElementById(
+    "overviewProducts"
+  ).textContent =
+    productsResult.count ?? "0";
+
+  document.getElementById(
+    "overviewOrders"
+  ).textContent =
+    ordersResult.count ?? "0";
+
+  document.getElementById(
+    "overviewPayments"
+  ).textContent =
+    paymentsResult.count ?? "0";
+}
 checkOwnerAccess();
+loadOwnerOverview();
   </script>
 
 </body>
