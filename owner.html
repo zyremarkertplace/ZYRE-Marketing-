@@ -360,18 +360,39 @@
       "12px";
 
     card.innerHTML = `
-      <strong>
-        ${application.full_name || "No name"}
-      </strong>
+  <strong>
+    ${application.full_name || "No name"}
+  </strong>
 
-      <p>
-        Email: ${application.email || "—"}<br>
-        Phone: ${application.phone || "—"}<br>
-        Store: ${application.store_name || "—"}<br>
-        Category: ${application.store_category || "—"}<br>
-        Status: <strong>${application.status}</strong>
-      </p>
-    `;
+  <p>
+    Email: ${application.email || "—"}<br>
+    Phone: ${application.phone || "—"}<br>
+    Store: ${application.store_name || "—"}<br>
+    Category: ${application.store_category || "—"}<br>
+    Status: <strong>${application.status}</strong>
+  </p>
+
+  ${
+    application.status === "pending"
+      ? `
+        <button
+          type="button"
+          onclick="updateSellerApplication('${application.id}', 'approved')"
+        >
+          Approve
+        </button>
+
+        <button
+          type="button"
+          onclick="updateSellerApplication('${application.id}', 'rejected')"
+          style="margin-left: 8px;"
+        >
+          Reject
+        </button>
+      `
+      : ""
+  }
+`;
 
     container.appendChild(card);
   });
