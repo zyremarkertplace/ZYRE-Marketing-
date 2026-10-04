@@ -670,18 +670,32 @@ async function loadProducts() {
       "12px";
 
     card.innerHTML = `
-      <strong>
-        ${product.name || "Unnamed Product"}
-      </strong>
+  <strong>
+    ${product.name || "Unnamed Product"}
+  </strong>
 
-      <p>
-        Description: ${product.description || "—"}<br>
-        Category: ${product.category || "—"}<br>
-        Price: R${Number(product.price || 0).toFixed(2)}<br>
-        Stock: ${product.stock ?? 0}<br>
-        Status: <strong>${product.status || "—"}</strong>
-      </p>
-    `;
+  <p>
+    Description: ${product.description || "—"}<br>
+    Category: ${product.category || "—"}<br>
+    Price: R${Number(product.price || 0).toFixed(2)}<br>
+    Stock: ${product.stock ?? 0}<br>
+    Status: <strong>${product.status || "—"}</strong>
+  </p>
+
+  <button
+    type="button"
+    onclick="updateProductStatus(
+      '${product.id}',
+      '${product.status === "active" ? "inactive" : "active"}'
+    )"
+  >
+    ${
+      product.status === "active"
+        ? "Deactivate"
+        : "Activate"
+    }
+  </button>
+`;
 
     container.appendChild(card);
   });
