@@ -718,14 +718,15 @@ async function updateProductStatus(
 
   if (error) {
 
-    console.error(error);
+  console.error(error);
 
-    alert(
-      "Unable to update product status."
-    );
+  alert(
+    "Product update failed:\n\n" +
+    error.message
+  );
 
-    return;
-  }
+  return;
+}
 
   alert(
     "Product status updated to " +
