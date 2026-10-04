@@ -266,15 +266,15 @@
 
     if (itemsError) {
 
-      console.error("SELLER ORDERS ERROR:", itemsError);
+  console.error("SELLER ORDERS ERROR:", itemsError);
 
-      statusBox.textContent =
-        "We couldn't load your orders.";
+  statusBox.textContent =
+    "Error: " + itemsError.message;
 
-      statusBox.classList.add("error");
+  statusBox.classList.add("error");
 
-      return;
-    }
+  return;
+}
 
 
     if (
