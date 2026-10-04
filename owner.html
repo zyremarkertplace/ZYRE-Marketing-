@@ -641,6 +641,20 @@ const storesBySeller = new Map();
         Seller ID:
         ${seller.id}<br>
 
+        Stores:
+        ${
+          storesBySeller.get(seller.id)?.length
+            ? storesBySeller
+                .get(seller.id)
+                .map(store =>
+                  `${store.name} (${store.status})`
+                )
+                .join("<br>")
+            : "No store"
+        }<br>
+        Seller ID:
+        ${seller.id}<br>
+
         Phone:
         ${seller.phone || "—"}<br>
 
