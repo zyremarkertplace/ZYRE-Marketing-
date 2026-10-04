@@ -294,7 +294,99 @@
     );
 
 
-    checkOwnerAccess();
+    async function loadSellerApplications() {
+
+  const container =
+    document.getElementById("sellerApplications");
+
+  container.textContent =
+    "Loading seller applications...";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("seller_applications")
+      .select(`
+        id,
+        full_name,
+        email,
+        phone,
+        store_name,
+        store_category,
+        status,
+        created_at
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      '<span class="error">Unable to load seller applications.</span>';
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    container.textContent =
+      "No seller applications found.";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(application => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.border =
+      "1px solid #ddd";
+
+    card.style.borderRadius =
+      "10px";
+
+    card.style.padding =
+      "15px";
+
+    card.style.marginTop =
+      "12px";
+
+    card.innerHTML = `
+      <strong>
+        ${application.full_name || "No name"}
+      </strong>
+
+      <p>
+        Email: ${application.email || "—"}<br>
+        Phone: ${application.phone || "—"}<br>
+        Store: ${application.store_name || "—"}<br>
+        Category: ${application.store_category || "—"}<br>
+        Status: <strong>${application.status}</strong>
+      </p>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+
+document
+  .getElementById("loadSellerApplications")
+  .addEventListener(
+    "click",
+    loadSellerApplications
+  );
+
+
+checkOwnerAccess();
   </script>
 
 </body>
