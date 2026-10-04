@@ -628,6 +628,16 @@ if (sellerIds.length > 0) {
   profiles = profileData || [];
 }
 
+console.log(
+  "STORE SELLER IDs:",
+  sellerIds
+);
+
+console.log(
+  "SELLER PROFILES:",
+  profileData
+);
+
 const profileMap = new Map(
   profiles.map(profile => [
     profile.id,
