@@ -861,6 +861,129 @@ ${order.customer_user_id || "—"}<br>
     ordersContainer.appendChild(card);
   });
 }
+
+async function loadCustomerPayments() {
+
+  const paymentsContainer =
+    document.getElementById("customerPayments");
+
+  paymentsContainer.innerHTML =
+    "<p>Loading payments...</p>";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("customer_payments")
+      .select(`
+        id,
+        user_id,
+        amount,
+        currency,
+        status,
+        payment_reference,
+        commission_amount,
+        seller_amount,
+        paid_at,
+        created_at
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+    console.error(error);
+
+    paymentsContainer.innerHTML = `
+      <p>
+        Unable to load payments.
+      </p>
+
+      <p>
+        ${error.message}
+      </p>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    paymentsContainer.innerHTML =
+      "<p>No customer payments found.</p>";
+
+    return;
+  }
+
+  paymentsContainer.innerHTML = "";
+
+  data.forEach(payment => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.marginTop = "15px";
+    card.style.padding = "15px";
+    card.style.border = "1px solid #ddd";
+    card.style.borderRadius = "10px";
+
+    card.innerHTML = `
+      <strong>
+        Payment #${payment.id}
+      </strong>
+
+      <p>
+        User ID:
+        ${payment.user_id || "—"}<br>
+
+        Amount:
+        ${payment.currency || "ZAR"}
+        ${Number(payment.amount || 0).toFixed(2)}<br>
+
+        Status:
+        <strong>
+          ${payment.status || "—"}
+        </strong><br>
+
+        Payment Reference:
+        ${payment.payment_reference || "—"}<br>
+
+        Commission:
+        ${payment.currency || "ZAR"}
+        ${Number(
+          payment.commission_amount || 0
+        ).toFixed(2)}<br>
+
+        Seller Amount:
+        ${payment.currency || "ZAR"}
+        ${Number(
+          payment.seller_amount || 0
+        ).toFixed(2)}<br>
+
+        Paid At:
+        ${
+          payment.paid_at
+            ? new Date(
+                payment.paid_at
+              ).toLocaleString()
+            : "—"
+        }<br>
+
+        Created:
+        ${
+          payment.created_at
+            ? new Date(
+                payment.created_at
+              ).toLocaleString()
+            : "—"
+        }
+      </p>
+    `;
+
+    paymentsContainer.appendChild(card);
+  });
+}
 checkOwnerAccess();
   </script>
 
