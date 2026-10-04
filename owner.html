@@ -762,12 +762,22 @@ async function loadOwnerOrders() {
     await supabaseClient
       .from("orders")
       .select(`
-        id,
-        customer_id,
-        status,
-        total_amount,
-        created_at
-      `)
+  id,
+  customer_user_id,
+  order_number,
+  status,
+  subtotal,
+  delivery_fee,
+  total_amount,
+  currency,
+  shipping_full_name,
+  shipping_phone,
+  shipping_address,
+  payment_status,
+  payment_reference,
+  created_at,
+  updated_at
+`)
       .order("created_at", {
         ascending: false
       });
