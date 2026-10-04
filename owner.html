@@ -563,6 +563,56 @@ async function loadSellerAccounts() {
     return;
   }
 
+const sellerIds =
+  data.map(seller => seller.id);
+
+const {
+  data: stores,
+  error: storesError
+} =
+  await supabaseClient
+    .from("stores")
+    .select(`
+      id,
+      seller_id,
+      name,
+      status
+    `)
+    .in("seller_id", sellerIds);
+
+if (storesError) {
+
+  console.error(storesError);
+
+  container.innerHTML = `
+    <p>
+      Unable to load seller stores.
+    </p>
+
+    <p>
+      ${storesError.message}
+    </p>
+  `;
+
+  return;
+}
+
+const storesBySeller = new Map();
+
+(stores || []).forEach(store => {
+
+  if (!storesBySeller.has(store.seller_id)) {
+    storesBySeller.set(
+      store.seller_id,
+      []
+    );
+  }
+
+  storesBySeller
+    .get(store.seller_id)
+    .push(store);
+});
+
   container.innerHTML = "";
 
   data.forEach(seller => {
