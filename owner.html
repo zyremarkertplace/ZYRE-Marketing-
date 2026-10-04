@@ -555,6 +555,40 @@ document
   });
 }
 
+async function updateStoreStatus(
+  storeId,
+  newStatus
+) {
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("stores")
+      .update({
+        status: newStatus
+      })
+      .eq("id", storeId);
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "Unable to update store status."
+    );
+
+    return;
+  }
+
+  alert(
+    "Store status updated to " +
+    newStatus +
+    "."
+  );
+
+  await loadStores();
+}
 
 checkOwnerAccess();
   </script>
