@@ -746,5 +746,32 @@ const logoutButton =
     cartMenu.style.display = "none";
   }
 } 
+
+menuButton.addEventListener("click", () => {
+
+  if (menuPanel.style.display === "none") {
+    menuPanel.style.display = "block";
+  } else {
+    menuPanel.style.display = "none";
+  }
+
+});
+
+logoutButton.addEventListener("click", async () => {
+
+  const { error } =
+    await supabaseClient.auth.signOut();
+
+  if (error) {
+    console.error("Logout error:", error);
+    return;
+  }
+
+  menuPanel.style.display = "none";
+
+  window.location.href = "index.html";
+
+});
+
   </script>  </body>  
 </html>
