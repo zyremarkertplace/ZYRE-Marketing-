@@ -613,6 +613,66 @@ const storesBySeller = new Map();
     .push(store);
 });
 
+const storeIds =
+  (stores || []).map(store => store.id);
+
+let products = [];
+
+if (storeIds.length > 0) {
+
+  const {
+    data: productData,
+    error: productsError
+  } =
+    await supabaseClient
+      .from("products")
+      .select(`
+        id,
+        store_id,
+        name,
+        price,
+        stock,
+        status
+      `)
+      .in("store_id", storeIds);
+
+  if (productsError) {
+
+    console.error(productsError);
+
+    container.innerHTML = `
+      <p>
+        Unable to load seller products.
+      </p>
+
+      <p>
+        ${productsError.message}
+      </p>
+    `;
+
+    return;
+  }
+
+  products = productData || [];
+}
+
+const productsByStore =
+  new Map();
+
+products.forEach(product => {
+
+  if (!productsByStore.has(product.store_id)) {
+    productsByStore.set(
+      product.store_id,
+      []
+    );
+  }
+
+  productsByStore
+    .get(product.store_id)
+    .push(product);
+});
+
   container.innerHTML = "";
 
   data.forEach(seller => {
