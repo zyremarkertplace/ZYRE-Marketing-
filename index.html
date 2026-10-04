@@ -602,75 +602,115 @@ const logoutButton =
     }  
   
   
-    async function loadStores() {  
-  
-      loading.style.display = "block";  
-      empty.style.display = "none";  
-      errorBox.style.display = "none";  
-  
-      storesGrid.innerHTML = "";  
-  
-  
-      const {  
-        data: stores,  
-        error  
-      } = await supabaseClient  
-        .from("stores")  
-        .select(  
-          "id, name, description, image_url, category"  
-        )  
-        .eq("status", "active")  
-        .order(  
-          "created_at",  
-          {  
-            ascending: false  
-          }  
-        );  
+    async function loadStores() {
+  loading.style.display = "block";
+  empty.style.display = "none";
+  errorBox.style.display = "none";
 
-console.log("STORES RESULT:", stores);
-console.log("STORES ERROR:", error);
-  
-  
-      console.log("ZYRE STORES:", stores);
-console.log("ZYRE STORES ERROR:", error);
+  storesGrid.innerHTML = "";
 
-loading.style.display = "none";
+  try {
+    console.log("ZYRE: loadStores() started");
 
-if (error) {
-  
-  
-      if (error) {
+    const {
+      data: stores,
+      error
+    } = await supabaseClient
+      .from("stores")
+      .select(
+        "id, name, description, image_url, category"
+      )
+      .eq("status", "active")
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
 
-  console.error(
-    "Store loading error:",
-    error
-  );
+    console.log("ZYRE STORES:", stores);
+    console.log("ZYRE STORES ERROR:", error);
 
-  errorBox.textContent =
-    "Store loading error: " + error.message;
+    if (error) {
+      throw error;
+    }
 
-  errorBox.style.display = "block";
+    loading.style.display = "none";
 
-  return;
+    if (!stores || stores.length === 0) {
+      empty.style.display = "block";
+      return;
+    }
+
+    stores.forEach((store) => {
+      const card = document.createElement("a");
+
+      card.href =
+        "store.html?id=" +
+        encodeURIComponent(store.id);
+
+      card.style.display = "block";
+      card.style.textDecoration = "none";
+      card.style.color = "#111";
+
+      card.innerHTML = `
+        <div
+          style="
+            border:1px solid #e5e5e5;
+            border-radius:14px;
+            padding:18px;
+            background:#fff;
+            margin-bottom:15px;
+          "
+        >
+          <div
+            style="
+              font-size:20px;
+              font-weight:800;
+              margin-bottom:8px;
+            "
+          >
+            ${store.name || "Unnamed Store"}
+          </div>
+
+          <div
+            style="
+              color:#666;
+              margin-bottom:8px;
+            "
+          >
+            ${store.category || "General"}
+          </div>
+
+          <div
+            style="
+              color:#555;
+              line-height:1.5;
+            "
+          >
+            ${store.description || "Welcome to our store."}
+          </div>
+        </div>
+      `;
+
+      storesGrid.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error(
+      "ZYRE loadStores failed:",
+      err
+    );
+
+    loading.style.display = "none";
+
+    errorBox.textContent =
+      "Store loading error: " +
+      (err.message || err);
+
+    errorBox.style.display = "block";
+  }
 }
-  
-  
-      if (!stores || stores.length === 0) {  
-  
-        empty.style.display = "block";  
-  
-        return;  
-      }  
-  
-  
-      stores.forEach(store => {  
-  
-        storesGrid.appendChild(  
-          createStoreCard(store)  
-        );  
-  
-      });  
-    }  
   
   
     async function updateAccountLinks() {  
