@@ -712,14 +712,39 @@ const logoutButton =
     }  
   
   
-    updateAccountLinks();  
-    loadStores();  
-  
-  
-    supabaseClient.auth.onAuthStateChange(  
-      () => {  
-        updateAccountLinks();  
-      }  
-    );  
+    async function updateAccountLinks() {
+
+  const {
+    data: {
+      session
+    }
+  } = await supabaseClient.auth.getSession();
+
+  if (session) {
+
+    accountLink.textContent = "My Account";
+    accountLink.href = "account.html";
+
+    menuUser.textContent =
+      session.user.email || "My Account";
+
+    profileMenu.style.display = "block";
+    sellerMenu.style.display = "block";
+    cartMenu.style.display = "block";
+
+  } else {
+
+    accountLink.textContent = "Login";
+    accountLink.href = "auth.html";
+
+    menuUser.textContent = "Welcome";
+
+    profileMenu.style.display = "none";
+    sellerMenu.style.display = "none";
+    dashboardMenu.style.display = "none";
+    rentalMenu.style.display = "none";
+    cartMenu.style.display = "none";
+  }
+} 
   </script>  </body>  
 </html>
