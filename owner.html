@@ -845,10 +845,48 @@ ${
   ordersBySeller.get(seller.id)?.length
     ? ordersBySeller
         .get(seller.id)
-        .map(item =>
-          `${item.product_name} — Qty: ${item.quantity} — R${Number(item.line_total || 0).toFixed(2)}`
-        )
-        .join("<br>")
+        .map(item => {
+
+          const order =
+            orderMap.get(item.order_id);
+
+          return `
+            <strong>
+              ${order?.order_number || item.order_id}
+            </strong><br>
+
+            Product:
+            ${item.product_name || "—"}<br>
+
+            Quantity:
+            ${item.quantity ?? 0}<br>
+
+            Item Total:
+            R${Number(item.line_total || 0).toFixed(2)}<br>
+
+            Order Total:
+            R${Number(order?.total_amount || 0).toFixed(2)}<br>
+
+            Status:
+            ${order?.status || "—"}<br>
+
+            Payment:
+            ${order?.payment_status || "—"}<br>
+
+            Customer ID:
+            ${order?.customer_user_id || "—"}<br>
+
+            Date:
+            ${
+              order?.created_at
+                ? new Date(
+                    order.created_at
+                  ).toLocaleString()
+                : "—"
+            }
+          `;
+        })
+        .join("<hr>")
     : "No orders"
 }<br>
 
