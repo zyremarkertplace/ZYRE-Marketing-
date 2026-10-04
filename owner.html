@@ -724,6 +724,62 @@ const ordersBySeller =
     .push(item);
 });
 
+const orderIds = [
+  ...new Set(
+    (orderItems || [])
+      .map(item => item.order_id)
+      .filter(Boolean)
+  )
+];
+
+let orderDetails = [];
+
+if (orderIds.length > 0) {
+
+  const {
+    data: orders,
+    error: ordersError
+  } =
+    await supabaseClient
+      .from("orders")
+      .select(`
+        id,
+        order_number,
+        customer_user_id,
+        status,
+        total_amount,
+        payment_status,
+        created_at
+      `)
+      .in("id", orderIds);
+
+  if (ordersError) {
+
+    console.error(ordersError);
+
+    container.innerHTML = `
+      <p>
+        Unable to load seller order details.
+      </p>
+
+      <p>
+        ${ordersError.message}
+      </p>
+    `;
+
+    return;
+  }
+
+  orderDetails = orders || [];
+}
+
+const orderMap = new Map(
+  orderDetails.map(order => [
+    order.id,
+    order
+  ])
+);
+
   container.innerHTML = "";
 
   data.forEach(seller => {
