@@ -661,19 +661,19 @@ data.forEach(store => {
 
   <p>
     Seller:
-    ${
-      store.profiles?.full_name || "—"
-    }<br>
+${
+  profileMap.get(store.seller_id)?.full_name || "—"
+}<br>
 
-    Seller Phone:
-    ${
-      store.profiles?.phone || "—"
-    }<br>
+Seller Phone:
+${
+  profileMap.get(store.seller_id)?.phone || "—"
+}<br>
 
-    Seller Role:
-    ${
-      store.profiles?.role || "—"
-    }<br>
+Seller Role:
+${
+  profileMap.get(store.seller_id)?.role || "—"
+}<br>
 
     Category:
     ${store.category || "—"}<br>
