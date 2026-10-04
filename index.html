@@ -392,14 +392,7 @@ content="ZYRE MARKETING — Your business. Your store. One marketplace."
       class="hero-button primary"  
     >  
       Shop Stores  
-    </a>  
-
-    <a  
-      href="auth.html"  
-      class="hero-button secondary"  
-    >  
-      Create Account  
-    </a>  
+    </a> 
 
   </div>  
 
@@ -646,17 +639,20 @@ loading.style.display = "none";
 if (error) {
   
   
-      if (error) {  
-  
-        console.error(  
-          "Store loading error:",  
-          error  
-        );  
-  
-        errorBox.style.display = "block";  
-  
-        return;  
-      }  
+      if (error) {
+
+  console.error(
+    "Store loading error:",
+    error
+  );
+
+  errorBox.textContent =
+    "Store loading error: " + error.message;
+
+  errorBox.style.display = "block";
+
+  return;
+}
   
   
       if (!stores || stores.length === 0) {  
