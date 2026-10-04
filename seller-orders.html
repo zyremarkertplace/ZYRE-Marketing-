@@ -419,12 +419,49 @@
           </div>
 
           <div>
-            <span class="status-badge">
-              ${escapeHtml(
-                order.status
-              )}
-            </span>
-          </div>
+
+  <select
+    class="order-status-select"
+    data-order-id="${order.id}"
+  >
+    <option
+      value="pending"
+      ${order.status === "pending" ? "selected" : ""}
+    >
+      Pending
+    </option>
+
+    <option
+      value="processing"
+      ${order.status === "processing" ? "selected" : ""}
+    >
+      Processing
+    </option>
+
+    <option
+      value="shipped"
+      ${order.status === "shipped" ? "selected" : ""}
+    >
+      Shipped
+    </option>
+
+    <option
+      value="completed"
+      ${order.status === "completed" ? "selected" : ""}
+    >
+      Completed
+    </option>
+
+    <option
+      value="cancelled"
+      ${order.status === "cancelled" ? "selected" : ""}
+    >
+      Cancelled
+    </option>
+
+  </select>
+
+</div>
 
         </div>
 
