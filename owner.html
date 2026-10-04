@@ -746,6 +746,94 @@ async function updateProductStatus(
 
   await loadProducts();
 }
+
+async function loadOwnerOrders() {
+
+  const ordersContainer =
+    document.getElementById("ownerOrders");
+
+  ordersContainer.innerHTML =
+    "<p>Loading orders...</p>";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("orders")
+      .select(`
+        id,
+        customer_id,
+        status,
+        total_amount,
+        created_at
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+    console.error(error);
+
+    ordersContainer.innerHTML =
+      "<p>Unable to load orders.</p>";
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    ordersContainer.innerHTML =
+      "<p>No orders found.</p>";
+
+    return;
+  }
+
+  ordersContainer.innerHTML = "";
+
+  data.forEach(order => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.marginTop = "15px";
+    card.style.padding = "15px";
+    card.style.border = "1px solid #ddd";
+    card.style.borderRadius = "10px";
+
+    card.innerHTML = `
+      <strong>
+        Order #${order.id}
+      </strong>
+
+      <p>
+        Customer ID:
+        ${order.customer_id || "—"}<br>
+
+        Total:
+        R${Number(
+          order.total_amount || 0
+        ).toFixed(2)}<br>
+
+        Status:
+        <strong>
+          ${order.status || "—"}
+        </strong><br>
+
+        Date:
+        ${
+          order.created_at
+            ? new Date(
+                order.created_at
+              ).toLocaleString()
+            : "—"
+        }
+      </p>
+    `;
+
+    ordersContainer.appendChild(card);
+  });
+}
 checkOwnerAccess();
   </script>
 
