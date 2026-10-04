@@ -589,20 +589,16 @@ document
     return;
   }
 
-  const sellerIds = [
-  ...new Set(
-    data
-      .map(store => store.seller_id)
-      .filter(Boolean)
-  )
-];
+  const profileMap = new Map();
 
-let profiles = [];
+for (const store of data) {
 
-if (sellerIds.length > 0) {
+  if (!store.seller_id) {
+    continue;
+  }
 
   const {
-    data: profileData,
+    data: profile,
     error: profileError
   } =
     await supabaseClient
@@ -613,37 +609,26 @@ if (sellerIds.length > 0) {
         phone,
         role
       `)
-      .in("id", sellerIds);
+      .eq("id", store.seller_id)
+      .maybeSingle();
 
   if (profileError) {
 
-    console.error(profileError);
+    console.error(
+      "Seller profile error:",
+      profileError
+    );
 
-    container.innerHTML =
-      '<span class="error">Unable to load seller information.</span>';
-
-    return;
+    continue;
   }
 
-  profiles = profileData || [];
+  if (profile) {
+    profileMap.set(
+      profile.id,
+      profile
+    );
+  }
 }
-
-console.log(
-  "STORE SELLER IDs:",
-  sellerIds
-);
-
-console.log(
-  "SELLER PROFILES:",
-  profileData
-);
-
-const profileMap = new Map(
-  profiles.map(profile => [
-    profile.id,
-    profile
-  ])
-);
 
 container.innerHTML = "";
 
