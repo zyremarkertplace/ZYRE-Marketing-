@@ -398,6 +398,40 @@
   });
 }
 
+async function updateSellerApplication(
+  applicationId,
+  newStatus
+) {
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("seller_applications")
+      .update({
+        status: newStatus
+      })
+      .eq("id", applicationId);
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "Unable to update seller application."
+    );
+
+    return;
+  }
+
+  alert(
+    "Seller application updated to " +
+    newStatus +
+    "."
+  );
+
+  await loadSellerApplications();
+}
 
 document
   .getElementById("loadSellerApplications")
