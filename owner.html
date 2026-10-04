@@ -1057,6 +1057,121 @@ async function loadCustomerAccounts() {
   });
 }
 
+async function loadCustomerOrders(customerId) {
+
+  const container =
+    document.getElementById(
+      "customerOrders-" + customerId
+    );
+
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML =
+    "<p>Loading customer orders...</p>";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("orders")
+      .select(`
+        id,
+        order_number,
+        customer_user_id,
+        status,
+        total_amount,
+        payment_status,
+        created_at
+      `)
+      .eq(
+        "customer_user_id",
+        customerId
+      )
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+      <p>
+        Unable to load customer orders.
+      </p>
+
+      <p>
+        ${error.message}
+      </p>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML =
+      "<p>No orders found for this customer.</p>";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(order => {
+
+    const orderCard =
+      document.createElement("div");
+
+    orderCard.style.border =
+      "1px solid #ddd";
+
+    orderCard.style.borderRadius =
+      "8px";
+
+    orderCard.style.padding =
+      "12px";
+
+    orderCard.style.marginTop =
+      "10px";
+
+    orderCard.innerHTML = `
+      <strong>
+        ${order.order_number || order.id}
+      </strong>
+
+      <p>
+        Total:
+        R${Number(
+          order.total_amount || 0
+        ).toFixed(2)}<br>
+
+        Status:
+        <strong>
+          ${order.status || "—"}
+        </strong><br>
+
+        Payment:
+        ${order.payment_status || "—"}<br>
+
+        Date:
+        ${
+          order.created_at
+            ? new Date(
+                order.created_at
+              ).toLocaleString()
+            : "—"
+        }
+      </p>
+    `;
+
+    container.appendChild(orderCard);
+  });
+}
+
 async function updateSellerApplication(
   applicationId,
   newStatus
