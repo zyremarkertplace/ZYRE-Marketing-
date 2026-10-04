@@ -619,10 +619,60 @@ document
   </strong>
 
   <p>
-    Category: ${store.category || "—"}<br>
-    Description: ${store.description || "—"}<br>
-    Status: <strong>${store.status}</strong>
+    Seller:
+    ${
+      store.profiles?.full_name || "—"
+    }<br>
+
+    Seller Phone:
+    ${
+      store.profiles?.phone || "—"
+    }<br>
+
+    Seller Role:
+    ${
+      store.profiles?.role || "—"
+    }<br>
+
+    Category:
+    ${store.category || "—"}<br>
+
+    Description:
+    ${store.description || "—"}<br>
+
+    Status:
+    <strong>
+      ${store.status || "—"}
+    </strong>
   </p>
+
+  ${
+    store.status === "pending"
+      ? `
+        <button
+          type="button"
+          onclick="updateStoreStatus(
+            '${store.id}',
+            'active'
+          )"
+        >
+          Approve
+        </button>
+
+        <button
+          type="button"
+          onclick="updateStoreStatus(
+            '${store.id}',
+            'rejected'
+          )"
+          style="margin-left: 8px;"
+        >
+          Reject
+        </button>
+      `
+      : ""
+  }
+`;
 
   ${
     store.status === "pending"
