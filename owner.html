@@ -603,6 +603,90 @@ async function updateStoreStatus(
   await loadStores();
 }
 
+async function loadProducts() {
+
+  const container =
+    document.getElementById("productsList");
+
+  container.textContent =
+    "Loading products...";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("products")
+      .select(`
+        id,
+        store_id,
+        name,
+        description,
+        price,
+        stock,
+        category,
+        status,
+        created_at
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      '<span class="error">Unable to load products.</span>';
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    container.textContent =
+      "No products found.";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(product => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.border =
+      "1px solid #ddd";
+
+    card.style.borderRadius =
+      "10px";
+
+    card.style.padding =
+      "15px";
+
+    card.style.marginTop =
+      "12px";
+
+    card.innerHTML = `
+      <strong>
+        ${product.name || "Unnamed Product"}
+      </strong>
+
+      <p>
+        Description: ${product.description || "—"}<br>
+        Category: ${product.category || "—"}<br>
+        Price: R${Number(product.price || 0).toFixed(2)}<br>
+        Stock: ${product.stock ?? 0}<br>
+        Status: <strong>${product.status || "—"}</strong>
+      </p>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
 checkOwnerAccess();
   </script>
 
