@@ -647,53 +647,25 @@ document
   </p>
 
   ${
-    store.status === "pending"
-      ? `
-        <button
-          type="button"
-          onclick="updateStoreStatus(
-            '${store.id}',
-            'active'
-          )"
-        >
-          Approve
-        </button>
+  store.status === "pending"
+    ? `
+      <button
+        type="button"
+        onclick="updateStoreStatus('${store.id}', 'active')"
+      >
+        Approve
+      </button>
 
-        <button
-          type="button"
-          onclick="updateStoreStatus(
-            '${store.id}',
-            'rejected'
-          )"
-          style="margin-left: 8px;"
-        >
-          Reject
-        </button>
-      `
-      : ""
-  }
-`;
-
-  ${
-    store.status === "pending"
-      ? `
-        <button
-          type="button"
-          onclick="updateStoreStatus('${store.id}', 'active')"
-        >
-          Approve
-        </button>
-
-        <button
-          type="button"
-          onclick="updateStoreStatus('${store.id}', 'rejected')"
-          style="margin-left: 8px;"
-        >
-          Reject
-        </button>
-      `
-      : ""
-  }
+      <button
+        type="button"
+        onclick="updateStoreStatus('${store.id}', 'rejected')"
+        style="margin-left: 8px;"
+      >
+        Reject
+      </button>
+    `
+    : ""
+}
 `;
 
     container.appendChild(card);
