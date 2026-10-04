@@ -511,6 +511,110 @@
   });
 }
 
+async function loadSellerAccounts() {
+
+  const container =
+    document.getElementById("sellerAccountsList");
+
+  container.innerHTML =
+    "<p>Loading seller accounts...</p>";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select(`
+        id,
+        full_name,
+        phone,
+        address,
+        role,
+        created_at
+      `)
+      .eq("role", "seller")
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML = `
+      <p>
+        Unable to load seller accounts.
+      </p>
+
+      <p>
+        ${error.message}
+      </p>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML =
+      "<p>No seller accounts found.</p>";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(seller => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.marginTop =
+      "12px";
+
+    card.style.padding =
+      "15px";
+
+    card.style.border =
+      "1px solid #ddd";
+
+    card.style.borderRadius =
+      "10px";
+
+    card.innerHTML = `
+      <strong>
+        ${seller.full_name || "No name"}
+      </strong>
+
+      <p>
+        Seller ID:
+        ${seller.id}<br>
+
+        Phone:
+        ${seller.phone || "—"}<br>
+
+        Address:
+        ${seller.address || "—"}<br>
+
+        Role:
+        ${seller.role || "—"}<br>
+
+        Created:
+        ${
+          seller.created_at
+            ? new Date(
+                seller.created_at
+              ).toLocaleString()
+            : "—"
+        }
+      </p>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
 async function updateSellerApplication(
   applicationId,
   newStatus
