@@ -572,6 +572,63 @@
   }
 
 
+document.addEventListener(
+  "change",
+  async function (event) {
+
+    if (
+      !event.target.classList.contains(
+        "order-status-select"
+      )
+    ) {
+      return;
+    }
+
+    const select =
+      event.target;
+
+    const orderId =
+      select.dataset.orderId;
+
+    const newStatus =
+      select.value;
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("orders")
+        .update({
+          status: newStatus
+        })
+        .eq("id", orderId);
+
+
+    if (error) {
+
+      console.error(
+        "Order status update error:",
+        error
+      );
+
+      alert(
+        "We couldn't update the order status."
+      );
+
+      return;
+    }
+
+
+    alert(
+      "Order status updated to " +
+      newStatus +
+      "."
+    );
+
+  }
+);
+
   loadSellerOrders();
 
 </script>
