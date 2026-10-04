@@ -589,9 +589,55 @@ document
     return;
   }
 
-  container.innerHTML = "";
+  const sellerIds = [
+  ...new Set(
+    data
+      .map(store => store.seller_id)
+      .filter(Boolean)
+  )
+];
 
-  data.forEach(store => {
+let profiles = [];
+
+if (sellerIds.length > 0) {
+
+  const {
+    data: profileData,
+    error: profileError
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select(`
+        id,
+        full_name,
+        phone,
+        role
+      `)
+      .in("id", sellerIds);
+
+  if (profileError) {
+
+    console.error(profileError);
+
+    container.innerHTML =
+      '<span class="error">Unable to load seller information.</span>';
+
+    return;
+  }
+
+  profiles = profileData || [];
+}
+
+const profileMap = new Map(
+  profiles.map(profile => [
+    profile.id,
+    profile
+  ])
+);
+
+container.innerHTML = "";
+
+data.forEach(store => {
 
     const card =
       document.createElement("div");
