@@ -1004,34 +1004,54 @@ async function loadCustomerAccounts() {
     card.style.marginTop =
       "12px";
 
-    card.innerHTML = `
-      <strong>
-        ${customer.full_name || "No name"}
-      </strong>
+ card.innerHTML = `
+  <strong>
+    ${customer.full_name || "No name"}
+  </strong>
 
-      <p>
-        Customer ID:
-        ${customer.id}<br>
+  <p>
+    Customer ID:
+    ${customer.id}<br>
 
-        Phone:
-        ${customer.phone || "—"}<br>
+    Phone:
+    ${customer.phone || "—"}<br>
 
-        Address:
-        ${customer.address || "—"}<br>
+    Address:
+    ${customer.address || "—"}<br>
 
-        Role:
-        ${customer.role || "—"}<br>
+    Role:
+    ${customer.role || "—"}<br>
 
-        Created:
-        ${
-          customer.created_at
-            ? new Date(
-                customer.created_at
-              ).toLocaleString()
-            : "—"
-        }
-      </p>
-    `;
+    Created:
+    ${
+      customer.created_at
+        ? new Date(
+            customer.created_at
+          ).toLocaleString()
+        : "—"
+    }
+  </p>
+
+  <div
+    style="
+      margin-top: 10px;
+    "
+  >
+    <button
+      type="button"
+      onclick="loadCustomerOrders('${customer.id}')"
+    >
+      View Customer Orders
+    </button>
+  </div>
+
+  <div
+    id="customerOrders-${customer.id}"
+    style="
+      margin-top: 10px;
+    "
+  ></div>
+`;
 
     container.appendChild(card);
   });
