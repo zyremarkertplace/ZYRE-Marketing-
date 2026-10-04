@@ -553,28 +553,23 @@ document
     "Loading stores...";
 
   const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("stores")
-      .select(`
-  id,
-  seller_id,
-  name,
-  description,
-  category,
-  status,
-  created_at,
-  profiles:seller_id (
-    full_name,
-    phone,
-    role
-  )
-`)
-      .order("created_at", {
-        ascending: false
-      });
+  data,
+  error
+} =
+  await supabaseClient
+    .from("stores")
+    .select(`
+      id,
+      seller_id,
+      name,
+      description,
+      category,
+      status,
+      created_at
+    `)
+    .order("created_at", {
+      ascending: false
+    });
 
   if (error) {
 
