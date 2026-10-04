@@ -1156,45 +1156,96 @@ async function loadSellerRentalPayments() {
 
 async function loadOwnerOverview() {
 
-  const sellersResult =
-    await supabaseClient
+  const results = await Promise.all([
+    supabaseClient
       .from("seller_applications")
       .select("id", {
         count: "exact",
         head: true
-      });
+      }),
 
-  const storesResult =
-    await supabaseClient
+    supabaseClient
       .from("stores")
       .select("id", {
         count: "exact",
         head: true
-      });
+      }),
 
-  const productsResult =
-    await supabaseClient
+    supabaseClient
       .from("products")
       .select("id", {
         count: "exact",
         head: true
-      });
+      }),
 
-  const ordersResult =
-    await supabaseClient
+    supabaseClient
       .from("orders")
       .select("id", {
         count: "exact",
         head: true
-      });
+      }),
 
-  const paymentsResult =
-    await supabaseClient
+    supabaseClient
       .from("customer_payments")
       .select("id", {
         count: "exact",
         head: true
-      });
+      })
+  ]);
+
+  const [
+    sellersResult,
+    storesResult,
+    productsResult,
+    ordersResult,
+    paymentsResult
+  ] = results;
+
+  console.log(
+    "OWNER OVERVIEW:",
+    {
+      sellers: sellersResult,
+      stores: storesResult,
+      products: productsResult,
+      orders: ordersResult,
+      payments: paymentsResult
+    }
+  );
+
+  if (sellersResult.error) {
+    console.error(
+      "Sellers overview error:",
+      sellersResult.error
+    );
+  }
+
+  if (storesResult.error) {
+    console.error(
+      "Stores overview error:",
+      storesResult.error
+    );
+  }
+
+  if (productsResult.error) {
+    console.error(
+      "Products overview error:",
+      productsResult.error
+    );
+  }
+
+  if (ordersResult.error) {
+    console.error(
+      "Orders overview error:",
+      ordersResult.error
+    );
+  }
+
+  if (paymentsResult.error) {
+    console.error(
+      "Payments overview error:",
+      paymentsResult.error
+    );
+  }
 
   document.getElementById(
     "overviewSellers"
@@ -1221,6 +1272,7 @@ async function loadOwnerOverview() {
   ).textContent =
     paymentsResult.count ?? "0";
 }
+
 checkOwnerAccess();
 loadOwnerOverview();
   </script>
