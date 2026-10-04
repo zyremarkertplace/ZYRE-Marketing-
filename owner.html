@@ -224,6 +224,17 @@
   <div id="customerPayments"></div>
 </div>
 
+  <br>
+
+<button
+  type="button"
+  onclick="loadSellerRentalPayments()"
+>
+  View Seller Rental Payments
+</button>
+
+<div id="sellerRentalPayments"></div>
+
       </div>
 
       <div class="logout">
@@ -960,6 +971,118 @@ async function loadCustomerPayments() {
         ${Number(
           payment.seller_amount || 0
         ).toFixed(2)}<br>
+
+        Paid At:
+        ${
+          payment.paid_at
+            ? new Date(
+                payment.paid_at
+              ).toLocaleString()
+            : "—"
+        }<br>
+
+        Created:
+        ${
+          payment.created_at
+            ? new Date(
+                payment.created_at
+              ).toLocaleString()
+            : "—"
+        }
+      </p>
+    `;
+
+    paymentsContainer.appendChild(card);
+  });
+}
+
+async function loadSellerRentalPayments() {
+
+  const paymentsContainer =
+    document.getElementById(
+      "sellerRentalPayments"
+    );
+
+  paymentsContainer.innerHTML =
+    "<p>Loading seller rental payments...</p>";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("seller_rental_payments")
+      .select(`
+        id,
+        seller_application_id,
+        seller_user_id,
+        amount,
+        currency,
+        status,
+        payment_reference,
+        paid_at,
+        created_at
+      `)
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+    console.error(error);
+
+    paymentsContainer.innerHTML = `
+      <p>
+        Unable to load seller rental payments.
+      </p>
+
+      <p>
+        ${error.message}
+      </p>
+    `;
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    paymentsContainer.innerHTML =
+      "<p>No seller rental payments found.</p>";
+
+    return;
+  }
+
+  paymentsContainer.innerHTML = "";
+
+  data.forEach(payment => {
+
+    const card =
+      document.createElement("div");
+
+    card.style.marginTop = "15px";
+    card.style.padding = "15px";
+    card.style.border = "1px solid #ddd";
+    card.style.borderRadius = "10px";
+
+    card.innerHTML = `
+      <strong>
+        Rental Payment #${payment.id}
+      </strong>
+
+      <p>
+        Seller User ID:
+        ${payment.seller_user_id || "—"}<br>
+
+        Amount:
+        ${payment.currency || "ZAR"}
+        ${Number(payment.amount || 0).toFixed(2)}<br>
+
+        Status:
+        <strong>
+          ${payment.status || "—"}
+        </strong><br>
+
+        Payment Reference:
+        ${payment.payment_reference || "—"}<br>
 
         Paid At:
         ${
