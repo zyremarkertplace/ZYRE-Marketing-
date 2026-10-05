@@ -430,6 +430,14 @@
 
       currentUser = user;
 
+const {
+  data: {
+    session
+  }
+} = await supabaseClient.auth.getSession();
+
+console.log("ZYRE SESSION:", session);
+
 
       const {
         data: profile,
