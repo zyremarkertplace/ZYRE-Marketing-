@@ -162,12 +162,20 @@ content="ZYRE MARKETING — Your business. Your store. One marketplace."
       gap: 20px;  
     }  
   
-    .store-card {  
-      overflow: hidden;  
-      border: 1px solid #dddddd;  
-      border-radius: 12px;  
-      background: #ffffff;  
-    }  
+    .store-card {
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+  border-radius: 18px;
+  background: #ffffff;
+  padding: 25px 20px 20px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.store-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+} 
   
     .store-image {
   width: 130px;
