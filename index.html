@@ -740,38 +740,7 @@ const logoutButton =
           "auth.html";  
   
       }  
-    }  
-  
-  
-    async function updateAccountLinks() {
-
-  const {
-    data: {
-      session
-    }
-  } = await supabaseClient.auth.getSession();
-
-  if (session) {
-
-    menuUser.textContent =
-      session.user.email || "My Account";
-
-    profileMenu.style.display = "block";
-    sellerMenu.style.display = "block";
-    cartMenu.style.display = "block";
-
-  } else {
-
-    menuUser.textContent = "Welcome";
-
-    profileMenu.style.display = "none";
-    sellerMenu.style.display = "none";
-    dashboardMenu.style.display = "none";
-    rentalMenu.style.display = "none";
-    cartMenu.style.display = "none";
-
-  }
-}
+    } 
 
 menuButton.addEventListener("click", () => {
 
@@ -798,6 +767,9 @@ logoutButton.addEventListener("click", async () => {
   window.location.href = "index.html";
 
 });
+
+updateAccountLinks();
+loadStores();
 
   </script>  </body>  
 </html>
