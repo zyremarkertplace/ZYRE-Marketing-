@@ -489,39 +489,160 @@
           "Creating Store...";
 
 
-        const store = {
+        const storeImage =
+  document.getElementById("storeImage").files[0];
 
-          seller_id:
-            currentUser.id,
+if (!storeImage) {
 
-          name:
-            document
-              .getElementById("storeName")
-              .value
-              .trim(),
+  showMessage(
+    "Please choose a store photo.",
+    "error"
+  );
 
-          description:
-            document
-              .getElementById("storeDescription")
-              .value
-              .trim(),
+  submitButton.disabled =
+    false;
 
-          category:
-            document
-              .getElementById("storeCategory")
-              .value,
+  submitButton.textContent =
+    "Create Store";
 
-          status:
-            "pending"
-        };
+  return;
+}
 
 
-        const {
-          error
-        } =
-          await supabaseClient
-            .from("stores")
-            .insert(store);
+if (!storeImage.type.startsWith("image/")) {
+
+  showMessage(
+    "Please choose a valid image.",
+    "error"
+  );
+
+  submitButton.disabled =
+    false;
+
+  submitButton.textContent =
+    "Create Store";
+
+  return;
+}
+
+
+if (storeImage.size > 5 * 1024 * 1024) {
+
+  showMessage(
+    "Please choose an image smaller than 5MB.",
+    "error"
+  );
+
+  submitButton.disabled =
+    false;
+
+  submitButton.textContent =
+    "Create Store";
+
+  return;
+}
+
+
+const fileExtension =
+  storeImage.name
+    .split(".")
+    .pop()
+    .toLowerCase();
+
+
+const filePath =
+  currentUser.id +
+  "/store-" +
+  Date.now() +
+  "." +
+  fileExtension;
+
+
+const {
+  error: uploadError
+} =
+  await supabaseClient.storage
+    .from("store-images")
+    .upload(
+      filePath,
+      storeImage,
+      {
+        upsert: true,
+        contentType: storeImage.type
+      }
+    );
+
+
+if (uploadError) {
+
+  console.error(
+    "Store image upload error:",
+    uploadError
+  );
+
+  showMessage(
+    "We couldn't upload your store photo. Please try again.",
+    "error"
+  );
+
+  submitButton.disabled =
+    false;
+
+  submitButton.textContent =
+    "Create Store";
+
+  return;
+}
+
+
+const {
+  data: publicUrlData
+} =
+  supabaseClient.storage
+    .from("store-images")
+    .getPublicUrl(filePath);
+
+
+const imageUrl =
+  publicUrlData.publicUrl;
+
+
+const store = {
+
+  seller_id:
+    currentUser.id,
+
+  name:
+    document
+      .getElementById("storeName")
+      .value
+      .trim(),
+
+  description:
+    document
+      .getElementById("storeDescription")
+      .value
+      .trim(),
+
+  category:
+    document
+      .getElementById("storeCategory")
+      .value,
+
+  image_url:
+    imageUrl,
+
+  status:
+    "pending"
+};
+
+
+const {
+  error
+} =
+  await supabaseClient
+    .from("stores")
+    .insert(store);
 
 
         if (error) {
