@@ -581,9 +581,10 @@ if (uploadError) {
   );
 
   showMessage(
-    "We couldn't upload your store photo. Please try again.",
-    "error"
-  );
+  "Photo upload failed: " +
+  uploadError.message,
+  "error"
+);
 
   submitButton.disabled =
     false;
