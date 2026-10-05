@@ -481,6 +481,33 @@
           return;
         }
 
+const {
+  data: {
+    session
+  }
+} = await supabaseClient.auth.getSession();
+
+
+if (!session) {
+
+  showMessage(
+    "Your login session has expired. Please log in again.",
+    "error"
+  );
+
+  return;
+}
+
+
+console.log(
+  "ZYRE AUTH TEST:",
+  {
+    userId: session.user.id,
+    email: session.user.email,
+    accessTokenExists: !!session.access_token
+  }
+);
+
 
         submitButton.disabled =
           true;
