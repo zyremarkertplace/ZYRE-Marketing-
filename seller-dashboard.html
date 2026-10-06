@@ -367,6 +367,14 @@ if (application.status !== "approved") {
   return;
 }
 
+const sellerApplicationMessage =
+  document.getElementById(
+    "sellerApplicationMessage"
+  );
+
+sellerApplicationMessage.textContent =
+  "Your seller application has been approved. Complete your monthly R100 store rental to activate or keep your store active.";
+
 
 const { data: store } =
   await supabaseClient
