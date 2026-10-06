@@ -433,10 +433,24 @@
 const {
   data: {
     session
-  }
+  },
+  error: sessionError
 } = await supabaseClient.auth.getSession();
 
-console.log("ZYRE SESSION:", session);
+if (sessionError || !session) {
+  showMessage(
+    "Your login session is missing. Please log out and log in again.",
+    "error"
+  );
+
+  console.error("ZYRE SESSION ERROR:", sessionError);
+  console.error("ZYRE SESSION:", session);
+
+  return;
+}
+
+console.log("ZYRE AUTH USER:", user);
+console.log("ZYRE AUTH SESSION:", session);
 
 
       const {
