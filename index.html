@@ -529,6 +529,32 @@ const cartMenu =
 
 const logoutButton =
   document.getElementById("logoutButton");
+
+logoutButton.addEventListener("click", async () => {
+
+  const {
+    error
+  } = await supabaseClient.auth.signOut();
+
+  if (error) {
+
+    console.error(
+      "Logout error:",
+      error
+    );
+
+    alert(
+      "Logout failed: " +
+      error.message
+    );
+
+    return;
+  }
+
+  window.location.href =
+    "index.html";
+
+});
   
   
     function escapeHtml(value) {  
