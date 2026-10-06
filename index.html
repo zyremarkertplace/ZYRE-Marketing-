@@ -825,22 +825,22 @@ menuUser.textContent =
   */
 
   if (
-    profile &&
-    profile.role === "seller"
-  ) {
+  profile &&
+  profile.role === "seller"
+) {
 
-    sellerMenu.style.display = "none";
+  // Seller account
+  sellerMenu.style.display = "none";
 
-    dashboardMenu.style.display = "block";
+  dashboardMenu.style.display = "block";
+  rentalMenu.style.display = "block";
 
-    rentalMenu.style.display = "block";
+  dashboardMenu.href =
+    "seller.html";
 
-    dashboardMenu.href =
-      "seller.html";
-
-    rentalMenu.href =
-      "rental.html";
-  }
+  rentalMenu.href =
+    "seller-payment.html";
+}
 
 }
 
