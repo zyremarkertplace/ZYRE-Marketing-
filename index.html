@@ -765,60 +765,81 @@ const logoutButton =
 }
   
   
-    async function updateAccountLinks() {  
-  
-      const {  
-        data: {  
-          session  
-        }  
-      } = await supabaseClient.auth.getSession();  
-  
-  
-      if (session) {  
-  
-        accountLink.textContent =  
-          "My Account";  
-  
-        accountLink.href =  
-          "account.html";  
-   
-  
-      } else {  
-  
-        accountLink.textContent =  
-          "Login";  
-  
-        accountLink.href =  
-          "auth.html";  
-  
-      }  
-    } 
+    async function updateAccountLinks() {
 
-menuButton.addEventListener("click", () => {
+  const {
+    data: {
+      session
+    }
+  } = await supabaseClient.auth.getSession();
 
-  if (menuPanel.style.display === "none") {
-    menuPanel.style.display = "block";
-  } else {
-    menuPanel.style.display = "none";
-  }
+  if (!session) {
 
-});
+    accountLink.textContent = "Login";
+    accountLink.href = "auth.html";
 
-logoutButton.addEventListener("click", async () => {
-
-  const { error } =
-    await supabaseClient.auth.signOut();
-
-  if (error) {
-    console.error("Logout error:", error);
     return;
   }
 
-  menuPanel.style.display = "none";
+  accountLink.textContent = "My Account";
+  accountLink.href = "account.html";
 
-  window.location.href = "index.html";
+  const user = session.user;
 
-});
+  menuUser.textContent =
+    user.email || "Account";
+
+  // Default customer menu
+  sellerMenu.style.display = "block";
+  dashboardMenu.style.display = "none";
+  rentalMenu.style.display = "none";
+
+  /*
+    Check the user's profile
+  */
+
+  const {
+    data: profile,
+    error: profileError
+  } = await supabaseClient
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (profileError) {
+
+    console.error(
+      "Profile loading error:",
+      profileError
+    );
+
+    return;
+  }
+
+  /*
+    Approved seller
+  */
+
+  if (
+    profile &&
+    profile.role === "seller"
+  ) {
+
+    sellerMenu.style.display = "none";
+
+    dashboardMenu.style.display = "block";
+
+    rentalMenu.style.display = "block";
+
+    dashboardMenu.href =
+      "seller.html";
+
+    rentalMenu.href =
+      "rental.html";
+  }
+
+}
 
 updateAccountLinks();
 loadStores();
