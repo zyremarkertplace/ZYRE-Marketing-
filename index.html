@@ -672,11 +672,50 @@ const logoutButton =
             padding:18px;
             background:#fff;
             margin-bottom:15px;
+            text-align:center;
           "
         >
+
+          ${
+            store.image_url
+              ? `
+                <img
+                  src="${store.image_url}"
+                  alt="${store.name || "Store"}"
+                  style="
+                    width:120px;
+                    height:120px;
+                    object-fit:cover;
+                    border-radius:50%;
+                    display:block;
+                    margin:0 auto 14px auto;
+                    border:1px solid #e5e5e5;
+                  "
+                >
+              `
+              : `
+                <div
+                  style="
+                    width:120px;
+                    height:120px;
+                    border-radius:50%;
+                    background:#f1f1f1;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    margin:0 auto 14px auto;
+                    color:#777;
+                    font-size:14px;
+                  "
+                >
+                  No Photo
+                </div>
+              `
+          }
+
           <div
             style="
-              font-size:20px;
+              font-size:18px;
               font-weight:800;
               margin-bottom:8px;
             "
@@ -697,10 +736,12 @@ const logoutButton =
             style="
               color:#555;
               line-height:1.5;
+              font-size:14px;
             "
           >
             ${store.description || "Welcome to our store."}
           </div>
+
         </div>
       `;
 
