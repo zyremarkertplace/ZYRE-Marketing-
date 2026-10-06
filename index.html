@@ -775,16 +775,19 @@ const logoutButton =
 
   if (!session) {
 
-    accountLink.textContent = "Login";
-    accountLink.href = "auth.html";
+  menuUser.textContent = "Guest";
 
-    return;
-  }
+  sellerMenu.style.display = "block";
+  dashboardMenu.style.display = "none";
+  rentalMenu.style.display = "none";
 
-  accountLink.textContent = "My Account";
-  accountLink.href = "account.html";
+  return;
+}
 
-  const user = session.user;
+const user = session.user;
+
+menuUser.textContent =
+  user.email || "Account";
 
   menuUser.textContent =
     user.email || "Account";
